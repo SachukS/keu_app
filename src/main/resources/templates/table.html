@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<meta charset="UTF-8">
+<title>Таблиця</title>
+<head>
+    <link th:href="@{css/font-face.css}" rel="stylesheet" media="all">
+    <link th:href="@{vendor/font-awesome-4.7/css/font-awesome.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{vendor/font-awesome-5/css/fontawesome-all.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{vendor/mdi-font/css/material-design-iconic-font.min.css}" rel="stylesheet" media="all">
+
+    <!-- Bootstrap CSS-->
+    <link th:href="@{vendor/bootstrap-4.1/bootstrap.min.css}" rel="stylesheet" media="all">
+
+    <!-- Vendor CSS-->
+    <link th:href="@{vendor/animsition/animsition.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{vendor/wow/animate.css}" rel="stylesheet" media="all">
+    <link th:href="@{vendor/css-hamburgers/hamburgers.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{vendor/slick/slick.css}" rel="stylesheet" media="all">
+    <link th:href="@{vendor/select2/select2.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{vendor/perfect-scrollbar/perfect-scrollbar.css}" rel="stylesheet" media="all">
+    <link th:href="@{vendor/vector-map/jqvmap.min.css}" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link th:href="@{css/theme.css}" rel="stylesheet" media="all">
+
+    <!-- Fontfaces CSS-->
+
+</head>
+
+<body id="dynamicContent">
+<div th:replace="fragments/skeleton :: navbar(${user}, ${query})"></div>
+<div class="main-content">
+    <div class="col-md-12" >
+        <h2 class="title-1 text-center m-b-25" th:if="${!search}">Особи, що потребують покращення умов проживання</h2>
+        <h2 class="title-1 text-center m-b-25" th:if="${search}">Результати пошуку</h2>
+        <div th:if="${!search}" class="dropdown">
+            <label>
+                <span> Показати </span>
+                <button class="btn dropdown-toggle btn-outline-dark" type="button" data-toggle="dropdown" th:text="${pageSize}"></button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" th:href="@{/table(pageSize=5)}" th:name="async">5</a>
+                    <a class="dropdown-item" th:href="@{/table(pageSize=15)}" th:name="async">15</a>
+                    <a class="dropdown-item" th:href="@{/table(pageSize=25)}" th:name="async">25</a>
+                    <a class="dropdown-item" th:href="@{/table(pageSize=50)}" th:name="async">50</a>
+                </div>
+                <span> осіб</span>
+            </label>
+        </div>
+        <div class="table-responsive m-b-40">
+            <table class="table table-borderless table-enrollee-custom">
+                <thead>
+                <tr>
+                    <th >Ред.</th> <!--sec:authorize="hasAnyAuthority('OPERATOR')"-->
+                    <th >Номер</th>
+                    <th >В/зв</th>
+                    <th >Тип</th>
+                    <th >ПІБ</th>
+                    <th >На обліку з</th>
+                    <th >Квота</th>
+                    <th >Квота з</th>
+                    <th >Тип квоти</th>
+                    <th >Склад сім'ї</th>
+                    <th >Кількість кімнат</th>
+                    <th >Місце роботи</th>
+<!--                    <th >Інфо</th>-->
+<!--                    <th >Родина</th>-->
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${customers}">
+                    <td> <!--sec:authorize="hasAnyAuthority('OPERATOR')"-->
+                            <a class="btn btn-light" th:href="@{'edit/'+${item.getId()}}">
+                                <i class="fa fa-edit" aria-hidden="true"></i>
+                            </a>
+                    </td>
+                    <td th:text="${item?.getId()}"></td>
+                    <td th:text="${item?.getRank().getNameRank()}"></td>
+                    <td th:text="${item?.getRank().getRankType().getName()}"></td>
+                    <td th:text="${item?.surname?.concat(' ').concat(item.name?.concat(' ').concat(item?.thirdName))}"></td>
+                    <td th:text="${item?.getFormatAccounting()}"></td>
+                    <td th:text="${item?.getQuota().getShortNameQuota()}"></td>
+                    <td th:utext="${item.getFormatQuota()}"></td>
+                    <td th:text="${item?.getQuotaType()}"></td>
+                    <td th:text="${item?.getFamilyCount()}"></td>
+                    <td th:text="${item?.getRoomCount()}"></td>
+                    <td th:text="${item?.getWork().getWorkPlace()}"></td>
+<!--                    <td th:utext="${item?.getInfo()}"></td>-->
+<!--                    <td th:utext="${item.getFamily()}"></td>-->
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-12 text-lg-right text-md-right text-center" th:if="${!search}">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li th:class="${!customers.hasPrevious()} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" th:href="@{/table(currentPage = ${currentPage - 2}, pageSize = ${pageSize})}" >Попередня</a>
+                    </li>
+                    <li class="page-item" th:hidden="${!customers.hasPrevious()}"><a class="page-link" th:href="@{/table(currentPage = ${currentPage - 2}, pageSize = ${pageSize})}" th:text="${currentPage - 1}" ></a></li>
+                    <li class="page-item active">
+                        <a class="page-link" href="#" th:text="${currentPage}"> <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="page-item" th:hidden="${!customers.hasNext()}"><a class="page-link" th:href="@{/table(currentPage = ${currentPage}, pageSize = ${pageSize})}" th:text="${currentPage + 1}"></a></li>
+                    <li th:class="${!customers.hasNext()} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" th:href="@{/table(currentPage = ${currentPage}, pageSize = ${pageSize})}">Наступна</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="copyright">
+                <p>Military institute of
+                    telecommunications and information technologies named after Heroes of Kruty</p>
+                <p>2022 -
+                    <script language="JavaScript" type="text/javascript">
+                        now = new Date;
+                        theYear = now.getYear();
+                        if (theYear < 1900)
+                            theYear = theYear + 1900;
+                        document.write(theYear)
+                    </script>. All rights reserved to Oleksandr Sachuk</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<script th:src="@{vendor/jquery-3.2.1.min.js}"></script>
+<!-- Booth:tstra@{/ JS-->
+<script th:src="@{vendor/bootstrap-4.1/popper.min.js}"></script>
+<script th:src="@{vendor/bootstrap-4.1/bootstrap.min.js}"></script>
+<!-- Venth:dor J@{/       -->
+<script th:src="@{vendor/slick/slick.min.js}"></script>
+<script th:src="@{vendor/wow/wow.min.js}"></script>
+<script th:src="@{vendor/animsition/animsition.min.js}"></script>
+<script th:src="@{vendor/bootstrap-progressbar/bootstrap-progressbar.min.js}"></script>
+<script th:src="@{vendor/counter-up/jquery.waypoints.min.js}"></script>
+<script th:src="@{vendor/counter-up/jquery.counterup.min.js}"></script>
+<script th:src="@{vendor/circle-progress/circle-progress.min.js}"></script>
+<script th:src="@{vendor/perfect-scrollbar/perfect-scrollbar.js}"></script>
+<script th:src="@{vendor/chartjs/Chart.bundle.min.js}"></script>
+<script th:src="@{vendor/select2/select2.min.js}"></script>
+<script th:src="@{vendor/vector-map/jquery.vmap.js}"></script>
+<script th:src="@{vendor/vector-map/jquery.vmap.min.js}"></script>
+<script th:src="@{vendor/vector-map/jquery.vmap.sampledata.js}"></script>
+<script th:src="@{vendor/vector-map/jquery.vmap.world.js}"></script>
+<script th:src="@{../js/sidebarOpen.js}"></script>
+</html>
+<!-- end document-->

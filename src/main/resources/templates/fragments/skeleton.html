@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<body>
+<div th:fragment="navbar(user, query)" class="page-wrapper">
+    <!-- HEADER MOBILE-->
+    <header class="header-mobile d-block d-lg-none">
+
+        <div class="header-mobile__bar">
+            <div class="container-fluid">
+                <div class="header-mobile-inner">
+                    <a class="logo" href="/cabinet">
+                        <img src="../images/icon/logo.png" alt="ІС 'КВАРТИРА'"/>
+                    </a>
+                    <button class="hamburger hamburger--slider" type="button">
+                            <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>
+                            </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar-mobile">
+            <div class="container-fluid">
+                <ul class="navbar-mobile__list list-unstyled">
+                    <li class="has-sub">
+                        <a href="/input">
+                            <i class="fas fa-plus"></i>Додати абітурієнта</a>
+                    </li>
+                    <li>
+                        <a href="/quota/customer">
+                            <i class="fas fa-wrench"></i>Інформація по квотах</a>
+                    </li>
+                    <li>
+                        <a href="/table">
+                            <i class="fas fa-table"></i>Таблиця абітурієнтів</a>
+                    </li>
+                    <li>
+                        <a href="/reports">
+                            <i class="far fa-files-o"></i>Звіти</a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-calendar-alt"></i>Пошук абітурієнтів за датою</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- END HEADER MOBILE-->
+
+    <!-- MENU SIDEBAR-->
+    <aside class="menu-sidebar d-none d-lg-block">
+        <div class="logo">
+            <a href="/cabinet">
+                <img src="../images/icon/logo.png" alt="ІС 'КЕУ'"/>
+            </a>
+        </div>
+        <div class="menu-sidebar__content js-scrollbar1">
+            <nav class="navbar-sidebar">
+                <ul class="list-unstyled navbar__list">
+                    <li class="has-sub">
+                        <a href="/input">
+                            <i class="fas fa-plus"></i>Додати запис</a>
+                    </li>
+                    <li>
+                        <a href="/quota/customer">
+                            <i class="fas fa-wrench"></i>Інформація по квотах</a>
+                    </li>
+                    <li>
+                        <a href="/table">
+                            <i class="fas fa-table"></i>Таблиця</a>
+                    </li>
+                    <li>
+                        <a href="/reports">
+                            <i class="far fa-files-o"></i>Звіти</a>
+                    </li>
+                    <li>
+                        <!--                        <a href="/rating">-->
+                        <a class="js-arrow" href="#">
+                            <i class="fas fa-calendar-alt"></i>Черга</a>
+                        <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
+                            <li>
+                                <a href="/generateAndShowRating/MITI">Київський гарнізон</a>
+                            </li>
+                            <li>
+                                <a href="/generateAndShowRating/VKSS">Бориспільський гарнізон</a>
+                            </li>
+                            <li>
+                                <a href="/generateAndShowRating/EXTR">Семиполківський гарнізон</a>
+                            </li>
+                            <li>
+                                <a href="/generateAndShowRating/EXR">Васильківський гарнізон</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/advancedSearch">
+                            <i class="fa fa-search"></i>Розширений пошук</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </aside>
+    <!-- END MENU SIDEBAR-->
+
+    <!-- PAGE CONTAINER-->
+    <div class="page-container">
+        <!-- HEADER DESKTOP-->
+        <header class="header-desktop">
+            <div class="section__content section__content--p30">
+                <div class="container-fluid">
+                    <div class="header-wrap">
+                        <form th:object="${query}" class="form-header" th:action="@{/find}" method="POST">
+                            <input th:value="${query?.query}" th:field="*{query}" class="au-input au-input--xl"
+                                   type="text" name="search"
+                                   placeholder="Введіть ім'я або прізвище або номер особової справи ..."/>
+                            <button class="au-btn--submit" type="submit">
+                                <i class="zmdi zmdi-search"></i>
+                            </button>
+                        </form>
+                        <div class="header-button">
+                            <div class="account-wrap">
+                                <div class="account-item clearfix js-item-menu">
+                                    <div class="image">
+                                        <img src="../images/icon/avatar-01.png" alt="John Doe"/>
+                                    </div>
+                                    <div class="content">
+                                        <a th:text="${user.firstName} + ' ' + ${user.lastName}" class="js-acc-btn"
+                                           href="#"></a>
+                                    </div>
+                                    <div class="account-dropdown js-dropdown">
+                                        <div class="info clearfix">
+                                            <div class="image">
+                                                <a href="#">
+                                                    <img src="../images/icon/avatar-01.png" alt="John Doe"/>
+                                                </a>
+                                            </div>
+                                            <div class="content">
+                                                <h5 class="name">
+                                                    <a th:text="${user.firstName} + ' ' + ${user.lastName}" href="#">john
+                                                        doe</a>
+                                                </h5>
+                                                <span th:text="${user.login}" class="email">johndoe@example.com</span>
+                                            </div>
+                                        </div>
+                                        <div class="account-dropdown__body">
+                                            <div class="account-dropdown__item">
+                                                <a href="/cabinet">
+                                                    <i class="zmdi zmdi-account"></i>Аккаунт</a>
+                                            </div>
+                                            <div class="account-dropdown__item">
+                                                <a href="#">
+                                                    <i class="zmdi zmdi-settings"></i>Налаштування</a>
+                                            </div>
+                                        </div>
+                                        <div class="account-dropdown__footer">
+                                            <a href="/logout">
+                                                <i class="zmdi zmdi-power"></i>Вихід</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- HEADER DESKTOP-->
+
+        <!-- MAIN CONTENT-->
+
+        <!-- END MAIN CONTENT-->
+        <!-- END PAGE CONTAINER-->
+</body>
+
+
+</html>

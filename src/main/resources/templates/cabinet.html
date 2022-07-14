@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<!-- Required meta tags-->
+<meta charset="UTF-8">
+<title>Кабінет</title>
+<head>
+    <link th:href="@{../css/font-face.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/font-awesome-4.7/css/font-awesome.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/font-awesome-5/css/fontawesome-all.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/mdi-font/css/material-design-iconic-font.min.css}" rel="stylesheet" media="all">
+
+    <!-- Bootstrap CSS-->
+    <link th:href="@{../vendor/bootstrap-4.1/bootstrap.min.css}" rel="stylesheet" media="all">
+
+    <!-- Vendor CSS-->
+    <link th:href="@{../vendor/animsition/animsition.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/wow/animate.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/css-hamburgers/hamburgers.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/slick/slick.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/select2/select2.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/perfect-scrollbar/perfect-scrollbar.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/vector-map/jqvmap.min.css}" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link th:href="@{../css/theme.css}" rel="stylesheet" media="all">
+
+    <!-- Fontfaces CSS-->
+
+</head>
+
+<body>
+
+<div th:replace="fragments/skeleton :: navbar(${user}, ${query})"></div>
+<!-- END BREADCRUMB-->
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="sufee-alert alert with-close alert-success alert-dismissible fade show" th:if="${success}">
+                <span class="badge badge-pill badge-success">Ура! </span>
+                Зміни успішно збережено :)
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="sufee-alert alert with-close alert-danger alert-dismissible fade show" th:if="${error}">
+                <span class="badge badge-pill badge-danger">Ой :( </span>
+                На жаль, такого абітурієнта не знайдено серед вступників.
+                <a href="#" disabled tabindex="-1" data-toggle="modal" data-target="#editPage" class="alert-link">(Спробувати ще раз)</a>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="row m-t-25">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="overview-item overview-item--c1">
+                        <div class="overview__inner">
+                            <div class="overview-box clearfix">
+                                <div class="icon">
+                                    <i class="zmdi zmdi-account-o"></i>
+                                </div>
+                                <div class="text">
+                                    <h2 th:text="${todayCount}" ></h2>
+                                    <span>Записів сьогодні</span>
+                                </div>
+                            </div>
+                            <div class="overview-chart">
+                                <canvas id="widgetChart1"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="overview-item overview-item--c2">
+                        <div class="overview__inner">
+                            <div class="overview-box clearfix">
+                                <div class="icon">
+                                    <i class="zmdi zmdi-chevron-up"></i>
+                                </div>
+                                <div class="text">
+                                    <h2 th:text="${militaryCount}"></h2>
+                                    <span>Записи по Києву</span>
+                                </div>
+                            </div>
+                            <div class="overview-chart">
+                                <canvas id="widgetChart2"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="overview-item overview-item--c3">
+                        <div class="overview__inner">
+                            <div class="overview-box clearfix">
+                                <div class="icon">
+                                    <i class="zmdi zmdi-calendar-note"></i>
+                                </div>
+                                <div class="text">
+                                    <h2 th:text="${lastWeekCount}"></h2>
+                                    <span>Записи по області</span>
+                                </div>
+                            </div>
+                            <div class="overview-chart">
+                                <canvas id="widgetChart3"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="overview-item overview-item--c4">
+                        <div class="overview__inner">
+                            <div class="overview-box clearfix">
+                                <div class="icon">
+                                    <i class="zmdi zmdi-alarm"></i>
+                                </div>
+                                <div class="text">
+                                    <h2 th:text="${checkNeededCount}"></h2>
+                                    <span>Загальна кількість записів</span>
+                                </div>
+                            </div>
+                            <div class="overview-chart">
+                                <canvas id="widgetChart4"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!--            <div class="row">-->
+<!--                <div class="col-lg-6">-->
+<!--                    <div class="au-card recent-report">-->
+<!--                        <div class="au-card-inner">-->
+<!--                            <h3 class="title-2  text-uncapitalize">Статистика заяв</h3>-->
+<!--                            <div class="chart-info">-->
+<!--                                <div class="chart-info__left">-->
+<!--                                    <div class="chart-note">-->
+<!--                                        <span class="dot dot&#45;&#45;blue"></span>-->
+<!--                                        <span>військові</span>-->
+<!--                                    </div>-->
+<!--                                    <div class="chart-note mr-0">-->
+<!--                                        <span class="dot dot&#45;&#45;green"></span>-->
+<!--                                        <span>цивільні</span>-->
+<!--                                    </div>-->
+<!--                                     <div class="chart-note mr-1">-->
+<!--                                        <span class="dot dot&#45;&#45;red"></span>-->
+<!--                                        <span>ліцеїсти</span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+<!--                            </div>-->
+<!--                            <div class="recent-report__chart">-->
+<!--                                <canvas id="recent-rep-chart"></canvas>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-lg-6">-->
+<!--                    <div class="au-card chart-percent-card">-->
+<!--                        <div class="au-card-inner">-->
+<!--                            <h3 class="title-2 tm-b-5 text-uncapitalize">Статистика вступникiв за навчальним закладом (%)</h3>-->
+<!--                            <div class="row no-gutters">-->
+<!--                                <div class="col-xl-6">-->
+<!--                                    <div class="chart-note-wrap">-->
+<!--                                        <div class="chart-note mr-0 d-block">-->
+<!--                                            <span class="dot dot&#45;&#45;blue"></span>-->
+<!--                                            <span id="count-all-miti"></span>-->
+<!--                                        </div>-->
+<!--                                        <div class="chart-note mr-0 d-block">-->
+<!--                                            <span class="dot dot&#45;&#45;red"></span>-->
+<!--                                            <span id="count-all-vkss"></span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="col-xl-6">-->
+<!--                                    <div class="percent-chart">-->
+<!--                                        <canvas id="percent-chart"></canvas>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="row">-->
+<!--                <div class="col-lg-6">-->
+<!--                    <div class="au-card chart-percent-card">-->
+<!--                        <div class="au-card-inner">-->
+<!--                            <h3 class="title-2 tm-b-5 text-uncapitalize">Статистика вступникiв за статтю (ВІТІ,%)</h3>-->
+<!--                            <div class="row no-gutters">-->
+<!--                                <div class="col-xl-6">-->
+<!--                                    <div class="chart-note-wrap">-->
+<!--                                        <div class="chart-note mr-0 d-block">-->
+<!--                                            <span class="dot dot&#45;&#45;female"></span>-->
+<!--                                            <span id="count-female-miti" ></span>-->
+<!--                                        </div>-->
+<!--                                        <div class="chart-note mr-0 d-block">-->
+<!--                                            <span class="dot dot&#45;&#45;male"></span>-->
+<!--                                            <span id="count-male-miti" ></span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="col-xl-6">-->
+<!--                                    <div class="percent-chart">-->
+<!--                                        <canvas id="percent-chart-gender-miti"></canvas>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-lg-6">-->
+<!--                    <div class="au-card chart-percent-card">-->
+<!--                        <div class="au-card-inner">-->
+<!--                            <h3 class="title-2 tm-b-5 text-uncapitalize">Статистика вступникiв за статтю (ВКСС,%)</h3>-->
+<!--                            <div class="row no-gutters">-->
+<!--                                <div class="col-xl-6">-->
+<!--                                    <div class="chart-note-wrap">-->
+<!--                                        <div class="chart-note mr-0 d-block">-->
+<!--                                            <span class="dot dot&#45;&#45;female"></span>-->
+<!--                                            <span id="count-female-vkss" ></span>-->
+<!--                                        </div>-->
+<!--                                        <div class="chart-note mr-0 d-block">-->
+<!--                                            <span class="dot dot&#45;&#45;male"></span>-->
+<!--                                            <span id="count-male-vkss" ></span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="col-xl-6">-->
+<!--                                    <div class="percent-chart">-->
+<!--                                        <canvas id="percent-chart-gender-vkss"></canvas>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="copyright">
+                        <p>Military institute of
+                            telecommunications and information technologies named after Heroes of Kruty</p>
+                        <p>2022 -
+                            <script language="JavaScript" type="text/javascript">
+                                now = new Date;
+                                theYear = now.getYear();
+                                if (theYear < 1900)
+                                    theYear = theYear + 1900;
+                                document.write(theYear)
+                            </script>. All rights reserved to Oleksandr Sachuk</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END PAGE CONTAINER-->
+</div>
+</div>
+</div>
+</div>
+<!-- Jquery JS-->
+
+
+</body>
+<script th:src="@{../vendor/jquery-3.2.1.min.js}"></script>
+<script th:src="@{../vendor/bootstrap-4.1/popper.min.js}"></script>
+<script th:src="@{../vendor/bootstrap-4.1/bootstrap.min.js}"></script>
+<script th:src="@{../vendor/slick/slick.min.js}"></script>
+<script th:src="@{../vendor/wow/wow.min.js}"></script>
+<script th:src="@{../vendor/animsition/animsition.min.js}"></script>
+<script th:src="@{../vendor/bootstrap-progressbar/bootstrap-progressbar.min.js}"></script>
+<script th:src="@{../vendor/counter-up/jquery.waypoints.min.js}"></script>
+<script th:src="@{../vendor/counter-up/jquery.counterup.min.js}"></script>
+<script th:src="@{../vendor/circle-progress/circle-progress.min.js}"></script>
+<script th:src="@{../vendor/perfect-scrollbar/perfect-scrollbar.js}"></script>
+<script th:src="@{../vendor/chartjs/Chart.bundle.min.js}"></script>
+<script th:src="@{../vendor/select2/select2.min.js}"></script>
+<script th:src="@{../vendor/vector-map/jquery.vmap.js}"></script>
+<script th:src="@{../vendor/vector-map/jquery.vmap.min.js}"></script>
+<script th:src="@{../vendor/vector-map/jquery.vmap.sampledata.js}"></script>
+<script th:src="@{../vendor/vector-map/jquery.vmap.world.js}"></script>
+<script th:src="@{../js/main.js}"></script>
+</html>
+<!-- end document-->

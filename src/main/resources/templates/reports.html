@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <title>Кабінет</title>
+    <head>
+    <link th:href="@{css/font-face.css}" rel="stylesheet" media="all">
+    <link th:href="@{vendor/font-awesome-4.7/css/font-awesome.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{vendor/font-awesome-5/css/fontawesome-all.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{vendor/mdi-font/css/material-design-iconic-font.min.css}" rel="stylesheet" media="all">
+
+    <!-- Bootstrap CSS-->
+    <link th:href="@{vendor/bootstrap-4.1/bootstrap.min.css}" rel="stylesheet" media="all">
+
+    <!-- Vendor CSS-->
+    <link th:href="@{vendor/animsition/animsition.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{vendor/wow/animate.css}" rel="stylesheet" media="all">
+    <link th:href="@{vendor/css-hamburgers/hamburgers.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{vendor/slick/slick.css}" rel="stylesheet" media="all">
+    <link th:href="@{vendor/select2/select2.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{vendor/perfect-scrollbar/perfect-scrollbar.css}" rel="stylesheet" media="all">
+    <link th:href="@{vendor/vector-map/jqvmap.min.css}" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link th:href="@{css/theme.css}" rel="stylesheet" media="all">
+    </head>
+    <body>
+
+    <div th:replace="fragments/skeleton :: navbar(${user}, ${query})"></div>
+        <!-- HEADER DESKTOP-->
+        <!-- HEADER DESKTOP-->
+
+        <!-- MAIN CONTENT-->
+        <div class="main-content">
+            <div class="section__content section__content--p30">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong>Звіти</strong>
+                                </div>
+                                <div class="card-body card-block">
+                                    <form class="form-horizontal">
+                                        <div class="row form-group">
+                                            <strong>Інститут:</strong>
+                                            <div class="col col-md-12">
+                                                <div class="input-group">
+                                                    <div class="input-group-btn">
+                                                        <div class="btn-group">
+                                                            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle btn btn-primary">Журнали</button>
+                                                            <div tabindex="-1" aria-hidden="true" role="menu" class="dropdown-menu">
+                                                                <a  th:href="@{/commissariats/daily}" type="button" tabindex="0" class="dropdown-item">Військомати за сьогодні</a>
+                                                                <a th:href="@{/journal_daily/institute}" type="button" tabindex="0" class="dropdown-item">Журнал за сьогодні</a>
+                                                                <div tabindex="-1" class="dropdown-divider"></div>
+                                                                <a th:href="@{/commissariats/all}"  type="button" tabindex="0" class="dropdown-item">Військомати за усі дні</a>
+                                                                <a th:href="@{/journal/institute}" type="button" tabindex="0" class="dropdown-item">Журнал за усі дні</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group-btn">
+                                                        <div class="btn-group">
+                                                            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle btn btn-primary">Рейтинг</button>
+                                                            <div tabindex="-1" aria-hidden="true" role="menu" class="dropdown-menu">
+                                                                <a th:href="@{/rating_final/institute}" type="button" tabindex="0" class="dropdown-item">Рейтинги остаточні</a>
+                                                                <a th:each="spec : ${specs}" th:href="'/rating_final/institute/' + ${spec.specialtyAbbreviation}" type="button" tabindex="0" class="dropdown-item" th:text="'Рейтинг(остаточний)' + ${spec.specialtyAbbreviation}"></a>
+                                                                <div tabindex="-1" class="dropdown-divider"></div>
+                                                                <a th:href="@{/rating_temporary/institute}" type="button" tabindex="0" class="dropdown-item">Рейтинг за усі дні (тимчасовий)</a>
+                                                                <a th:each="spec : ${specs}" th:href="'/rating_temporary/institute/' + ${spec.specialtyAbbreviation}" type="button" tabindex="0" class="dropdown-item" th:text="'Рейтинг(тимчасовий)' + ${spec.specialtyAbbreviation}"> </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                <form class="form-horizontal">
+                                    <div class="row form-group">
+                                       <strong>ВКСС:</strong>
+                                        <div class="col col-md-12">
+                                            <div class="input-group">
+                                                <div class="input-group-btn">
+                                                    <div class="btn-group">
+                                                        <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle btn btn-primary">Журнали</button>
+                                                        <div tabindex="-1" aria-hidden="true" role="menu" class="dropdown-menu">
+                                                            <a th:href="@{/journal_daily/college}" type="button" tabindex="0" class="dropdown-item">Журнал за сьогодні</a>
+                                                            <a th:href="@{/journal/college}" type="button" tabindex="0" class="dropdown-item">Журнал за усі дні</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="input-group-btn">
+                                                    <div class="btn-group">
+                                                        <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle btn btn-primary">Рейтинг</button>
+                                                        <div tabindex="-1" aria-hidden="true" role="menu" class="dropdown-menu">
+                                                            <a th:href="@{/rating_final/college}"  type="button" tabindex="0" class="dropdown-item">Рейтинги остаточні</a>
+                                                            <a th:each="spec : ${specsVKSS}" th:href="'/rating_final/college/' + ${spec.specialtyAbbreviation}" type="button" tabindex="0" class="dropdown-item" th:text="'Рейтинг(остаточний)' + ${spec.specialtyAbbreviation}"></a>
+                                                            <div tabindex="-1" class="dropdown-divider"></div>
+                                                            <a th:href="@{/rating_temporary/college}" type="button" tabindex="0" class="dropdown-item">Рейтинг за усі дні (тимчасовий)</a>
+                                                            <a th:each="spec : ${specsVKSS}" th:href="'/rating_temporary/college/' + ${spec.specialtyAbbreviation}" type="button" tabindex="0" class="dropdown-item" th:text="'Рейтинг(тимчасовий)' + ${spec.specialtyAbbreviation}"> </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                    <form class="form-horizontal">
+                                        <div class="row form-group">
+                                            <strong>Заочна форма навчання:</strong>
+                                            <div class="col col-md-12">
+                                                <div class="input-group">
+                                                    <div class="input-group-btn">
+                                                        <div class="btn-group">
+                                                            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle btn btn-primary">Журнали</button>
+                                                            <div tabindex="-1" aria-hidden="true" role="menu" class="dropdown-menu">
+                                                                <a th:href="@{/journal_daily/extramural}" type="button" tabindex="0" class="dropdown-item">Журнал за сьогодні</a>
+                                                                <a th:href="@{/journal/extramural}" type="button" tabindex="0" class="dropdown-item">Журнал за усі дні</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group-btn">
+                                                        <div class="btn-group">
+                                                            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle btn btn-primary">Рейтинг</button>
+                                                            <div tabindex="-1" aria-hidden="true" role="menu" class="dropdown-menu">
+                                                                <a th:href="@{/rating_final/extramural}" type="button" tabindex="0" class="dropdown-item">Рейтинги остаточні</a>
+                                                                <a th:each="spec : ${specs}" th:href="'/rating_final/extramural/' + ${spec.specialtyAbbreviation}" type="button" tabindex="0" class="dropdown-item" th:text="'Рейтинг(остаточний)' + ${spec.specialtyAbbreviation}"></a>
+                                                                <div tabindex="-1" class="dropdown-divider"></div>
+                                                                <a th:href="@{/rating_temporary/extramural}" type="button" tabindex="0" class="dropdown-item">Рейтинг за усі дні (тимчасовий)</a>
+                                                                <a th:each="spec : ${specs}" th:href="'/rating_temporary/extramural/' + ${spec.specialtyAbbreviation}" type="button" tabindex="0" class="dropdown-item" th:text="'Рейтинг(тимчасовий)' + ${spec.specialtyAbbreviation}"> </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <form class="form-horizontal">
+                                        <div class="row form-group">
+                                            <strong>Курси лідерства:</strong>
+                                            <div class="col col-md-12">
+                                                <div class="input-group">
+                                                    <div class="input-group-btn">
+                                                        <div class="btn-group">
+                                                            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle btn btn-primary">Журнали</button>
+                                                            <div tabindex="-1" aria-hidden="true" role="menu" class="dropdown-menu">
+                                                                <a th:href="@{/journal_daily/leader}" type="button" tabindex="0" class="dropdown-item">Журнал за сьогодні</a>
+                                                                <a th:href="@{/journal/leader}" type="button" tabindex="0" class="dropdown-item">Журнал за усі дні</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group-btn">
+                                                        <div class="btn-group">
+                                                            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle btn btn-primary">Рейтинг</button>
+                                                            <div tabindex="-1" aria-hidden="true" role="menu" class="dropdown-menu">
+                                                                <a th:href="@{/rating_final/leader}" type="button" tabindex="0" class="dropdown-item">Рейтинги остаточні</a>
+                                                                <a th:href="@{/rating_temporary/leader}" type="button" tabindex="0" class="dropdown-item">Рейтинг за усі дні (тимчасовий)</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <form class="form-horizontal">
+                                        <div class="row form-group">
+                                            <strong>Журнали осіб, що забрали документи:</strong>
+                                            <div class="col col-md-12">
+                                                <div class="input-group">
+                                                    <div class="input-group-btn">
+                                                        <div class="btn-group">
+                                                            <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle btn btn-primary">Журнали</button>
+                                                            <div tabindex="-1" aria-hidden="true" role="menu" class="dropdown-menu">
+                                                                <a th:href="@{/journal_daily/taken}" type="button" tabindex="0" class="dropdown-item">Журнал за сьогодні</a>
+                                                                <a th:href="@{/journal/taken}" type="button" tabindex="0" class="dropdown-item">Журнал за усі дні</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <strong>Звіти по датам</strong>
+                                </div>
+                                <div class="card-body card-block">
+
+                                    <form th:object="${dateQuery}" th:action="@{/get_in_range}" method="post" class="form-horizontal">
+                                        <div class="row form-group">
+                                                <div class="col col-md-6">
+                                                    <strong>Від</strong>
+                                                <input type="date"
+                                                       th:field="*{startDate}"
+                                                       th:value="${dateQuery?.startDate}"
+
+                                                       placeholder="Від" class="form-control">
+                                                </div>
+                                                <div class="col col-md-6">
+                                                    <strong>До</strong>
+                                                <input type="date"
+                                                       th:field="*{endDate}"
+                                                       th:value="${dateQuery?.endDate}"
+                                                       placeholder="До" class="form-control">
+                                                </div>
+                                            </div>
+                                        <div class="row form-group">
+                                            <div class="col col-md-6">
+                                            <button class="btn btn-success" type="submit"
+                                                    th:name="journal">Журнал</button>
+                                            </div>
+                                            <div class="col col-md-6">
+                                            <button class="btn btn-primary" type="submit"
+                                                    th:name="vijskomat">Звіт по військоматам</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+    <!-- Fontfaces CSS-->
+            <!-- END BREADCRUMB-->
+
+            <!-- END PAGE CONTAINER-->
+        </div>
+
+    </div>
+
+    <!-- Jquery JS-->
+
+    <script src="vendor/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap JS-->
+    <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <!-- Vendor JS       -->
+    <script src="vendor/slick/slick.min.js">
+    </script>
+    <script src="vendor/wow/wow.min.js"></script>
+    <script src="vendor/animsition/animsition.min.js"></script>
+    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+    </script>
+    <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="vendor/counter-up/jquery.counterup.min.js">
+    </script>
+    <script src="vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="vendor/select2/select2.min.js">
+    </script>
+    <script th:src="@{../js/sidebarOpen.js}"></script>
+    <!-- Main JS-->
+</body>
+
+</html>
+<!-- end document-->

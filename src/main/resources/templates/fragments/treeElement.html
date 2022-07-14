@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+
+    <!--<ul th:fragment="quotaTree">
+        <li th:each="kvota : ${quotasIn}">
+            <span th:text="${kvota?.specialty?.specialtyAbbreviation} +' ' + ${kvota?.shortQuotaName} + ' ' +${kvota?.personsNumber}"></span>
+            <ul th:include="this :: quotaTree" th:with="quotasIn=${kvota.getQuotas()}"></ul>
+        </li>
+    </ul>-->
+
+    <div th:fragment="quotaTable" class="col-md-12 mt-3">
+        <div class="table-responsive table--no-card m-b-30">
+            <label class="form-control-label" style="font-size: 25px" th:text="${customer + ':'}">Збройні Сили України: </label>
+            <table class="table table-borderless table-striped table-earning table-data3">
+                <thead>
+                    <tr class="tr-shadow" >
+                        <th style="width: 30%">Спеціальність</th>
+                        <th class="text-center" style="width: 15%">Всього</th>
+                        <th class="text-center" style="width: 10%">Військові контрактники</th>
+                        <th class="text-center" style="width: 10%">Ліцеїсти</th>
+                        <th class="text-center" style="width: 10%">Внутрішньо переміщені особи</th>
+                        <th class="text-center" style="width: 10%">Поза конкурсом</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="tr-shadow" th:each="quotaRow : ${tableData}">
+                        <td style="width: 30%" th:text="${quotaRow.specialty}"></td>
+                        <td style="width: 15%" th:text="${quotaRow.specialtyCountEnrollees}" class="text-center">10</td>
+                        <td style="width: 10%" th:text="${quotaRow.countVKS}" class="text-center">4</td>
+                        <td style="width: 10%" th:text="${quotaRow.countLiceum}" class="text-center">7</td>
+                        <td style="width: 10%" th:text="${quotaRow.countVPO}" class="text-center">2</td>
+                        <td style="width: 10%" th:text="${quotaRow.countPK}" class="text-center">2</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div th:fragment="customersTable" class="col-md-12 mt-5">
+        <button type="button" class="btn btn-link align-content-center">
+            <a href="/quota/structure"><i class="fa fa-link"></i>&nbsp;Показати структуру квот</a></button>
+        <div class="table-responsive table--no-card m-b-30">
+            <table class="table table-borderless table-striped table-earning">
+                <thead>
+                <tr class="tr-shadow" >
+                    <th style="width: 20%">Спеціальність</th>
+                    <th class="text-center" style="width: 10%">Всього</th>
+                    <th class="text-center" style="width: 10%">ЗСУ</th>
+                    <th class="text-center" style="width: 10%">НГУ</th>
+                    <th class="text-center" style="width: 10%">ДПСУ</th>
+                    <th class="text-center" style="width: 10%">ДКА</th>
+                    <th class="text-center" style="width: 10%">СЗР</th>
+                    <th class="text-center" style="width: 10%">ДССТ</th>
+                    <th class="text-center" style="width: 10%">СБУ</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="tr-shadow" th:each="quotaRow : ${customersTableInfo}">
+                    <td style="width: 20%" th:text="${quotaRow.specialty}"></td>
+                    <td style="width: 10%" th:text="${quotaRow.amountOfEnrollees}" class="text-center">10</td>
+                    <td style="width: 10%" th:text="${quotaRow.stateCustomers.get('ЗСУ')}" class="text-center">4</td>
+                    <td style="width: 10%" th:text="${quotaRow.stateCustomers.get('НГУ')}"class="text-center">7</td>
+                    <td style="width: 10%" th:text="${quotaRow.stateCustomers.get('ДПСУ')}" class="text-center">2</td>
+                    <td style="width: 10%" th:text="${quotaRow.stateCustomers.get('ДКА')}" class="text-center">2</td>
+                    <td style="width: 10%" th:text="${quotaRow.stateCustomers.get('СЗР')}" class="text-center">2</td>
+                    <td style="width: 10%" th:text="${quotaRow.stateCustomers.get('ДССТ')}" class="text-center">2</td>
+                    <td style="width: 10%" th:text="${quotaRow.stateCustomers.get('СБУ')}" class="text-center">2</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="au theme template">
+    <meta name="author" content="Hau Nguyen">
+    <meta name="keywords" content="au theme template">
+
+    <!-- Title Page-->
+    <title>Налаштування</title>
+
+    <link th:href="@{../css/font-face.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/font-awesome-4.7/css/font-awesome.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/font-awesome-5/css/fontawesome-all.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/mdi-font/css/material-design-iconic-font.min.css}" rel="stylesheet" media="all">
+
+    <!-- Bootstrap CSS-->
+    <link th:href="@{../vendor/bootstrap-4.1/bootstrap.min.css}" rel="stylesheet" media="all">
+
+    <!-- Vendor CSS-->
+    <link th:href="@{../vendor/animsition/animsition.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/wow/animate.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/css-hamburgers/hamburgers.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/slick/slick.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/select2/select2.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/perfect-scrollbar/perfect-scrollbar.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/vector-map/jqvmap.min.css}" rel="stylesheet" media="all">
+    <link rel="stylesheet" th:href="@{../vendor/jstree/dist/themes/default/style.css}" />
+    <!-- Main CSS-->
+    <link th:href="@{../css/theme.css}" rel="stylesheet" media="all">
+
+</head>
+
+<body>
+
+<div th:replace="fragments/skeleton :: navbar(${user}, ${query})"></div>
+
+            <!-- MAIN CONTENT-->
+            <div class="main-content">
+
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">Налаштування квот</div>
+
+                                    <div class="card-body">
+                                        <div class="card-title">
+                                            <h3 class="text-center title-2">Структура квот</h3>
+                                        </div>
+                                        <hr>
+
+                                        <div id="quotaStructureView"  th:if="${quotaStructure}">
+                                            <button type="button" class="btn btn-link align-content-center mb-3">
+                                                <i class="fa fa-link"></i>&nbsp;<a href="/quota/customer">Показати інформацію про держ. замовлення</a></button>
+                                            <form class="form-header" th:object="${quotaForm}" action="/quota/structure" method="POST">
+                                                <div class="col col-md-12">
+                                                    <div class="row form-group">
+                                                        <div class="col col-md-3 mr-5">
+                                                            <div class="col" style="width: 100%">
+                                                                <label class=" form-control-label">Показати структуру квот для:</label>
+                                                            </div>
+
+                                                            <div class="col" style="width: 100%">
+                                                                <select class="form-control" th:field="${quotaForm.organization}">
+                                                                    <option value="ВІТІ Ден.">ВІТІ (Денна форма)</option>
+                                                                    <option value="ВІТІ Заоч.">ВІТІ (Заочна форма)</option>
+                                                                    <option value="ВКСС">ВКСС ВІТІ</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col mt-3" style="width: 500%">
+                                                                <button type="submit" class="btn btn-success btn-sm">
+                                                                    <i class="fa fa-search"></i> Показати
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col col-md-6">
+                                                            <div class="col  ml-3" style="width: 100%">
+                                                                <label class=" form-control-label">Вибрати держ. замовника:</label>
+                                                            </div>
+                                                            <div class="row form-group ml-5">
+                                                                <div class="radio mr-5">
+                                                                    <label for="zsu" class="form-check-label">
+                                                                        <input th:field="${quotaForm.customer}" th:value="${customers.get('ZSU')}" type="radio" id="zsu" name="radios" value="option1" class="form-check-input">ЗСУ
+                                                                    </label>
+                                                                </div>
+                                                                <div class="radio mr-5">
+                                                                    <label for="ngu" class="form-check-label ">
+                                                                        <input th:field="${quotaForm.customer}" th:value="${customers.get('NGU')}"  type="radio" id="ngu" name="radios" value="option2" class="form-check-input">НГУ
+                                                                    </label>
+                                                                </div>
+                                                                <div class="radio mr-5">
+                                                                    <label for="dpsu" class="form-check-label ">
+                                                                        <input th:field="${quotaForm.customer}" th:value="${customers.get('DPSU')}"  type="radio" id="dpsu" name="radios" value="option3" class="form-check-input">ДПСУ
+                                                                    </label>
+                                                                </div>
+                                                                <div class="radio mr-5">
+                                                                    <label for="dka" class="form-check-label ">
+                                                                        <input th:field="${quotaForm.customer}" th:value="${customers.get('DKA')}"  type="radio" id="dka" name="radios" value="option1" class="form-check-input">ДКА
+                                                                    </label>
+                                                                </div>
+                                                                <div class="radio mr-5">
+                                                                    <label for="szr" class="form-check-label ">
+                                                                        <input th:field="${quotaForm.customer}" th:value="${customers.get('SZR')}"  type="radio" id="szr" name="radios" value="option2" class="form-check-input">СЗР
+                                                                    </label>
+                                                                </div>
+                                                                <div class="radio mr-5">
+                                                                    <label for="dsst" class="form-check-label ">
+                                                                        <input th:field="${quotaForm.customer}" th:value="${customers.get('DSST')}"  type="radio" id="dsst" name="radios" value="option3" class="form-check-input">ДССТ
+                                                                    </label>
+                                                                </div>
+                                                                <div class="radio mr-5">
+                                                                    <label for="sbu" class="form-check-label ">
+                                                                        <input th:field="${quotaForm.customer}" th:value="${customers.get('SBU')}"  type="radio" id="sbu" name="radios" value="option3" class="form-check-input">СБУ
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <div th:replace="fragments/treeElement :: quotaTable" th:with="quotasIn=${quotasParents}" class="block center"></div>
+                                        </div>
+
+
+                                        <div id="customerTableView" th:if="${customerInfo}">
+                                            <h3 class="text-center " th:text="${'Державні замовлення за спеціальностями ВІТІ Денна форма навчання (набір ' + currentYear + ' року)'}"></h3>
+                                            <div th:replace="fragments/treeElement :: customersTable" th:with="quotasIn=${quotasParents}" class="block center"></div>
+                                        </div>
+                                        <!--<div id="jstree_demo_div" class="demo">
+                                                <ul th:include="fragments/skeleton :: quotaTree" th:with="quotasIn=${quotasParents}"></ul>
+                                            </div>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="copyright">
+                                    <p>© Department of computer information technologies</br>Military institute of
+                                        telecommunications and information technologies named after Heroes of Kruty</p>
+                                    <p>2017 -
+                                        <script language="JavaScript" type="text/javascript">
+                                            now = new Date;
+                                            theYear = now.getYear();
+                                            if (theYear < 1900)
+                                                theYear = theYear + 1900;
+                                            document.write(theYear)
+                                        </script>. All rights reserved.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script th:src="@{../vendor/jquery-3.2.1.min.js}"></script>
+    <script th:src="@{../vendor/bootstrap-4.1/popper.min.js}"></script>
+    <script th:src="@{../vendor/bootstrap-4.1/bootstrap.min.js}"></script>
+    <script th:src="@{../vendor/slick/slick.min.js}"></script>
+    <script th:src="@{../vendor/wow/wow.min.js}"></script>
+    <script th:src="@{../vendor/animsition/animsition.min.js}"></script>
+    <script th:src="@{../vendor/bootstrap-progressbar/bootstrap-progressbar.min.js}"></script>
+    <script th:src="@{../vendor/counter-up/jquery.waypoints.min.js}"></script>
+    <script th:src="@{../vendor/counter-up/jquery.counterup.min.js}"></script>
+    <script th:src="@{../vendor/circle-progress/circle-progress.min.js}"></script>
+    <script th:src="@{../vendor/perfect-scrollbar/perfect-scrollbar.js}"></script>
+    <script th:src="@{../vendor/chartjs/Chart.bundle.min.js}"></script>
+    <script th:src="@{../vendor/select2/select2.min.js}"></script>
+    <script th:src="@{../js/sidebarOpen.js}"></script>
+    <script th:src="@{../vendor/jstree/dist/jstree.min.js}"></script>
+</body>
+
+</html>
+<!-- end document-->
