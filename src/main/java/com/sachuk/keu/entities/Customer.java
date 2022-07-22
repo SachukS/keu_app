@@ -1,7 +1,6 @@
 package com.sachuk.keu.entities;
 
-import com.sachuk.keu.entities.enums.Registrated;
-import com.sachuk.keu.entities.enums.Rozshirennya;
+import com.sachuk.keu.entities.enums.*;
 import com.sachuk.keu.utils.DateUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,9 +39,15 @@ public class  Customer implements Serializable {
     private Date accountingDate;
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Quota.class)
     @JoinColumn(name = "quota_id")
-    private Quota quota;
+    private Quota quota = new Quota("Без пільг","Без пільг", QuotaType.NONE);
+
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Quota.class)
+    @JoinColumn(name = "quota_id2")
+    private Quota quota2 = new Quota("Без пільг","Без пільг", QuotaType.NONE);
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date quotaDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date quotaDate2;
     private int familyCount;
     private int roomCount;
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Work.class)
@@ -51,14 +56,18 @@ public class  Customer implements Serializable {
     private String address;
     @Enumerated(EnumType.ORDINAL)
     private Rozshirennya rozshirennya = Rozshirennya.NO;
-    //private String quotaType = quota.getQuotaType().getName();
+    @Enumerated(EnumType.ORDINAL)
+    private Provided provided = Provided.NO;
     private String quotaType;
+    private String quotaType2;
     @CreationTimestamp
     private LocalDateTime updateDate;
     private String info;
     private String family;
     @Enumerated(EnumType.ORDINAL)
     private Registrated registrated = Registrated.NO;
+    @Enumerated(EnumType.ORDINAL)
+    private FamilyWar2022 familyWar2022 = FamilyWar2022.NO;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date flatFileDate;
     private String flatFileNumber;
@@ -67,11 +76,22 @@ public class  Customer implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date serviceUntill;
     private String experience;
+    private String phoneNumber;
+
+    public int getExpInt(){
+        return Integer.parseInt(getExperience());
+    }
 
     public String getFormatAccounting() {
         if (this.getAccountingDate()!=null)
             return DateUtil.formatDateToString(this.getAccountingDate(), "dd.MM.yyyy");
         return null;
+    }
+
+    public Date getUpdateDateTime() {
+        if (updateDate == null)
+            return null;
+        return Date.from(updateDate.atZone(ZoneId.systemDefault()).toInstant());
     }
     public String getFormatQuota() {
         if (this.getQuotaDate()!=null)
@@ -79,20 +99,18 @@ public class  Customer implements Serializable {
         return null;
     }
 
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "enrollee")
-//    private List<ZNOCertificate> znoCertificates = new ArrayList<>();
-//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "enrollee")
-//    private Certificate certificate;
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "enrollee", targetEntity = EnrolleeSpecialty.class)
-//    private List<EnrolleeSpecialty> specialties = new ArrayList<>();
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "enrollee", targetEntity = Privilege.class)
-//    private List<Privilege> privileges = new ArrayList<>();
-//    private String remark;
-//    @CreationTimestamp
-//    private LocalDateTime createDateTime;
-//    @UpdateTimestamp
-//    private LocalDateTime updateDateTime;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return familyCount == customer.familyCount && roomCount == customer.roomCount && Objects.equals(rank, customer.rank) && Objects.equals(rankType, customer.rankType) && Objects.equals(surname, customer.surname) && Objects.equals(name, customer.name) && Objects.equals(thirdName, customer.thirdName) && Objects.equals(accountingDate, customer.accountingDate) && Objects.equals(quota, customer.quota) && Objects.equals(quotaDate, customer.quotaDate) && Objects.equals(work, customer.work) && Objects.equals(serviceFrom, customer.serviceFrom);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(rank, rankType, surname, name, thirdName, accountingDate, quota, quotaDate, familyCount, roomCount, work, serviceFrom);
+    }
 
     @Override
     public String toString() {
@@ -106,12 +124,12 @@ public class  Customer implements Serializable {
                 ", accountingDate=" + accountingDate +
                 ", quota=" + quota +
                 ", quotaDate=" + quotaDate +
+                ", quotaType=" + quotaType +
                 ", familyCount=" + familyCount +
                 ", roomCount=" + roomCount +
                 ", work=" + work +
                 ", address='" + address + '\'' +
                 ", rozshirennya=" + rozshirennya +
-                ", quotaType='" + quotaType + '\'' +
                 ", updateDate=" + updateDate +
                 ", info='" + info + '\'' +
                 ", family='" + family + '\'' +
@@ -120,7 +138,6 @@ public class  Customer implements Serializable {
                 ", flatFileNumber='" + flatFileNumber + '\'' +
                 ", serviceFrom=" + serviceFrom +
                 ", serviceUntill=" + serviceUntill +
-                ", experience='" + experience + '\'' +
                 '}';
     }
 }

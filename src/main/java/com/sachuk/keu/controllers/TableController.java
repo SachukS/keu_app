@@ -34,12 +34,6 @@ public class TableController {
     public SearchQuery createQuery() {
         return new SearchQuery();
     }
-//    @ModelAttribute("balCounter")
-//    public RatingCounter reitCounter() {
-//        return new RatingCounter();
-//    }
-//    @ModelAttribute("allCustomers")
-//    public List<Customer> findAllCustomers() { return customerService.findAll(); }
 
     @RequestMapping(value = {"/table"}, method = {RequestMethod.GET})
     public String showTable(Model modelAndView, @ModelAttribute("query") SearchQuery query,
@@ -60,22 +54,7 @@ public class TableController {
         return "table";
 
     }
-//    @RequestMapping(value = {"/rating"}, method = {RequestMethod.GET})
-//    public String showRatingTable(Model modelAndView) {
-//        User user = databaseUserService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-//        System.out.println(user);
-//        modelAndView.addAttribute("user", user);
-//        List<Enrollee> enrolleeList = enrolleeService.findAll();
-//
-//        enrolleeList.sort((a,b) -> (a.getForward().equals(b.getForward()))
-//                ?(int)(b.getCertificate().getAverage200()*10)-(int)(a.getCertificate().getAverage200()*10)
-//                :a.getForward().compareTo(b.getForward()));
-//
-//        modelAndView.addAttribute("enrollee", enrolleeList);
-//        modelAndView.addAttribute("search",false);
-//        return "table";
-//
-//    }
+
     @RequestMapping(value = {"/find"}, method = {RequestMethod.POST})
     public String find (Model modelAndView, @ModelAttribute("query") SearchQuery query) {
         System.out.println(query.getQuery());
@@ -88,20 +67,5 @@ public class TableController {
         return "table";
 
     }
-
-
-//    @Scheduled(fixedRate = 60000, initialDelay = 2000)
-//    @Bean
-//    public ArrayList<ListGroup> cachedReiting(){
-//        try {
-//            return reitingGenerator.takeGroups();
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return new ArrayList<>();
-//    }
-
 
 }

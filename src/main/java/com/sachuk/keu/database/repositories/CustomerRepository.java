@@ -1,6 +1,7 @@
 package com.sachuk.keu.database.repositories;
 
 import com.sachuk.keu.entities.Customer;
+import com.sachuk.keu.entities.enums.QuotaType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -15,12 +16,13 @@ public interface CustomerRepository extends JpaRepository<Customer,Long>, JpaSpe
 
 //    Customer findEnrolleeByCertificateId(Long id);
 //    Customer findEnrolleeByPersonalFile(String personalFile);
-    @Query(value = "SELECT * FROM customer WHERE (name like %:query%) OR (surname like %:query%) ", nativeQuery = true, name = "query")
+    @Query(value = "SELECT * FROM customer WHERE customer.work_id IN (SELECT id FROM work WHERE work.garrison = :query) ", nativeQuery = true)
+    List<Customer> findAllByGarrison(@Param("query") String query);
+    @Query(value = "SELECT * FROM customer WHERE (name like %:query%) OR (surname like %:query%) OR (phone_number like %:query%) ", nativeQuery = true, name = "query")
     List<Customer> freeSearch(@Param("query") String query);
     List<Customer> findFirst20ByOrderByAccountingDate();
-//    long countBySocialStatusAndCreateDateTimeAfter(SocialStatus socialStatus, LocalDateTime afterSearchDate);
-//
-//    long countByCreateDateTimeAfter(LocalDateTime afterSearchDate);
+    List<Customer> findAllByQuotaType(String quotaType);
+    long countByUpdateDateAfter(LocalDateTime afterSearchDate);
 //    long countByCreateDateTimeAfterAndCreateDateTimeBefore(LocalDateTime start, LocalDateTime end);
 //    List<Customer> findEnrolleesByCreateDateTimeAfterAndCreateDateTimeBefore(LocalDateTime start, LocalDateTime end);
 //    long countByCreateDateTimeAfterAndCreateDateTimeBeforeAndSocialStatus(LocalDateTime start, LocalDateTime end, SocialStatus socialStatus);
@@ -30,7 +32,7 @@ public interface CustomerRepository extends JpaRepository<Customer,Long>, JpaSpe
 //
 //    @Query(value = "SELECT * FROM enrollee WHERE enrollee.id IN (SELECT DISTINCT (enrollee_id) FROM enrollee_specialty WHERE enrollee_specialty.specialty_id = :spec)", nativeQuery = true)
 //    List<Customer> findEnrolleesBySpecialties( @Param("spec") Specialty specialty);
-//
+
 //    @Deprecated
 //    @Query(value = "select :query", nativeQuery = true)
 //    List<Customer> findAllByCustomQuery(@Param("query") String query);

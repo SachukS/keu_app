@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <title>Рейтинг</title>
 <head>
+    <base href="/">
     <link th:href="@{../css/font-face.css}" rel="stylesheet" media="all">
     <link th:href="@{../vendor/font-awesome-4.7/css/font-awesome.min.css}" rel="stylesheet" media="all">
     <link th:href="@{../vendor/font-awesome-5/css/fontawesome-all.min.css}" rel="stylesheet" media="all">
@@ -29,60 +30,145 @@
 
 <body id="dynamicContent">
 <div th:replace="fragments/skeleton :: navbar(${user}, ${query})"></div>
-<div class="main-content">
-    <div class="col-md-12">
-        <h2 class="title-1 text-center m-b-15 rating-title" th:text="'Рейтинг за спеціальністю '+ ${speciality}"></h2>
+<div class="main-content"  >
+    <form class="col-md-12" th:object="${customer}" th:action="'/getRating/'+${garrison}+'ZAGALNA'" method="post">
+        <h2 class="title-1 text-center m-b-15 rating-title" th:text="'Черга:'"></h2>
         <div class="text-center m-b-15">
-            <a type="button" class="btn" th:classappend="${speciality.equals('КН')}?'btn-success':'btn-dark'" role="button"     th:href="'/getRating/'+${forward}+'КН'">КН</a>
-            <a type="button" class="btn" th:classappend="${speciality.equals('ТК')}?'btn-success':'btn-dark'" role="button"     th:href="'/getRating/'+${forward}+'ТК'">ТК</a>
-            <a th:if="${!forward.equals('VKSS')}" type="button" class="btn" th:classappend="${speciality.equals('КБ')}?'btn-success':'btn-dark'" role="button"     th:href="'/getRating/'+${forward}+'КБ'">КБ</a>
-            <a th:if="${!forward.equals('VKSS')}" type="button" class="btn" th:classappend="${speciality.equals('ІСТ')}?'btn-success':'btn-dark'" role="button"    th:href="'/getRating/'+${forward}+'ІСТ'">ІСТ</a>
-            <a th:if="${!forward.equals('EXTR') and !forward.equals('VKSS')}" type="button" class="btn" th:classappend="${speciality.equals('ВУ')}?'btn-success':'btn-dark'" role="button"     th:href="'/getRating/'+${forward}+'ВУ'">ВУ</a>
-            <a th:if="${!forward.equals('EXTR') and !forward.equals('VKSS')}" type="button" class="btn" th:classappend="${speciality.equals('ОВТ')}?'btn-success':'btn-dark'" role="button"    th:href="'/getRating/'+${forward}+'ОВТ'">ОВТ</a>
+            <button type="submit" class="btn" th:classappend="${sort.equals('ZAGALNA')}?'btn-success':'btn-dark'"     >Загальна черга</button>
+            <button type="submit" class="btn" th:classappend="${sort.equals('POZA')}?'btn-success':'btn-dark'"      th:formaction="'/getRating/'+${garrison}+'POZA'">Позачергова</button>
+            <button type="submit" class="btn" th:classappend="${sort.equals('PERSHO')}?'btn-success':'btn-dark'"     th:formaction="'/getRating/'+${garrison}+'PERSHO'">Першочергова</button>
+            <button type="submit" class="btn" th:classappend="${sort.equals('ATO')}?'btn-success':'btn-dark'"      th:formaction="'/getRating/'+${garrison}+'ATO'">Інв./АТО/ООС</button>
+
+
+<!--            <a type="button" class="btn" th:classappend="${sort.equals('ІСТ')}?'btn-success':'btn-dark'" role="button"    th:href="'/getRating/'+${garrison}+'ІСТ'">ІСТ</a>-->
+<!--            <a type="button" class="btn" th:classappend="${sort.equals('ВУ')}?'btn-success':'btn-dark'" role="button"     th:href="'/getRating/'+${garrison}+'ВУ'">ВУ</a>-->
+<!--            <a type="button" class="btn" th:classappend="${sort.equals('ОВТ')}?'btn-success':'btn-dark'" role="button"    th:href="'/getRating/'+${garrison}+'ОВТ'">ОВТ</a>-->
+            <button type="submit" class="btn" th:classappend="'btn-dark'" style="float: right"  th:formaction="'/getRating/'+${garrison}+${sort}+'/print'">ДРУК</button>
+<!--            th:href="'/getRating/'+${garrison}+${sort}+'/print'"-->
+        </div>
+        <div class="text-center m-b-15">
+            <div style="display: inline-block">
+                <label class=" form-control-label"><h4>Організація</h4></label>
+                <select class="form-control select" style="max-width: 200px" th:field="*{work.workPlace}">
+                    <option th:each="var : ${workPlaces}"
+                            th:value="${var}" th:text="${var}" ></option>
+                </select>
+            </div>
+            <div style="display: inline-block">
+                <label class=" form-control-label"><h4>ЖК</h4></label>
+                <select class="form-control select" style="max-width: 200px" th:field="*{work.accountingPlace}">
+                    <option th:each="var : ${accountings}"
+                            th:value="${var}" th:text="${var}"></option>
+                </select>
+            </div>
+            <div style="display: inline-block">
+                <label class=" form-control-label"><h4>Пільга</h4></label>
+                <select class="form-control select" style="max-width: 200px" th:field="*{quota}">
+                    <option th:each="var : ${quotas}"
+                            th:value="${var.id}" th:text="${var.getNameQuota()}"></option>
+                </select>
+            </div>
+            <div style="display: inline-block">
+                <label class=" form-control-label"><h4>Кількість членів сім'ї</h4></label>
+                <input type="number" th:field="*{familyCount}"
+                       th:value="${customer?.familyCount}" name="text-input"
+                       placeholder="Кількість членів сім'ї" class="form-control">
+            </div>
+            <div style="display: inline-block">
+                <label class=" form-control-label"><h4>Кількість кімнат</h4></label>
+                <input type="number" th:field="*{roomCount}"
+                       th:value="${customer?.roomCount}" name="text-input"
+                       placeholder="Кількість кімнат" class="form-control">
+            </div>
+            <div style="display: inline-block">
+                <label class=" form-control-label" style="margin-bottom: 14px"><h4>Пройшов реєстрацію</h4></label>
+                <div class="form-check">
+                    <div class="radio" style="display: inline-block; margin-left: 25px"
+                         th:each="ty : ${T(com.sachuk.keu.entities.enums.Registrated).values()}">
+                        <input th:field="*{registrated}" th:value="${ty}"
+                               th:text="${ty.getName()}" type="radio"
+
+                               name="radios"
+                               class="form-check-input"/>
+                        <label th:for="${#ids.prev('registrated')}"
+                               class="form-check-label "/>
+                    </div>
+                </div>
+            </div>
+            <div style="display: inline-block; margin-left: 10px">
+                <label class=" form-control-label" style="margin-bottom: 14px"><h4>Сортувати за висл</h4></label>
+                <div class="form-check">
+                    <div class="radio" style="display: inline-block; margin-right: 25px">
+                        <input th:field="*{experience}" th:value="${100}"
+                               th:text="НІ" type="radio"
+                               name="radios"
+                               class="form-check-input"/>
+                        <label th:for="${#ids.prev('registrated')}"
+                               class="form-check-label "/>
+                    </div>
+                    <div class="radio" style="display: inline-block; margin-right: 25px">
+                        <input th:field="*{experience}" th:value="${200}"
+                               th:text="ТАК" type="radio"
+                               name="radios"
+                               class="form-check-input"/>
+                        <label th:for="${#ids.prev('registrated')}"
+                               class="form-check-label "/>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="table-responsive m-b-40">
             <table class="table table-borderless mx-auto">
                 <thead class="thead-dark">
                 <tr>
                     <th>№</th>
-                    <th>Прізвище</th> <!--sec:authorize="hasAnyAuthority('OPERATOR')"-->
-                    <th>Ім'я</th>
-                    <th>По-батькові</th>
-                    <th>Бал</th>
-                    <th>Привілегії</th>
-                    <th>Стан</th>
+                    <th>Заг.черга.</th>
+                    <th>Військ. звання</th> <!--sec:authorize="hasAnyAuthority('OPERATOR')"-->
+                    <th>Прізвище, ініціали</th>
+                    <th>Дата кв/обліку</th>
+                    <th>Дата пільги</th>
+                    <th>Категорія пільг</th>
+                    <th>К-сть чл.сім</th>
+                    <th>К-сть кімн.</th>
+                    <th>ЖК</th>
+                    <th>Організація</th>
+                    <th>Висл</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="item,iter : ${enrolls}" th:class="${item.isSuccess()}?'table-success':'table-danger'">
+                <tr th:each="item,iter : ${customers}" th:class="'table-success'">
                     <td th:utext="${iter.index+1}" class="table-danger"></td>
-                    <td th:utext="${item.getLastName()}"></td>
-                    <td th:utext="${item.getFirstName()}"></td>
-                    <td th:utext="${item.getThirdName()}"></td>
-                    <td th:utext="${item.getMark()}"></td>
-                    <td th:utext="${item.getPrivilege()}"></td>
-                    <td th:text="'Рекомендован'+((${item.isWomen()})?'а':'ий')+${item.isSuccess() ? ' до зарахування' : ' до вступу'}"></td>
+                    <td th:utext="${item.getId()}"></td>
+                    <td th:utext="${item.getRank().getShortNameRank()}"></td>
+                    <td th:utext="${item.getSurname()+' '+item.getName().charAt(0)+'.'+item.getThirdName().charAt(0)+'.'}"></td>
+                    <td th:utext="${item.getFormatAccounting()}"></td>
+                    <td th:utext="${item.getFormatQuota()}"></td>
+                    <td th:utext="${item.getQuotaType()}"></td>
+                    <td th:utext="${item.getFamilyCount()}"></td>
+                    <td th:utext="${item.getRoomCount()}"></td>
+                    <td th:utext="${item.getWork().getAccountingPlace()}"></td>
+                    <td th:utext="${item.getWork().getWorkPlace()}"></td>
+                    <td th:utext="${item.getExperience()}"></td>
+<!--                    <td th:text="'Рекомендован'+((${item.isWomen()})?'а':'ий')+${item.isSuccess() ? ' до зарахування' : ' до вступу'}"></td>-->
                     <!--<td th:text="${item.isSuccess()}?'Поступил': 'Не поступил'"></td>-->
                 </tr>
                 </tbody>
             </table>
         </div>
-    </div>
+    </form>
     <div class="row mt-5">
         <div class="col-md-12">
             <div class="copyright">
-                <p>© Department of computer information technologies</br>Military institute of
+                <p>Military institute of
                     telecommunications and information technologies named after Heroes of Kruty</p>
-                <p>2017 -
+                <p>2022 -
                     <script language="JavaScript" type="text/javascript">
                         now = new Date;
                         theYear = now.getYear();
                         if (theYear < 1900)
                             theYear = theYear + 1900;
                         document.write(theYear)
-                    </script>
-                    . All rights reserved.
-                </p>
+                    </script>. All rights reserved to Oleksandr Sachuk</p>
             </div>
         </div>
     </div>

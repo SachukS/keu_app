@@ -111,10 +111,14 @@ public class CustomerService {
     public List<Customer> freeFind(String query) {
         return customerRepository.freeSearch(query);
     }
+    public List<Customer> findByGarrison(String query) {
+        return customerRepository.findAllByGarrison(query);
+    }
     public List<Customer> getTop() {
         return customerRepository.findFirst20ByOrderByAccountingDate();
     }
 
+    public List<Customer> findAllByQuotaType(String quotaType) {return customerRepository.findAllByQuotaType(quotaType);}
     public Customer save(Customer customer) {
         return customerRepository.save(customer);
     }
@@ -144,7 +148,7 @@ public class CustomerService {
 //    public long countBySocialStatusToday(SocialStatus socialStatus, LocalDateTime date) {
 //        return customerRepository.countBySocialStatusAndCreateDateTimeAfter(socialStatus, date);
 //    }
-//    public long countAllAfterDate(LocalDateTime afterDate) { return customerRepository.countByCreateDateTimeAfter(afterDate); }
+    public long countAllAfterDate(LocalDateTime afterDate) { return customerRepository.countByUpdateDateAfter(afterDate); }
 //    public long countByGender(Gender gender) {
 //        return customerRepository.countByGender(gender);
 //    }

@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/index*", "/login*", "/register*")
                 .anonymous()
-                //   .antMatchers("/wallet/**").hasRole("USER_VERIFIED")
+//                .antMatchers("/input", "/edit/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated().and()
                 .formLogin().loginPage("/login").defaultSuccessUrl("/cabinet")
                 .failureUrl("/login-error");

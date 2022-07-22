@@ -107,6 +107,18 @@
                                                 th:value="${var.id}" th:text="${var.getWorkPlace()}"></option>
                                     </select>
                                 </div>
+                                <div class="col-12 col-md-9">
+                                <label class="form-control-label"><h4>Номер телефону</h4></label>
+<!--                                <div class="form-group">-->
+                                    <div class="input-group">
+                                        <div class="input-group-addon">+38</div>
+                                        <input type="tel" th:field="*{phoneNumber}"
+                                               th:value="${customer.phoneNumber}" class="form-control">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-phone"></i>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row form-group">
                                 <div class="col-12 col-md-9">
@@ -137,7 +149,7 @@
 
                             </div>
                             <div class="col-12 col-md-9">
-                                <p class="form-control-static"><h4>Стоїть на розширення?</h4></p>
+                                <p class="form-control-static"><h4>Потребує доотримання житла?</h4></p>
                                 <div class="form-check">
                                     <div class="radio"
                                          th:each="ty : ${T(com.sachuk.keu.entities.enums.Rozshirennya).values()}">
@@ -150,6 +162,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <script>
                                 articles = document.getElementById('rozshirennya2');
                                 articles2 = document.getElementById('rozshirennya1');
@@ -179,7 +192,20 @@
                                            placeholder="Введіть адресу" class="form-control">
                                 </div>
                             </div>
-
+                            <div class="col-12 col-md-9">
+                                <p class="form-control-static"><h4>Забезпечений?</h4></p>
+                                <div class="form-check">
+                                    <div class="radio"
+                                         th:each="ty : ${T(com.sachuk.keu.entities.enums.Provided).values()}">
+                                        <input th:field="*{provided}" th:value="${ty}"
+                                               th:text="${ty.getName()}" type="radio"
+                                               name="radios"
+                                               class="form-check-input"/>
+                                        <label th:for="${#ids.prev('provided')}"
+                                               class="form-check-label "/>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -197,21 +223,46 @@
                                                     th:value="${var.id}" th:text="${var.nameQuota}"></option>
                                         </select>
                                     </div>
-
-<!--                                    <div class="col-12 col-md-9">-->
-<!--                                        <label for="text-input" class=" form-control-label"><h4>Тип пільги</h4></label>-->
-<!--                                        <input type="text" th:field="*{quotaType}"-->
-<!--                                               th:value="${customer.quotaType}" name="text-input"-->
-<!--                                               class="form-control" disabled>-->
-<!--                                    </div>-->
-
                                     <div class="col-12 col-md-9">
-                                        <label class=" form-control-label"><h4>Дата видачі</h4>
+                                        <label class=" form-control-label"><h4>Дата зарахування до пільгової черги</h4>
                                         </label>
                                         <input type="date" th:field="*{quotaDate}"
                                                th:value="${customer.quotaDate}"
                                                name="date-input"
                                                placeholder="Дата видачі" class="form-control date">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-12 col-md-9">
+                                        <label for="text-input" class=" form-control-label"><h4>Пільга 2(за наявності)</h4></label>
+                                        <select class="form-control select" th:field="*{quota2}">
+                                            <option id="qu2" th:each="var : ${quotas}"
+                                                    th:value="${var.id}" th:text="${var.nameQuota}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-md-9">
+                                        <label class=" form-control-label"><h4>Дата зарахування до пільгової черги</h4>
+                                        </label>
+                                        <input type="date" th:field="*{quotaDate2}"
+                                               th:value="${customer.quotaDate2}"
+                                               name="date-input"
+                                               placeholder="Дата видачі" class="form-control date">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-12 col-md-9">
+                                        <p class="form-control-static"><h4>Сім'я в/сл. загиблого з часу широкомасштабного вторгнення москалів?</h4></p>
+                                        <div class="form-check">
+                                            <div class="radio"
+                                                 th:each="ty : ${T(com.sachuk.keu.entities.enums.FamilyWar2022).values()}">
+                                                <input th:field="*{familyWar2022}" th:value="${ty}"
+                                                       th:text="${ty.getName()}" type="radio"
+                                                       name="radios"
+                                                       class="form-check-input"/>
+                                                <label th:for="${#ids.prev('familyWar2022')}"
+                                                       class="form-check-label "/>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -362,10 +413,6 @@
 <!--                                        </label>-->
 <!--                                    </div>-->
 <!--                                </div>-->
-
-
-
-
 
 
 
@@ -708,9 +755,15 @@
                     <button type="submit" class="btn btn-primary btn-sm">
                         <i class="fa fa-dot-circle-o"></i> Зберегти
                     </button>
+                    <a th:href="'/cabinet/delete/'+${customer.getId()}" class="btn btn-danger btn-sm">
+                        <i class="fa fa-ban"></i> ВИДАЛИТИ
+                    </a>
                     <a href="/input" class="btn btn-danger btn-sm">
                         <i class="fa fa-ban"></i> Очистити поля
                     </a>
+                    <button type="submit" class="btn btn-primary btn-sm" th:formaction="'/input/print'" style="float: right">
+                        <i class="fa fa-dot-circle-o"></i> Друк довідки
+                    </button>
                 </div>
                 <!--<div class="col-md-12">
                     <div class="table-responsive table&#45;&#45;no-card m-b-40">

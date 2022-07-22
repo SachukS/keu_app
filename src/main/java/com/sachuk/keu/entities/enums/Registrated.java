@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public enum Registrated {
 
-    NO("НІ"), YES("ТАК");
+    NO("НІ"), YES("ТАК"), ALL("Всі");
 
     private String name;
 

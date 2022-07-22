@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity(name = "Quota")
 @Table(name = "Quota")
@@ -44,4 +45,16 @@ public class Quota implements Serializable{
     }
     public Quota(){}
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Quota quota = (Quota) o;
+        return Objects.equals(nameQuota, quota.nameQuota) && Objects.equals(shortNameQuota, quota.shortNameQuota) && quotaType == quota.quotaType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nameQuota, shortNameQuota, quotaType);
+    }
 }

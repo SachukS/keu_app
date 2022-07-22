@@ -64,34 +64,34 @@
                         <a href="/input">
                             <i class="fas fa-plus"></i>Додати запис</a>
                     </li>
-                    <li>
-                        <a href="/quota/customer">
-                            <i class="fas fa-wrench"></i>Інформація по квотах</a>
-                    </li>
+<!--                    <li>-->
+<!--                        <a href="/quota/customer">-->
+<!--                            <i class="fas fa-wrench"></i>Інформація по квотах</a>-->
+<!--                    </li>-->
                     <li>
                         <a href="/table">
                             <i class="fas fa-table"></i>Таблиця</a>
                     </li>
-                    <li>
-                        <a href="/reports">
-                            <i class="far fa-files-o"></i>Звіти</a>
-                    </li>
+<!--                    <li>-->
+<!--                        <a href="/reports">-->
+<!--                            <i class="far fa-files-o"></i>Звіти</a>-->
+<!--                    </li>-->
                     <li>
                         <!--                        <a href="/rating">-->
                         <a class="js-arrow" href="#">
                             <i class="fas fa-calendar-alt"></i>Черга</a>
                         <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
                             <li>
-                                <a href="/generateAndShowRating/MITI">Київський гарнізон</a>
+                                <a href="/generateAndShowRating/KYIV">Гарнізон м.Київ</a>
                             </li>
                             <li>
-                                <a href="/generateAndShowRating/VKSS">Бориспільський гарнізон</a>
+                                <a href="/generateAndShowRating/BORI">Бориспільський гарнізон</a>
                             </li>
                             <li>
-                                <a href="/generateAndShowRating/EXTR">Семиполківський гарнізон</a>
+                                <a href="/generateAndShowRating/SEMI">Семиполківський гарнізон</a>
                             </li>
                             <li>
-                                <a href="/generateAndShowRating/EXR">Васильківський гарнізон</a>
+                                <a href="/generateAndShowRating/VASY">Васильківський гарнізон</a>
                             </li>
 
                         </ul>
@@ -116,7 +116,7 @@
                         <form th:object="${query}" class="form-header" th:action="@{/find}" method="POST">
                             <input th:value="${query?.query}" th:field="*{query}" class="au-input au-input--xl"
                                    type="text" name="search"
-                                   placeholder="Введіть ім'я або прізвище або номер особової справи ..."/>
+                                   placeholder="Введіть ім'я або прізвище або номер телефону ..."/>
                             <button class="au-btn--submit" type="submit">
                                 <i class="zmdi zmdi-search"></i>
                             </button>
