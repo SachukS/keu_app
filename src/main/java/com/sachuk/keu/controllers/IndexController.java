@@ -37,7 +37,7 @@ public class IndexController {
                        Model modelAndView) {
         User user = databaseUserService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         System.out.println(user);
-        long kyivCount = (long) customerService.findByGarrison("KYIV").size();
+        long kyivCount = (long) customerService.findByGarrison("м.Київ").size();
         modelAndView.addAttribute("success", success);
         modelAndView.addAttribute("error", error);
         modelAndView.addAttribute("user", user);

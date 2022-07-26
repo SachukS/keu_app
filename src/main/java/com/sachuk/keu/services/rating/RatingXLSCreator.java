@@ -38,7 +38,7 @@ public class RatingXLSCreator implements AutoCloseable {
     private String fileName;
     private CellStyle style;
     private static List<Customer> customers = new ArrayList<>();
-    private String[] names = {"№з/п", "Заг.","Військ. звання", "Прізвище, ініціали", "Дата кв/обліку", "Дата пільги", "Категорія пільг", "чл.сім.", "кімн.", "ЖК", "Організація", "Висл"};
+    private String[] names = {"№з/п","Військ. звання", "Прізвище, ініціали", "Дата кв/обліку", "Дата пільги", "Категорія пільг", "чл.сім.", "кімн.", "ЖК", "Організація", "Висл"};
     private Row rows = null;
 
     private static Work getWorkWithGarrison() {
@@ -105,7 +105,7 @@ public class RatingXLSCreator implements AutoCloseable {
                 rows = sheet.createRow(rowNum);
                 setCellValue(rows, nom++, rowCol);
 
-                setCellValue(rows, nom++, (int) a.getId());
+//                setCellValue(rows, nom++, (int) a.getId());
 
                 setCellValue(rows, nom++, a.getRank().getShortNameRank());
 
@@ -356,7 +356,7 @@ public class RatingXLSCreator implements AutoCloseable {
         sheet.addMergedRegion(new CellRangeAddress(18,18,0,3));
 
         Cell zagVal = row19.createCell(4);
-        zagVal.setCellValue(customer.getId());
+        zagVal.setCellValue(customer.getZagalna());
         zagVal.setCellStyle(style);
 
 

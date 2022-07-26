@@ -112,6 +112,29 @@ public class CustomerService {
         return customerRepository.freeSearch(query);
     }
     public List<Customer> findByGarrison(String query) {
+        switch (query) {
+            case "KYIV":
+                query = "м.Київ";
+                break;
+            case "BORI":
+                query = "Бориспiль";
+                break;
+            case "SEMI":
+                query = "Семиполки";
+                break;
+            case "PERE":
+                query = "Переяславський";
+                break;
+            case "BROV":
+                query = "Бровари";
+                break;
+            case "GOST":
+                query = "Гостомель";
+                break;
+            case "VASY":
+                query = "Василькiв";
+                break;
+        }
         return customerRepository.findAllByGarrison(query);
     }
     public List<Customer> getTop() {

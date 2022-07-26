@@ -21,9 +21,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -85,8 +89,6 @@ public class InputController {
         if (getUser().getRole().equals(Roles.ROLE_ADMIN)) {
             modelAndView.addAttribute("customers", customerService.getTop());
             Customer customer = new Customer();
-//        if (customer.getMilitaryDivider()==null)
-//            customer.setMilitaryDivider("");
             modelAndView.addAttribute("customer", customer);
 
             return "input";
@@ -96,60 +98,67 @@ public class InputController {
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String editModel(Model modelAndView, @PathVariable("id") String id) {
-        if (getUser().getRole().equals(Roles.ROLE_ADMIN)) {
-            Customer customer = customerService.findById(Long.parseLong(id));
-            if (Objects.equals(customer.getFlatFileNumber(), "0"))
-                customer.setFlatFileNumber(null);
-            if (Objects.equals(customer.getFamilyWar2022(), null))
-                customer.setFamilyWar2022(FamilyWar2022.NO);
-            if (Objects.equals(customer.getProvided(), null))
-                customer.setProvided(Provided.NO);
-            System.out.println(customer);
-            System.out.println("edit");
-            modelAndView.addAttribute("customers", customerService.getTop());
-            modelAndView.addAttribute("customer", customer);
+        Customer customer = customerService.findById(Long.parseLong(id));
+        if (Objects.equals(customer.getFlatFileNumber(), "0"))
+            customer.setFlatFileNumber(null);
+        if (Objects.equals(customer.getFamilyWar2022(), null))
+            customer.setFamilyWar2022(FamilyWar2022.NO);
+        if (Objects.equals(customer.getProvided(), null))
+            customer.setProvided(Provided.NO);
+        System.out.println(customer);
+        System.out.println("edit");
+        modelAndView.addAttribute("customers", customerService.getTop());
+        modelAndView.addAttribute("customer", customer);
 
-            return "input";
-        }
-        return "";
+        return "input";
     }
     @Transactional
     @RequestMapping(value = "/input", method = {RequestMethod.POST})
     public String saveInputModel(@ModelAttribute("customer") Customer customer, Model model) throws IOException {
-        System.out.println("THIS IS HERE MOFUCKA");
+        if (getUser().getRole().equals(Roles.ROLE_ADMIN)) {
+            System.out.println("THIS IS HERE MOFUCKA");
 
-        if (customer.getRankType()==null)
-            customer.setRankType(customer.getRank().getRankType().getName());
-        if (customer.getQuotaType()==null)
-            customer.setQuotaType(customer.getQuota().getQuotaType().getName());
-        if (customer.getQuotaType2()==null)
-            customer.setQuotaType2(customer.getQuota2().getQuotaType().getName());
-        if (customer.getAddress()=="")
-            customer.setAddress(null);
-        if (customer.getFamily()=="")
-            customer.setFamily(null);
-        if (customer.getInfo()=="")
-            customer.setInfo(null);
-        if (customer.getFlatFileNumber()=="")
-            customer.setFlatFileNumber(null);
-        if (customer.getServiceFrom()!=null){
-            if (customer.getServiceUntill()!=null){
-                customer.setExperience(String.valueOf(customer.getServiceUntill().getYear()-customer.getServiceFrom().getYear()));
+            if (customer.getRank().getId() == 0L)
+                customer.setRank(getAllRanks().stream().filter(r-> Objects.equals(r.getNameRank(), customer.getRank().getNameRank())).findFirst().get());
+            if (customer.getWork().getId() == 0L)
+                customer.setWork(getAllWorks().stream().filter(w-> Objects.equals(w.getWorkPlace(), customer.getWork().getWorkPlace())).findFirst().get());
+            if (customer.getRankType() == null)
+                customer.setRankType(customer.getRank().getRankType().getName());
+            if (customer.getQuotaType() == null)
+                customer.setQuotaType(customer.getQuota().getQuotaType().getName());
+            if (customer.getQuotaType2() == null)
+                customer.setQuotaType2(customer.getQuota2().getQuotaType().getName());
+            if (customer.getAddress() == "")
+                customer.setAddress(null);
+            if (customer.getFamily() == "")
+                customer.setFamily(null);
+            if (customer.getInfo() == "")
+                customer.setInfo(null);
+            if (customer.getFlatFileNumber() == "")
+                customer.setFlatFileNumber(null);
+            if (customer.getServiceFrom() != null) {
+                if (customer.getServiceUntill() != null) {
+                    customer.setExperience(String.valueOf(customer.getServiceUntill().getYear() - customer.getServiceFrom().getYear()));
+                } else
+                    customer.setExperience(String.valueOf(LocalDateTime.now().getYear() - customer.getServiceFrom().getYear() - 1900));
             }
-            else
-                customer.setExperience(String.valueOf(LocalDateTime.now().getYear()-customer.getServiceFrom().getYear()-1900));
+
+            customer.setUpdateDate(LocalDateTime.now());
+            customerService.save(customer);
+            System.out.println(customer);
+
+            return "redirect:/cabinet?success=true";
         }
-
-        customer.setUpdateDate(LocalDateTime.now());
-        customerService.save(customer);
-        System.out.println(customer);
-
-        return "redirect:/cabinet?success=true";
+        return "";
     }
 
     @RequestMapping(value = "/input/print", method = {RequestMethod.POST})
-    public String print(@ModelAttribute("customer") Customer customer, Model model) throws IOException {
+    public void print(@ModelAttribute("customer") Customer customer, HttpServletResponse response, Model model) throws IOException {
         System.out.println("print Dovidka");
+        if (customer.getRank().getId() == 0L)
+            customer.setRank(getAllRanks().stream().filter(r-> Objects.equals(r.getNameRank(), customer.getRank().getNameRank())).findFirst().get());
+        if (customer.getWork().getId() == 0L)
+            customer.setWork(getAllWorks().stream().filter(w-> Objects.equals(w.getWorkPlace(), customer.getWork().getWorkPlace())).findFirst().get());
         if (customer.getRankType()==null)
             customer.setRankType(customer.getRank().getRankType().getName());
         if (customer.getQuotaType()==null)
@@ -173,6 +182,29 @@ public class InputController {
         }
 
         String garrison = customer.getWork().getGarrison();
+        switch (garrison) {
+            case "м.Київ":
+                garrison = "KYIV";
+                break;
+            case "Бориспiль":
+                garrison = "BORI";
+                break;
+            case "Семиполки":
+                garrison = "SEMI";
+                break;
+            case "Переяславський":
+                garrison = "PERE";
+                break;
+            case "Бровари":
+                garrison = "BROV";
+                break;
+            case "Гостомель":
+                garrison = "GOST";
+                break;
+            case "Василькiв":
+                garrison = "VASY";
+                break;
+        }
         String sort = "";
         switch (customer.getQuotaType()){
             case "без пiльг":
@@ -186,8 +218,13 @@ public class InputController {
                 break;
         }
 
+        List<Customer> customersZAG = customerService.findByGarrison(garrison);
+        customersZAG = customersZAG.stream().sorted(Comparator.comparing(Customer::getAccountingDate)).collect(Collectors.toList());
+        int position = customersZAG.indexOf(customer) + 1;
+        customer.setZagalna(String.valueOf(position));
+
         Customer customer1 = new Customer();
-        customer1.setWork(new Work("Всі","Всі", "KYIV"));
+        customer1.setWork(new Work("Всі","Всі", "BORI"));
         customer1.setQuota(new Quota("Всі","Всі", QuotaType.NONE));
         customer1.setRoomCount(0);
         customer1.setFamilyCount(0);
@@ -196,13 +233,15 @@ public class InputController {
 
         ratingXlsCreateService.createXls(System.getProperty("user.home") + File.separator + "DOVIDKA.xls", RatingXLSWeb.getCustomers(garrison+sort, customer1), customer);
 
+        Path file = Paths.get(System.getProperty("user.home") + File.separator + "DOVIDKA.xls");
+
+        response.setHeader("Content-disposition", "attachment; filename=DOVIDKA.xls");
         try {
-            Runtime.getRuntime().exec("cmd /c start excel.exe "+System.getProperty("user.home") + File.separator + "DOVIDKA.xls");
+            response.getOutputStream().write(Files.readAllBytes(file));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
-        return "redirect:/cabinet?success=true";
     }
 
 

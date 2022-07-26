@@ -77,6 +77,7 @@ public class  Customer implements Serializable {
     private Date serviceUntill;
     private String experience;
     private String phoneNumber;
+    private String zagalna;
 
     public int getExpInt(){
         return Integer.parseInt(getExperience());
@@ -104,12 +105,12 @@ public class  Customer implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return familyCount == customer.familyCount && roomCount == customer.roomCount && Objects.equals(rank, customer.rank) && Objects.equals(rankType, customer.rankType) && Objects.equals(surname, customer.surname) && Objects.equals(name, customer.name) && Objects.equals(thirdName, customer.thirdName) && Objects.equals(accountingDate, customer.accountingDate) && Objects.equals(quota, customer.quota) && Objects.equals(quotaDate, customer.quotaDate) && Objects.equals(work, customer.work) && Objects.equals(serviceFrom, customer.serviceFrom);
+        return familyCount == customer.familyCount && roomCount == customer.roomCount && Objects.equals(rank, customer.rank) && Objects.equals(surname, customer.surname) && Objects.equals(name, customer.name) && Objects.equals(thirdName, customer.thirdName) && Objects.equals(accountingDate, customer.accountingDate) && Objects.equals(quota, customer.quota) && Objects.equals(quotaDate, customer.quotaDate) && Objects.equals(work, customer.work) && Objects.equals(serviceFrom, customer.serviceFrom);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(rank, rankType, surname, name, thirdName, accountingDate, quota, quotaDate, familyCount, roomCount, work, serviceFrom);
+        return Objects.hash(rank, surname, name, thirdName, accountingDate, quota, quotaDate, familyCount, roomCount, work, serviceFrom);
     }
 
     @Override

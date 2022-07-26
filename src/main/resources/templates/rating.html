@@ -32,7 +32,7 @@
 <div th:replace="fragments/skeleton :: navbar(${user}, ${query})"></div>
 <div class="main-content"  >
     <form class="col-md-12" th:object="${customer}" th:action="'/getRating/'+${garrison}+'ZAGALNA'" method="post">
-        <h2 class="title-1 text-center m-b-15 rating-title" th:text="'Черга:'"></h2>
+        <h2 class="title-1 text-center m-b-15 rating-title" th:text="'Черга гарнізону '+${customers.get(0).work.garrison}"></h2>
         <div class="text-center m-b-15">
             <button type="submit" class="btn" th:classappend="${sort.equals('ZAGALNA')}?'btn-success':'btn-dark'"     >Загальна черга</button>
             <button type="submit" class="btn" th:classappend="${sort.equals('POZA')}?'btn-success':'btn-dark'"      th:formaction="'/getRating/'+${garrison}+'POZA'">Позачергова</button>
@@ -122,7 +122,7 @@
                 <thead class="thead-dark">
                 <tr>
                     <th>№</th>
-                    <th>Заг.черга.</th>
+<!--                    <th>Заг.черга.</th>-->
                     <th>Військ. звання</th> <!--sec:authorize="hasAnyAuthority('OPERATOR')"-->
                     <th>Прізвище, ініціали</th>
                     <th>Дата кв/обліку</th>
@@ -138,7 +138,7 @@
                 <tbody>
                 <tr th:each="item,iter : ${customers}" th:class="'table-success'">
                     <td th:utext="${iter.index+1}" class="table-danger"></td>
-                    <td th:utext="${item.getId()}"></td>
+<!--                    <td th:utext="${customers.indexOf(item)+1}"></td>-->
                     <td th:utext="${item.getRank().getShortNameRank()}"></td>
                     <td th:utext="${item.getSurname()+' '+item.getName().charAt(0)+'.'+item.getThirdName().charAt(0)+'.'}"></td>
                     <td th:utext="${item.getFormatAccounting()}"></td>

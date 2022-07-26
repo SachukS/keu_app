@@ -95,17 +95,53 @@
                                 <div class="col-12 col-md-9">
                                     <label for="text-input" class=" form-control-label"><h4>Військове
                                         звання</h4></label>
-                                    <select class="form-control select" th:field="*{rank}">
+<!--                                    <select class="form-control select" th:field="*{rank}">-->
+<!--                                        <option th:each="var : ${ranks}"-->
+<!--                                                th:value="${var.id}" th:text="${var.getNameRank()}"></option>-->
+<!--                                    </select>-->
+                                    <input type="text" th:field="*{rank.nameRank}"
+                                           list="r"
+                                           name="text-input"
+                                           class="form-control">
+                                    <datalist id="r">
                                         <option th:each="var : ${ranks}"
-                                                th:value="${var.id}" th:text="${var.getNameRank()}"></option>
-                                    </select>
+                                                th:value="${var.getNameRank()}">
+                                    </datalist>
+<!--                                    <script>-->
+<!--                                        document.querySelector('input[list]').addEventListener('input', function(e) {-->
+<!--                                            var input = e.target,-->
+<!--                                                list = input.getAttribute('list'),-->
+<!--                                                options = document.querySelectorAll('#' + list + ' option'),-->
+<!--                                                hiddenInput = document.getElementById(input.getAttribute('id') + '-hidden'),-->
+<!--                                                inputValue = input.value;-->
+
+<!--                                            hiddenInput.value = inputValue;-->
+
+<!--                                            for(var i = 0; i < options.length; i++) {-->
+<!--                                                var option = options[i];-->
+
+<!--                                                if(option.innerText === inputValue) {-->
+<!--                                                    hiddenInput.value = option.getAttribute('data-value');-->
+<!--                                                    break;-->
+<!--                                                }-->
+<!--                                            }-->
+<!--                                        });-->
+<!--                                    </script>-->
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <label for="text-input" class=" form-control-label"><h4>Місце служби</h4></label>
-                                    <select class="form-control select" th:field="*{work}">
+<!--                                    <select class="form-control select" th:field="*{work}">-->
+<!--                                        <option th:each="var : ${works}"-->
+<!--                                                th:value="${var.id}" th:text="${var.getWorkPlace()}"></option>-->
+<!--                                    </select>-->
+                                    <input type="text" th:field="*{work.workPlace}"
+                                           list="w"
+                                           name="text-input"
+                                           class="form-control">
+                                    <datalist id="w">
                                         <option th:each="var : ${works}"
-                                                th:value="${var.id}" th:text="${var.getWorkPlace()}"></option>
-                                    </select>
+                                                th:value="${var.getWorkPlace()}">
+                                    </datalist>
                                 </div>
                                 <div class="col-12 col-md-9">
                                 <label class="form-control-label"><h4>Номер телефону</h4></label>
@@ -809,8 +845,7 @@
                 <div class="row mt-5">
                     <div class="col-md-12">
                         <div class="copyright">
-                            <p>Military institute of
-                                telecommunications and information technologies named after Heroes of Kruty</p>
+                            <p>Ministry of Defense of Ukraine</p>
                             <p>2022 -
                                 <script language="JavaScript" type="text/javascript">
                                     now = new Date;
