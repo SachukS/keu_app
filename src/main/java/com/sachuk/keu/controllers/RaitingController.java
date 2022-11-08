@@ -36,10 +36,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -50,6 +47,8 @@ public class RaitingController {
     public QuotaService quotaService;
     public WorkService workService;
     public CustomerService customerService;
+
+    public static List<String> garrisons = Arrays.asList("м.Київ","Бориспiль","Семиполки","Переяславський","Бровари","Гостомель","Василькiв");
 
     @ModelAttribute("quotas")
     @Transactional
@@ -116,7 +115,6 @@ public class RaitingController {
                 .sorted(Comparator.comparing(Work::getWorkPlace)).map(Work::getAccountingPlace).distinct().collect(Collectors.toList());
     }
     private static List<Customer> staticCustomers = new ArrayList<>();
-    private static List<Customer> staticSortedCustomersZag;
 
     @PostMapping("/getRating/{garrison}")
     public String getRating(@PathVariable String garrison,
@@ -147,6 +145,8 @@ public class RaitingController {
                               @ModelAttribute("customer") Customer customer,
                               HttpServletResponse response,
                               Model model) {
+        System.out.println(customer);
+        ratingXlsCreateService.createXls(System.getProperty("user.home") + File.separator + garrison + ".xls", staticCustomers, customer);
 
         Path file = Paths.get(System.getProperty("user.home") + File.separator + garrison + ".xls");
 
@@ -159,7 +159,52 @@ public class RaitingController {
 
     }
 
+    @GetMapping("/calculate")
+    public String calculateQueue(Model model) {
+        List<Customer> customers;
+        List<Customer> customersPersho;
+        List<Customer> customersPoza;
 
+        Customer customer = new Customer();
+        for (String gar:garrisons) {
+            customers = customerService.findByGarrison(gar);
+            customers = customers.stream().filter(c->c.getRegistrated().equals(Registrated.YES)).sorted(Comparator.comparing(Customer::getAccountingDate)).collect(Collectors.toList());
+            for (int i = 0; i<customers.size(); i++) {
+                customers.get(i).setZagalna(String.valueOf(i+1));
+            }
+            customerService.saveAll(customers);
+            customersPersho = new ArrayList<>(customers);
+
+            customersPoza = customers.stream()
+                    .filter(c->c.getQuotaType().equals("позачерговий"))
+                    .sorted(Comparator.comparing(Customer::getQuotaDate)
+                            .thenComparing(c -> c.getAccountingDate()))
+                    .collect(Collectors.toList());
+            for (int i = 0; i<customersPoza.size(); i++) {
+                customersPoza.get(i).setPilgova(String.valueOf(i+1));
+            }
+            customerService.saveAll(customersPoza);
+
+            customersPersho = customersPersho.stream()
+                    .filter(c->c.getQuotaType().equals("першочерговий") || (c.getQuotaType2() != null && c.getQuotaType2().equals("першочерговий")))
+                    .sorted(Comparator.comparing(Customer::getQuotaDate)
+                            .thenComparing(c -> c.getQuotaDate2()!=null ? c.getQuotaDate2() : c.getAccountingDate()))
+                    .collect(Collectors.toList());
+            for (int i = 0; i<customersPersho.size(); i++) {
+                customersPersho.get(i).setPilgova(String.valueOf(i+1));
+            }
+            customerService.saveAll(customersPersho);
+        }
+
+        return "redirect:/cabinet?success=true";
+    }
+
+    @GetMapping("/report")
+    public String generateReport() {
+
+
+        return "redirect:/cabinet?success=true";
+    }
 
     @GetMapping("/generateAndShowRating/{garrison}")
     public String generateAndShowRating(@PathVariable String garrison,
@@ -175,7 +220,9 @@ public class RaitingController {
         customer.setRegistrated(Registrated.YES);
         customer.setExperience("100");
 
+
         staticCustomers = RatingXLSWeb.getCustomers(garrison + "ZAGALNA", customer);
+        //staticCustomers = customerService.findByGarrison(garrison);
 
         model.addAttribute("customer", customer);
         model.addAttribute("workPlaces", getAllWorkPlaces(garrison));

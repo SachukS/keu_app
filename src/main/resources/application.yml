@@ -3,9 +3,9 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:mysql://localhost:3306/test?characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&useSSL=false
-    username: root
-    password:
+    url: jdbc:mysql://mysql:3306/keudb?characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&useSSL=false
+    username: keuDbUser
+    password: fgjrfksgcbc
     driver-class-name: com.mysql.cj.jdbc.Driver
 server:
   port: 8081
@@ -17,7 +17,18 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:mysql://localhost:3306/Vstup_2021?characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Kiev&useSSL=false
+    url: jdbc:mysql://localhost:3306/test?characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&useSSL=false
     username: root
-    password: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+---
+spring:
+  profiles: sachukDBbackup
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/keudb?characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&useSSL=false
+    username: keuDbUser
+    password: fgjrfksgcbc
     driver-class-name: com.mysql.cj.jdbc.Driver

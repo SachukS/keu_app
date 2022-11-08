@@ -4,6 +4,7 @@ import com.sachuk.keu.database.service.CustomerService;
 import com.sachuk.keu.database.service.UserService;
 import com.sachuk.keu.entities.Customer;
 import com.sachuk.keu.entities.SearchQuery;
+import com.sachuk.keu.entities.enums.Registrated;
 import com.sachuk.keu.entities.security.User;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.transaction.Transactional;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Controller
@@ -62,6 +64,22 @@ public class TableController {
         System.out.println(user);
         modelAndView.addAttribute("user", user);
         List<Customer> customerList = customerService.freeFind(query.getQuery());
+
+
+        modelAndView.addAttribute("customers", customerList);
+        modelAndView.addAttribute("search",true);
+        return "table";
+
+    }
+
+    @RequestMapping(value = {"/findToday"}, method = {RequestMethod.GET})
+    public String findToday (Model modelAndView) {
+        User user = databaseUserService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        System.out.println(user);
+        modelAndView.addAttribute("user", user);
+        List<Customer> customerList = customerService.getAllToday();
+
+
         modelAndView.addAttribute("customers", customerList);
         modelAndView.addAttribute("search",true);
         return "table";

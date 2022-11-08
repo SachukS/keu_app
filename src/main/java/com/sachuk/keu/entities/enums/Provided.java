@@ -3,7 +3,7 @@ package com.sachuk.keu.entities.enums;
 import java.util.Arrays;
 
 public enum Provided {
-    NO("НІ"), SLZH("Службовим житлом"), GURT("Гуртожитком"), SHPZH("ШПЖ"), PERE("Переобладнаною будівлею");
+    NO("НІ"), SLZH("Службовим житлом"), GURT("Гуртожитком"), SHPZH("ШПЖ"), PERE("Переобладнаною будівлею"), POST("Постійним житлом");
 
     private String name;
 

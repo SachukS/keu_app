@@ -11,8 +11,16 @@
             <div class="container-fluid">
                 <div class="header-mobile-inner">
                     <a class="logo" href="/cabinet">
-                        <img src="../images/icon/logo.png" alt="ІС 'КВАРТИРА'"/>
+                        <img src="../images/icon/logoK.png" alt="ІС 'КВАРТИРА'"/>
                     </a>
+                    <form th:object="${query}" class="form-header" th:action="@{/find}" method="POST">
+                        <input th:value="${query?.query}" th:field="*{query}" class="au-input au-input--xl"
+                               type="text" name="search"
+                               placeholder="Введіть ім'я або прізвище або номер телефону ..."/>
+                        <button class="au-btn--submit" type="submit">
+                            <i class="zmdi zmdi-search"></i>
+                        </button>
+                    </form>
                     <button class="hamburger hamburger--slider" type="button">
                             <span class="hamburger-box">
                                 <span class="hamburger-inner"></span>
@@ -28,56 +36,11 @@
                         <a href="/input">
                             <i class="fas fa-plus"></i>Додати абітурієнта</a>
                     </li>
-<!--                    <li>-->
-<!--                        <a href="/quota/customer">-->
-<!--                            <i class="fas fa-wrench"></i>Інформація по квотах</a>-->
-<!--                    </li>-->
                     <li>
-                        <a href="/table">
-                            <i class="fas fa-table"></i>Таблиця абітурієнтів</a>
+                        <a href="/calculate">
+                            <i class="fas fa-table"></i>Розрахувати чергу</a>
                     </li>
-<!--                    <li>-->
-<!--                        <a href="/reports">-->
-<!--                            <i class="far fa-files-o"></i>Звіти</a>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <a href="#">-->
-<!--                            <i class="fas fa-calendar-alt"></i>Пошук абітурієнтів за датою</a>-->
-<!--                    </li>-->
-                </ul>
-            </div>
-        </nav>
-    </header>
-    <!-- END HEADER MOBILE-->
-
-    <!-- MENU SIDEBAR-->
-    <aside class="menu-sidebar d-none d-lg-block">
-        <div class="logo">
-            <a href="/cabinet">
-                <img src="../images/icon/logo.png" alt="ІС 'КЕУ'"/>
-            </a>
-        </div>
-        <div class="menu-sidebar__content js-scrollbar1">
-            <nav class="navbar-sidebar">
-                <ul class="list-unstyled navbar__list">
-                    <li class="has-sub">
-                        <a href="/input">
-                            <i class="fas fa-plus"></i>Додати запис</a>
-                    </li>
-<!--                    <li>-->
-<!--                        <a href="/quota/customer">-->
-<!--                            <i class="fas fa-wrench"></i>Інформація по квотах</a>-->
-<!--                    </li>-->
                     <li>
-                        <a href="/table">
-                            <i class="fas fa-table"></i>Таблиця</a>
-                    </li>
-<!--                    <li>-->
-<!--                        <a href="/reports">-->
-<!--                            <i class="far fa-files-o"></i>Звіти</a>-->
-<!--                    </li>-->
-                    <li>
-                        <!--                        <a href="/rating">-->
                         <a class="js-arrow" href="#">
                             <i class="fas fa-calendar-alt"></i>Черга</a>
                         <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
@@ -106,9 +69,72 @@
                         </ul>
                     </li>
 <!--                    <li>-->
-<!--                        <a href="/advancedSearch">-->
-<!--                            <i class="fa fa-search"></i>Розширений пошук</a>-->
+<!--                        <a class="js-arrow" href="#">-->
+<!--                            <i class="fas fa-calendar-alt"></i>Редагувати вихідні дані</a>-->
+<!--                        <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">-->
+<!--                            <li>-->
+<!--                                <a href="/generateAndShowRating/KYIV">Звання</a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <a href="/generateAndShowRating/BORI">Житлова комісія</a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <a href="/generateAndShowRating/SEMI">Семиполківський гарнізон</a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
 <!--                    </li>-->
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- END HEADER MOBILE-->
+
+    <!-- MENU SIDEBAR-->
+    <aside class="menu-sidebar d-none d-lg-block">
+        <div class="logo">
+            <a href="/cabinet">
+                <img src="../images/icon/logoK.png" alt="ІС 'КЕУ'"/>
+            </a>
+        </div>
+        <div class="menu-sidebar__content js-scrollbar1">
+            <nav class="navbar-sidebar">
+                <ul class="list-unstyled navbar__list">
+                    <li class="has-sub">
+                        <a href="/input">
+                            <i class="fas fa-plus"></i>Додати запис</a>
+                    </li>
+                    <li>
+                        <a href="/calculate">
+                            <i class="fas fa-table"></i>Розрахувати чергу</a>
+                    </li>
+                    <li>
+                        <a class="js-arrow" href="#">
+                            <i class="fas fa-calendar-alt"></i>Черга</a>
+                        <ul class="list-unstyled navbar__sub-list js-sub-list" style="display: none;">
+                            <li>
+                                <a href="/generateAndShowRating/KYIV">Гарнізон м.Київ</a>
+                            </li>
+                            <li>
+                                <a href="/generateAndShowRating/BORI">Бориспільський гарнізон</a>
+                            </li>
+                            <li>
+                                <a href="/generateAndShowRating/SEMI">Семиполківський гарнізон</a>
+                            </li>
+                            <li>
+                                <a href="/generateAndShowRating/VASY">Васильківський гарнізон</a>
+                            </li>
+                            <li>
+                                <a href="/generateAndShowRating/BROV">Броварський гарнізон</a>
+                            </li>
+                            <li>
+                                <a href="/generateAndShowRating/GOST">Гостомельський гарнізон</a>
+                            </li>
+                            <li>
+                                <a href="/generateAndShowRating/PERE">Переяславський гарнізон</a>
+                            </li>
+
+                        </ul>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -118,7 +144,7 @@
     <!-- PAGE CONTAINER-->
     <div class="page-container">
         <!-- HEADER DESKTOP-->
-        <header class="header-desktop">
+        <header class="header-desktop d-none d-lg-block">
             <div class="section__content section__content--p30">
                 <div class="container-fluid">
                     <div class="header-wrap">

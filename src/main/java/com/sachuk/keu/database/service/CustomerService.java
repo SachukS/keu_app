@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -172,6 +173,7 @@ public class CustomerService {
 //        return customerRepository.countBySocialStatusAndCreateDateTimeAfter(socialStatus, date);
 //    }
     public long countAllAfterDate(LocalDateTime afterDate) { return customerRepository.countByUpdateDateAfter(afterDate); }
+    public List<Customer> getAllToday(){return customerRepository.findAllByUpdateDateAfter(LocalDate.now().atStartOfDay());}
 //    public long countByGender(Gender gender) {
 //        return customerRepository.countByGender(gender);
 //    }

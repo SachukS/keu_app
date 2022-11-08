@@ -4,6 +4,7 @@ import com.sachuk.keu.entities.enums.*;
 import com.sachuk.keu.utils.DateUtil;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -77,7 +78,10 @@ public class  Customer implements Serializable {
     private Date serviceUntill;
     private String experience;
     private String phoneNumber;
+    @ColumnDefault("0")
     private String zagalna;
+    @ColumnDefault("0")
+    private String pilgova;
 
     public int getExpInt(){
         return Integer.parseInt(getExperience());
@@ -99,18 +103,23 @@ public class  Customer implements Serializable {
             return DateUtil.formatDateToString(this.getQuotaDate(), "dd.MM.yyyy");
         return null;
     }
+    public String getFormatQuota2() {
+        if (this.getQuotaDate()!=null)
+            return DateUtil.formatDateToString(this.getQuotaDate2(), "dd.MM.yyyy");
+        return null;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return familyCount == customer.familyCount && roomCount == customer.roomCount && Objects.equals(rank, customer.rank) && Objects.equals(surname, customer.surname) && Objects.equals(name, customer.name) && Objects.equals(thirdName, customer.thirdName) && Objects.equals(accountingDate, customer.accountingDate) && Objects.equals(quota, customer.quota) && Objects.equals(quotaDate, customer.quotaDate) && Objects.equals(work, customer.work) && Objects.equals(serviceFrom, customer.serviceFrom);
+        return familyCount == customer.familyCount && roomCount == customer.roomCount && Objects.equals(surname, customer.surname) && Objects.equals(name, customer.name) && Objects.equals(thirdName, customer.thirdName) && Objects.equals(accountingDate, customer.accountingDate) && Objects.equals(quotaDate, customer.quotaDate) && Objects.equals(quotaType, customer.quotaType) && registrated == customer.registrated;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(rank, surname, name, thirdName, accountingDate, quota, quotaDate, familyCount, roomCount, work, serviceFrom);
+        return Objects.hash(surname, name, thirdName, accountingDate, quotaDate, familyCount, roomCount, quotaType, registrated);
     }
 
     @Override
@@ -139,6 +148,8 @@ public class  Customer implements Serializable {
                 ", flatFileNumber='" + flatFileNumber + '\'' +
                 ", serviceFrom=" + serviceFrom +
                 ", serviceUntill=" + serviceUntill +
+                ", zagalna=" + zagalna +
+                ", pilgova=" + pilgova +
                 '}';
     }
 }

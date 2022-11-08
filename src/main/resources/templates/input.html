@@ -65,8 +65,19 @@
                             <strong>Основні дані про особу</strong>
                         </div>
 
-                        <div class="card-body card-block  ">
+                        <div class="card-body card-block">
                             <input th:field="*{id}" th:value="${customer.id}" hidden/>
+                            <input th:field="*{zagalna}" th:value="${customer.zagalna}" hidden/>
+                            <input th:field="*{pilgova}" th:value="${customer.pilgova}" hidden/>
+
+
+
+                            <div class="col-12 col-md-9">
+                                <h4><label class=" form-control-label" th:text="'Номер в загальній черзі:   '+${customer.zagalna}"></label></h4>
+                            </div>
+                            <div class="col-12 col-md-9">
+                                <h4><label class=" form-control-label" th:text="'Номер в пільговій черзі:   '+${customer.pilgova}"></label></h4>
+                            </div>
 
                             <div class="row form-group">
                                 <div class="col-12 col-md-9">
@@ -286,8 +297,8 @@
                                     </div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col-12 col-md-9">
-                                        <p class="form-control-static"><h4>Сім'я в/сл. загиблого з часу широкомасштабного вторгнення москалів?</h4></p>
+                                    <div class="col-12 col-md-9 co">
+                                        <p class="form-control-static"><h4>Сім'я в/сл. загиблого з часу широкомасштабного вторгнення рф?</h4></p>
                                         <div class="form-check">
                                             <div class="radio"
                                                  th:each="ty : ${T(com.sachuk.keu.entities.enums.FamilyWar2022).values()}">
@@ -853,7 +864,7 @@
                                     if (theYear < 1900)
                                         theYear = theYear + 1900;
                                     document.write(theYear)
-                                </script>. All rights reserved to Oleksandr Sachuk</p>
+                                </script>. Powered by Sachuk</p>
                         </div>
                     </div>
                 </div>
@@ -890,6 +901,7 @@
 <script th:src="@{../vendor/perfect-scrollbar/perfect-scrollbar.js}"></script>
 <script th:src="@{../vendor/chartjs/Chart.bundle.min.js}"></script>
 <script th:src="@{../vendor/select2/select2.min.js}"></script>
-<script th:src="@{../js/sidebarOpen.js}"></script>
+<!--<script th:src="@{../js/sidebarOpen.js}"></script>-->
+<script th:src="@{../js/main.js}"></script>
 </body>
 </html>

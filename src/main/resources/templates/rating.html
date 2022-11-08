@@ -32,7 +32,7 @@
 <div th:replace="fragments/skeleton :: navbar(${user}, ${query})"></div>
 <div class="main-content"  >
     <form class="col-md-12" th:object="${customer}" th:action="'/getRating/'+${garrison}+'ZAGALNA'" method="post">
-        <h2 class="title-1 text-center m-b-15 rating-title" th:text="'Черга гарнізону '+${customers.get(0).work.garrison}"></h2>
+        <h2 class="title-1 text-center m-b-15 rating-title" th:text="'Черга гарнізону '+${customers.get(0).work.garrison}+'      '+${customers.size()}+' осіб'"></h2>
         <div class="text-center m-b-15">
             <button type="submit" class="btn" th:classappend="${sort.equals('ZAGALNA')}?'btn-success':'btn-dark'"     >Загальна черга</button>
             <button type="submit" class="btn" th:classappend="${sort.equals('POZA')}?'btn-success':'btn-dark'"      th:formaction="'/getRating/'+${garrison}+'POZA'">Позачергова</button>
@@ -121,6 +121,7 @@
             <table class="table table-borderless mx-auto">
                 <thead class="thead-dark">
                 <tr>
+                    <th>Ред</th>
                     <th>№</th>
 <!--                    <th>Заг.черга.</th>-->
                     <th>Військ. звання</th> <!--sec:authorize="hasAnyAuthority('OPERATOR')"-->
@@ -137,13 +138,18 @@
                 </thead>
                 <tbody>
                 <tr th:each="item,iter : ${customers}" th:class="'table-success'">
+                    <td> <!--sec:authorize="hasAnyAuthority('OPERATOR')"-->
+                        <a class="btn btn-light" th:href="@{'edit/'+${item.getId()}}">
+                            <i class="fa fa-edit" aria-hidden="true"></i>
+                        </a>
+                    </td>
                     <td th:utext="${iter.index+1}" class="table-danger"></td>
 <!--                    <td th:utext="${customers.indexOf(item)+1}"></td>-->
                     <td th:utext="${item.getRank().getShortNameRank()}"></td>
                     <td th:utext="${item.getSurname()+' '+item.getName().charAt(0)+'.'+item.getThirdName().charAt(0)+'.'}"></td>
                     <td th:utext="${item.getFormatAccounting()}"></td>
-                    <td th:utext="${item.getFormatQuota()}"></td>
-                    <td th:utext="${item.getQuotaType()}"></td>
+                    <td th:utext="${(sort.equals('ATO'))?item.getFormatQuota2():item.getFormatQuota()}"></td>
+                    <td th:utext="${(sort.equals('ATO'))?item.getQuotaType2():item.getQuotaType()}"></td>
                     <td th:utext="${item.getFamilyCount()}"></td>
                     <td th:utext="${item.getRoomCount()}"></td>
                     <td th:utext="${item.getWork().getAccountingPlace()}"></td>
@@ -168,7 +174,7 @@
                         if (theYear < 1900)
                             theYear = theYear + 1900;
                         document.write(theYear)
-                    </script>. All rights reserved to Oleksandr Sachuk</p>
+                    </script>. Powered by Sachuk</p>
             </div>
         </div>
     </div>
@@ -195,6 +201,7 @@
 <script th:src="@{../vendor/vector-map/jquery.vmap.min.js}"></script>
 <script th:src="@{../vendor/vector-map/jquery.vmap.sampledata.js}"></script>
 <script th:src="@{../vendor/vector-map/jquery.vmap.world.js}"></script>
-<script th:src="@{../js/sidebarOpen.js}"></script>
+<!--<script th:src="@{../js/sidebarOpen.js}"></script>-->
+<script th:src="@{../js/main.js}"></script>
 </html>
 <!-- end document-->

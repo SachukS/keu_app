@@ -293,145 +293,95 @@
         const brandService = 'rgba(0,173,95,0.9)'
         const brandVKSS = 'rgba(207,0,15,0.8)'
 
-        /* var civilData = [];
-         $.ajax({
-                 url: "/getArrayBy/civil",
-                 success: function (res) {
-                     civilData = res.message;
-                 },
-                 async: false
-             }
-         );
-         var milData = [];
-         $.ajax({
-                 url: "/getArrayBy/mil",
-                 success: function (res) {
-                     milData = res.message;
-                 },
-                 async: false
-             }
-         );
-         var collegeData = [];
-         $.ajax({
-                 url: "/getArrayBy/colege",
-                 success: function (res) {
-                     collegeData = res.message;
-                 },
-                 async: false
-             }
-         );
-         var lyceumData = [];
-         $.ajax({
-                 url: "/getArrayBy/lyceum",
-                 success: function (res) {
-                     lyceumData = res.message;
-                 },
-                 async: false
-             }
-         );
-         var mitiData = [];
-         $.ajax({
-                 url: "/getArrayBy/miti",
-                 success: function (res) {
-                     mitiData = res.message;
-                 },
-                 async: false
-             }
-         );
-
-         var mitiMaleData = [];
-         $.ajax({
-                 url: "/getArrayBy/mitiMale",
-                 success: function (res) {
-                     mitiMaleData = res.message;
-                 },
-                 async: false
-             }
-         );
-         var mitiFemaleData = [];
-         $.ajax({
-                 url: "/getArrayBy/mitiFemale",
-                 success: function (res) {
-                     mitiFemaleData = res.message;
-                 },
-                 async: false
-             }
-         );
-         var vkssMaleData = [];
-         $.ajax({
-                 url: "/getArrayBy/vkssMale",
-                 success: function (res) {
-                     vkssMaleData = res.message;
-                 },
-                 async: false
-             }
-         );
-         var vkssFemaleData = [];
-         $.ajax({
-                 url: "/getArrayBy/vkssFemale",
-                 success: function (res) {
-                     vkssFemaleData = res.message;
-                 },
-                 async: false
-             }
-         );*/
-
-        var civilData = [];
-        var milData = [];
-        var collegeData = [];
-        var lyceumData = [];
-        var mitiData = [];
-        var mitiMaleData = [];
-        var mitiFemaleData = [];
-        var vkssMaleData = [];
-        var vkssFemaleData = [];
+        var kyiv = [];
+        var brov = [];
+        var pere = [];
+        var bori = [];
+        var vasi = [];
+        var gost = [];
+        var semi = [];
+        var none = [];
+        var persho = [];
+        var poza = [];
+        var ato = [];
+        // var vkssMaleData = [];
+        // var vkssFemaleData = [];
 
         $.ajax({
                 url: "/getArrays",
                 success: function (res) {
-                    civilData = res.civil;
-                    milData = res.mil;
-                    collegeData = res.colege;
-                    lyceumData = res.lyceum;
-                    mitiData = res.miti;
-                    mitiMaleData = res.mitiMale;
-                    mitiFemaleData = res.mitiFemale;
-                    vkssMaleData = res.vkssMale;
-                    vkssFemaleData = res.vkssFemale;
+                    kyiv = res.kyiv;
+                    brov = res.brov;
+                    pere = res.pere;
+                    bori = res.bori;
+                    vasi = res.vasi;
+                    gost = res.gost;
+                    semi = res.semi;
+                    none = res.none;
+                    persho = res.persho;
+                    poza = res.poza;
+                    ato = res.ato;
+                    // vkssMaleData = res.vkssMale;
+                    // vkssFemaleData = res.vkssFemale;
                 },
                 async: false
             }
         );
 
-        var ctx = document.getElementById("count-all-miti");
+        var ctx = document.getElementById("count-all-kyiv");
         if (ctx) {
-            ctx.textContent = 'BITI (' + (Math.round((mitiData[0] * 100) / (mitiData[0] + collegeData[0]))) + '%)';
+            ctx.textContent = 'Київ (' + (Math.round((kyiv[0] * 100) / (kyiv[0] + brov[0] + bori[0] + gost[0] + semi[0] + vasi[0] + pere[0]))) + '%)';
         }
 
-        var ctx = document.getElementById("count-all-vkss");
+        var ctx = document.getElementById("count-all-brov");
         if (ctx) {
-            ctx.textContent = 'ВКСС (' + (Math.round((collegeData[0] * 100) / (mitiData[0] + collegeData[0]))) + '%)';
+            ctx.textContent = 'Бровари (' + (Math.round((brov[0] * 100) / (kyiv[0] + brov[0] + bori[0] + gost[0] + semi[0] + vasi[0] + pere[0]))) + '%)';
         }
 
-        var ctx = document.getElementById("count-female-miti");
+        var ctx = document.getElementById("count-all-bori");
         if (ctx) {
-            ctx.textContent = 'Жiнки (' + (Math.round((mitiFemaleData[0] * 100) / (mitiMaleData[0] + mitiFemaleData[0]))) + '%)';
+            ctx.textContent = 'Бориспіль (' + (Math.round((bori[0] * 100) / (kyiv[0] + brov[0] + bori[0] + gost[0] + semi[0] + vasi[0] + pere[0]))) + '%)';
         }
 
-        var ctx = document.getElementById("count-male-miti");
+        var ctx = document.getElementById("count-all-semi");
         if (ctx) {
-            ctx.textContent = 'Чоловiки (' + (Math.round((mitiMaleData[0] * 100) / (mitiMaleData[0] + mitiFemaleData[0]))) + '%)';
+            ctx.textContent = 'Семиполки (' + (Math.round((semi[0] * 100) / (kyiv[0] + brov[0] + bori[0] + gost[0] + semi[0] + vasi[0] + pere[0]))) + '%)';
         }
 
-        var ctx = document.getElementById("count-female-vkss");
+        var ctx = document.getElementById("count-all-vasi");
         if (ctx) {
-            ctx.textContent = 'Жiнки (' + (Math.round((vkssFemaleData[0] * 100) / (vkssFemaleData[0] + vkssMaleData[0]))) + '%)';
+            ctx.textContent = 'Васильків (' + (Math.round((vasi[0] * 100) / (kyiv[0] + brov[0] + bori[0] + gost[0] + semi[0] + vasi[0] + pere[0]))) + '%)';
         }
 
-        var ctx = document.getElementById("count-male-vkss");
+        var ctx = document.getElementById("count-all-gost");
         if (ctx) {
-            ctx.textContent = 'Чоловiки (' + (Math.round((vkssMaleData[0] * 100) / (vkssFemaleData[0] + vkssMaleData[0]))) + '%)';
+            ctx.textContent = 'Гостомель (' + (Math.round((gost[0] * 100) / (kyiv[0] + brov[0] + bori[0] + gost[0] + semi[0] + vasi[0] + pere[0]))) + '%)';
         }
+
+        var ctx = document.getElementById("count-all-pere");
+        if (ctx) {
+            ctx.textContent = 'Переяслав (' + (Math.round((pere[0] * 100) / (kyiv[0] + brov[0] + bori[0] + gost[0] + semi[0] + vasi[0] + pere[0]))) + '%)';
+        }
+
+        // var ctx = document.getElementById("count-female-miti");
+        // if (ctx) {
+        //     ctx.textContent = 'Жiнки (' + (Math.round((semi[0] * 100) / (gost[0] + semi[0]))) + '%)';
+        // }
+        //
+        // var ctx = document.getElementById("count-male-miti");
+        // if (ctx) {
+        //     ctx.textContent = 'Чоловiки (' + (Math.round((gost[0] * 100) / (gost[0] + semi[0]))) + '%)';
+        // }
+        //
+        // var ctx = document.getElementById("count-female-vkss");
+        // if (ctx) {
+        //     ctx.textContent = 'Жiнки (' + (Math.round((vkssFemaleData[0] * 100) / (vkssFemaleData[0] + vkssMaleData[0]))) + '%)';
+        // }
+        //
+        // var ctx = document.getElementById("count-male-vkss");
+        // if (ctx) {
+        //     ctx.textContent = 'Чоловiки (' + (Math.round((vkssMaleData[0] * 100) / (vkssFemaleData[0] + vkssMaleData[0]))) + '%)';
+        // }
 
 
         var ctx = document.getElementById("recent-rep-chart");
@@ -450,7 +400,7 @@
                             borderColor: 'transparent',
                             pointHoverBackgroundColor: brandProduct,
                             borderWidth: 1,
-                            data: milData
+                            data: brov
 
                         },
                         {
@@ -459,7 +409,7 @@
                             borderColor: 'transparent',
                             pointHoverBackgroundColor: brandVKSS,
                             borderWidth: 0,
-                            data: lyceumData
+                            data: bori
 
                         },
                         {
@@ -468,7 +418,7 @@
                             borderColor: 'transparent',
                             pointHoverBackgroundColor: brandService,
                             borderWidth: 0,
-                            data: civilData
+                            data: kyiv
                         }
                     ]
                 },
@@ -494,7 +444,7 @@
                                 beginAtZero: true,
                                 maxTicksLimit: 5,
                                 stepSize: 10,
-                                max: Math.max(Math.max.apply(null, civilData), Math.max.apply(null, milData), Math.max.apply(null, lyceumData)),
+                                max: Math.max(Math.max.apply(null, kyiv), Math.max.apply(null, brov), Math.max.apply(null, bori)),
                                 fontFamily: "Poppins",
                                 fontSize: 12
                             },
@@ -530,27 +480,47 @@
                     datasets: [
                         {
                             label: "My First dataset",
-                            data: [mitiData.reduce((a, b) => a + b, 0), collegeData.reduce((a, b) => a + b, 0)],
+                            data: [kyiv.reduce((a, b) => a + b, 0), brov.reduce((a, b) => a + b, 0), semi.reduce((a, b) => a + b, 0), vasi.reduce((a, b) => a + b, 0), gost.reduce((a, b) => a + b, 0), pere.reduce((a, b) => a + b, 0), bori.reduce((a, b) => a + b, 0)],
                             backgroundColor: [
                                 '#00b5e9',
-                                '#fa4251'
+                                '#fa4251',
+                                '#00ad5f',
+                                '#9542fa',
+                                '#3215D7',
+                                '#F80784',
+                                '#fadb42'
                             ],
                             hoverBackgroundColor: [
                                 '#00b5e9',
-                                '#fa4251'
+                                '#fa4251',
+                                '#00ad5f',
+                                '#9542fa',
+                                '#3215D7',
+                                '#F80784',
+                                '#fadb42'
                             ],
                             borderWidth: [
-                                0, 0
+                                0, 0, 0, 0, 0, 0, 0
                             ],
                             hoverBorderColor: [
+                                'transparent',
+                                'transparent',
+                                'transparent',
+                                'transparent',
+                                'transparent',
                                 'transparent',
                                 'transparent'
                             ]
                         }
                     ],
                     labels: [
-                        'ВIТI',
-                        'Коледж'
+                        'Київ',
+                        'Бровари',
+                        'Семиполки',
+                        'Васильків',
+                        'Гостомель',
+                        'Переяслав',
+                        'Бориспіль',
                     ]
                 },
                 options: {
@@ -584,7 +554,7 @@
                     datasets: [
                         {
                             label: "My First dataset",
-                            data: [mitiFemaleData.reduce((a, b) => a + b, 0), mitiMaleData.reduce((a, b) => a + b, 0)],
+                            data: [semi.reduce((a, b) => a + b, 0), gost.reduce((a, b) => a + b, 0)],
                             backgroundColor: [
                                 '#F80784',
                                 '#3215D7'
@@ -926,7 +896,7 @@
                     datasets: [
                         {
                             label: "Співвідношення",
-                            data: [civilData.reduce((a, b) => a + b, 0), milData.reduce((a, b) => a + b, 0)],
+                            data: [kyiv.reduce((a, b) => a + b, 0), brov.reduce((a, b) => a + b, 0)],
                             backgroundColor: [
                                 '#00b5e9',
                                 '#fa4251'
@@ -1173,29 +1143,45 @@
         //bar chart
         var ctx = document.getElementById("barChart");
         if (ctx) {
-            ctx.height = 200;
+            ctx.height = 420;
             var myChart = new Chart(ctx, {
                 type: 'bar',
                 defaultFontFamily: 'Poppins',
                 data: {
-                    labels: ["January", "February", "March", "April", "May", "June", "July"],
+                    labels: ["Київ", "Бровари", "Бориспіль", "Переяслав", "Гостомель", "Васильків", "Семиполки"],
                     datasets: [
                         {
-                            label: "My First dataset",
-                            data: [65, 59, 80, 81, 56, 55, 40],
-                            borderColor: "rgba(0, 123, 255, 0.9)",
+                            label: "Загальна черга",
+                            data: none,
+                            borderColor: "#E89005",
                             borderWidth: "0",
-                            backgroundColor: "rgba(0, 123, 255, 0.5)",
+                            backgroundColor: "#E89005",
                             fontFamily: "Poppins"
                         },
                         {
-                            label: "My Second dataset",
-                            data: [28, 48, 40, 19, 86, 27, 90],
-                            borderColor: "rgba(0,0,0,0.09)",
+                            label: "Першочергові",
+                            data: persho,
+                            borderColor: "#EC7505",
                             borderWidth: "0",
-                            backgroundColor: "rgba(0,0,0,0.07)",
+                            backgroundColor: "#EC7505",
+                            fontFamily: "Poppins"
+                        },
+                        {
+                            label: "Позачергові",
+                            data: poza,
+                            borderColor: "#D84A05",
+                            borderWidth: "0",
+                            backgroundColor: "#D84A05",
                             fontFamily: "Poppins"
                         }
+                        // {
+                        //     label: "Інваліди АТО/ООС",
+                        //     data: ato,
+                        //     borderColor: "#F42B03",
+                        //     borderWidth: "0",
+                        //     backgroundColor: "#F42B03",
+                        //     fontFamily: "Poppins"
+                        // }
                     ]
                 },
                 options: {

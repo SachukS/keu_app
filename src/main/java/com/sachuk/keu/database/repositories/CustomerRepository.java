@@ -18,11 +18,12 @@ public interface CustomerRepository extends JpaRepository<Customer,Long>, JpaSpe
 //    Customer findEnrolleeByPersonalFile(String personalFile);
     @Query(value = "SELECT * FROM customer WHERE customer.work_id IN (SELECT id FROM work WHERE work.garrison = :query) ", nativeQuery = true)
     List<Customer> findAllByGarrison(@Param("query") String query);
-    @Query(value = "SELECT * FROM customer WHERE (name like %:query%) OR (surname = :query) OR (phone_number like %:query%) ", nativeQuery = true, name = "query")
+    @Query(value = "SELECT * FROM customer WHERE (surname like %:query%) OR (phone_number like %:query%) ", nativeQuery = true, name = "query")
     List<Customer> freeSearch(@Param("query") String query);
     List<Customer> findFirst20ByOrderByAccountingDate();
     List<Customer> findAllByQuotaType(String quotaType);
     long countByUpdateDateAfter(LocalDateTime afterSearchDate);
+    List<Customer> findAllByUpdateDateAfter(LocalDateTime afterSearchDate);
 //    long countByCreateDateTimeAfterAndCreateDateTimeBefore(LocalDateTime start, LocalDateTime end);
 //    List<Customer> findEnrolleesByCreateDateTimeAfterAndCreateDateTimeBefore(LocalDateTime start, LocalDateTime end);
 //    long countByCreateDateTimeAfterAndCreateDateTimeBeforeAndSocialStatus(LocalDateTime start, LocalDateTime end, SocialStatus socialStatus);

@@ -54,7 +54,8 @@
                 <thead>
                 <tr>
                     <th >Ред.</th> <!--sec:authorize="hasAnyAuthority('OPERATOR')"-->
-                    <th >Номер</th>
+                    <th >Заг</th>
+                    <th >Пільг</th>
                     <th >В/зв</th>
                     <th >Тип</th>
                     <th >ПІБ</th>
@@ -65,8 +66,8 @@
                     <th >Склад сім'ї</th>
                     <th >Кількість кімнат</th>
                     <th >Місце роботи</th>
-<!--                    <th >Інфо</th>-->
-<!--                    <th >Родина</th>-->
+                    <th >ЖК</th>
+                    <th >Гарнізон</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -76,7 +77,8 @@
                                 <i class="fa fa-edit" aria-hidden="true"></i>
                             </a>
                     </td>
-                    <td th:text="${item?.getId()}"></td>
+                    <td th:text="${item?.getZagalna()}"></td>
+                    <td th:text="${item?.getPilgova()}"></td>
                     <td th:text="${item?.getRank().getNameRank()}"></td>
                     <td th:text="${item?.getRank().getRankType().getName()}"></td>
                     <td th:text="${item?.surname?.concat(' ').concat(item.name?.concat(' ').concat(item?.thirdName))}"></td>
@@ -87,8 +89,8 @@
                     <td th:text="${item?.getFamilyCount()}"></td>
                     <td th:text="${item?.getRoomCount()}"></td>
                     <td th:text="${item?.getWork().getWorkPlace()}"></td>
-<!--                    <td th:utext="${item?.getInfo()}"></td>-->
-<!--                    <td th:utext="${item.getFamily()}"></td>-->
+                    <td th:text="${item?.getWork().getAccountingPlace()}"></td>
+                    <td th:utext="${item?.getWork().getGarrison()}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -122,7 +124,7 @@
                         if (theYear < 1900)
                             theYear = theYear + 1900;
                         document.write(theYear)
-                    </script>. All rights reserved to Oleksandr Sachuk</p>
+                    </script>. Powered by Sachuk</p>
             </div>
         </div>
     </div>
@@ -149,6 +151,7 @@
 <script th:src="@{vendor/vector-map/jquery.vmap.min.js}"></script>
 <script th:src="@{vendor/vector-map/jquery.vmap.sampledata.js}"></script>
 <script th:src="@{vendor/vector-map/jquery.vmap.world.js}"></script>
-<script th:src="@{../js/sidebarOpen.js}"></script>
+<!--<script th:src="@{../js/sidebarOpen.js}"></script>-->
+<script th:src="@{../js/main.js}"></script>
 </html>
 <!-- end document-->

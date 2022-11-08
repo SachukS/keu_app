@@ -57,4 +57,14 @@ public class Quota implements Serializable{
     public int hashCode() {
         return Objects.hash(nameQuota, shortNameQuota, quotaType);
     }
+
+    @Override
+    public String toString() {
+        return "Quota{" +
+                "id=" + id +
+                ", nameQuota='" + nameQuota + '\'' +
+                ", shortNameQuota='" + shortNameQuota + '\'' +
+                ", quotaType=" + quotaType +
+                '}';
+    }
 }

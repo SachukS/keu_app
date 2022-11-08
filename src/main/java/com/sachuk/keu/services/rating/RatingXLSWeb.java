@@ -51,7 +51,7 @@ public class RatingXLSWeb {
         }
         if(!customer.getQuota().equals(new Quota("Всі","Всі", QuotaType.NONE))){
             customersInGarrison = customersInGarrison.stream()
-                    .filter(c -> c.getQuota().equals(customer.getQuota()) || (c.getQuota2() != null && c.getQuota2().equals(customer.getQuota())))
+                    .filter(c -> c.getQuota().equals(customer.getQuota()))
                     .collect(Collectors.toList());
         }
         if(customer.getFamilyCount()!=0){
@@ -101,7 +101,7 @@ public class RatingXLSWeb {
             case "POZA":
                 customer.setQuotaType("позачерговий");
                 customersInGarrison = customersInGarrison.stream()
-                        .filter(c->c.getQuotaType().equals("позачерговий") || (c.getQuotaType2() != null && c.getQuotaType2().equals("позачерговий")))
+                        .filter(c->c.getQuotaType().equals("позачерговий"))
                         .collect(Collectors.toList());
 
                 List<Customer> customersWithExp2 = customersInGarrison.stream().filter(c -> c.getExperience() != null && !c.getExperience().equals("0")).collect(Collectors.toList());
@@ -130,8 +130,9 @@ public class RatingXLSWeb {
                 break;
 
             case "ATO":
-                customersInGarrison = customersInGarrison.stream().sorted(Comparator.comparing(Customer::getAccountingDate).reversed()
-                                .thenComparing(Customer::getQuotaType).reversed())
+                customersInGarrison = customersInGarrison.stream().filter(c->c.getQuota2() != null && c.getQuota2().getId()==25).collect(Collectors.toList());
+                customersInGarrison = customersInGarrison.stream().sorted(Comparator.comparing(Customer::getQuotaDate2)
+                                .thenComparing(Customer::getAccountingDate))
                         .collect(Collectors.toList());
                 break;
             case "PERSHO":
@@ -167,7 +168,7 @@ public class RatingXLSWeb {
 //                        .collect(Collectors.toList());
                 break;
         }
-        ratingXlsCreateService.createXls(System.getProperty("user.home") + File.separator + nameSort + ".xls", customersInGarrison, customer);
+        //ratingXlsCreateService.createXls(System.getProperty("user.home") + File.separator + nameSort + ".xls", customersInGarrison, customer);
         //System.out.println(customersInGarrison.get(0).getSurname());
         return customersInGarrison;
     }

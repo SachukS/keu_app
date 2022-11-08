@@ -43,9 +43,6 @@ public class InputController {
     public QuotaService quotaService;
     public WorkService workService;
     public RankService rankService;
-//    private SpecialtyService specialtyService;
-//
-//    private ZNOCertificateService znoCertificateService;
     public CustomerService customerService;
     private UserService databaseUserService;
 
@@ -68,8 +65,6 @@ public class InputController {
         return new SearchQuery();
     }
 
-//    @ModelAttribute("allEnrolees")
-//    public List<Customer> findAllEnrolee() { return customerService.findAll(); }
 
     @ModelAttribute("user")
     @Transactional
@@ -155,6 +150,7 @@ public class InputController {
     @RequestMapping(value = "/input/print", method = {RequestMethod.POST})
     public void print(@ModelAttribute("customer") Customer customer, HttpServletResponse response, Model model) throws IOException {
         System.out.println("print Dovidka");
+        System.out.println(customer);
         if (customer.getRank().getId() == 0L)
             customer.setRank(getAllRanks().stream().filter(r-> Objects.equals(r.getNameRank(), customer.getRank().getNameRank())).findFirst().get());
         if (customer.getWork().getId() == 0L)
@@ -218,17 +214,12 @@ public class InputController {
                 break;
         }
 
-        List<Customer> customersZAG = customerService.findByGarrison(garrison);
-        customersZAG = customersZAG.stream().sorted(Comparator.comparing(Customer::getAccountingDate)).collect(Collectors.toList());
-        int position = customersZAG.indexOf(customer) + 1;
-        customer.setZagalna(String.valueOf(position));
-
         Customer customer1 = new Customer();
         customer1.setWork(new Work("Всі","Всі", "BORI"));
         customer1.setQuota(new Quota("Всі","Всі", QuotaType.NONE));
         customer1.setRoomCount(0);
         customer1.setFamilyCount(0);
-        customer1.setRegistrated(Registrated.ALL);
+        customer1.setRegistrated(Registrated.YES);
         customer1.setExperience("100");
 
         ratingXlsCreateService.createXls(System.getProperty("user.home") + File.separator + "DOVIDKA.xls", RatingXLSWeb.getCustomers(garrison+sort, customer1), customer);

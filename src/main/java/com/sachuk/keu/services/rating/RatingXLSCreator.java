@@ -38,7 +38,7 @@ public class RatingXLSCreator implements AutoCloseable {
     private String fileName;
     private CellStyle style;
     private static List<Customer> customers = new ArrayList<>();
-    private String[] names = {"№з/п","Військ. звання", "Прізвище, ініціали", "Дата кв/обліку", "Дата пільги", "Категорія пільг", "чл.сім.", "кімн.", "ЖК", "Організація", "Висл"};
+    private String[] names = {"№","№плг","Військ. звання", "Прізвище, ініціали", "Дата кв/обліку", "Дата пільги", "Категорія пільг", "чл.сім.", "кімн.", "ЖК", "Організація", "Висл"};
     private Row rows = null;
 
     private static Work getWorkWithGarrison() {
@@ -106,6 +106,8 @@ public class RatingXLSCreator implements AutoCloseable {
                 setCellValue(rows, nom++, rowCol);
 
 //                setCellValue(rows, nom++, (int) a.getId());
+
+                setCellValue(rows, nom++, a.getPilgova());
 
                 setCellValue(rows, nom++, a.getRank().getShortNameRank());
 
@@ -373,7 +375,7 @@ public class RatingXLSCreator implements AutoCloseable {
         sheet.addMergedRegion(new CellRangeAddress(20,20,2,3));
 
         Cell nomVal = row21.createCell(4);
-        nomVal.setCellValue(customer.getQuotaType().equals("без пільг") ? "немає" : String.valueOf(customers.indexOf(customer)+1));
+        nomVal.setCellValue(customer.getQuotaType().equals("без пільг") ? "немає" : String.valueOf(customer.getPilgova()));
         nomVal.setCellStyle(style);
         sheet.addMergedRegion(new CellRangeAddress(20,20,2,3));
 

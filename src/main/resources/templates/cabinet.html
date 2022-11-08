@@ -55,8 +55,9 @@
                 </button>
             </div>
             <div class="row m-t-25">
-                <div class="col-sm-6 col-lg-3">
-                    <div class="overview-item overview-item--c1">
+                <div class="col-sm-6 col-xl-3">
+                    <a href="/findToday" style="display: inline">
+                    <div  class="overview-item overview-item--c1">
                         <div class="overview__inner">
                             <div class="overview-box clearfix">
                                 <div class="icon">
@@ -72,8 +73,9 @@
                             </div>
                         </div>
                     </div>
+                    </a>
                 </div>
-                <div class="col-sm-6 col-lg-3">
+                <div class="col-sm-6 col-xl-3">
                     <div class="overview-item overview-item--c2">
                         <div class="overview__inner">
                             <div class="overview-box clearfix">
@@ -91,7 +93,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-3">
+                <div class="col-sm-6 col-xl-3">
                     <div class="overview-item overview-item--c3">
                         <div class="overview__inner">
                             <div class="overview-box clearfix">
@@ -100,7 +102,7 @@
                                 </div>
                                 <div class="text">
                                     <h2 th:text="${oblastCount}"></h2>
-                                    <span>Записи по області</span>
+                                    <span>Обласні записи</span>
                                 </div>
                             </div>
                             <div class="overview-chart">
@@ -109,7 +111,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-3">
+                <div class="col-sm-6 col-xl-3">
                     <div class="overview-item overview-item--c4">
                         <div class="overview__inner">
                             <div class="overview-box clearfix">
@@ -128,115 +130,82 @@
                     </div>
                 </div>
             </div>
-<!--            <div class="row">-->
-<!--                <div class="col-lg-6">-->
-<!--                    <div class="au-card recent-report">-->
-<!--                        <div class="au-card-inner">-->
-<!--                            <h3 class="title-2  text-uncapitalize">Статистика заяв</h3>-->
-<!--                            <div class="chart-info">-->
-<!--                                <div class="chart-info__left">-->
-<!--                                    <div class="chart-note">-->
-<!--                                        <span class="dot dot&#45;&#45;blue"></span>-->
-<!--                                        <span>військові</span>-->
-<!--                                    </div>-->
-<!--                                    <div class="chart-note mr-0">-->
-<!--                                        <span class="dot dot&#45;&#45;green"></span>-->
-<!--                                        <span>цивільні</span>-->
-<!--                                    </div>-->
-<!--                                     <div class="chart-note mr-1">-->
-<!--                                        <span class="dot dot&#45;&#45;red"></span>-->
-<!--                                        <span>ліцеїсти</span>-->
-<!--                                    </div>-->
-<!--                                </div>-->
+                                    <div class="row">
+                                        <div class="col-lg-12 col-xl-6">
+                                            <div class="au-card recent-report">
+                                                <div class="au-card-inner">
+                                                    <h3 class="title-2  text-uncapitalize">Статистика пільг по гарнізонам (%)</h3>
+<!--                                                    <div class="chart-info">-->
+<!--                                                        <div class="chart-info__left">-->
+<!--                                                            <div class="chart-note">-->
+<!--                                                                <span class="dot dot&#45;&#45;blue"></span>-->
+<!--                                                                <span>військові</span>-->
+<!--                                                            </div>-->
+<!--                                                            <div class="chart-note mr-0">-->
+<!--                                                                <span class="dot dot&#45;&#45;green"></span>-->
+<!--                                                                <span>цивільні</span>-->
+<!--                                                            </div>-->
+<!--                                                             <div class="chart-note mr-1">-->
+<!--                                                                <span class="dot dot&#45;&#45;red"></span>-->
+<!--                                                                <span>ліцеїсти</span>-->
+<!--                                                            </div>-->
+<!--                                                        </div>-->
 
-<!--                            </div>-->
-<!--                            <div class="recent-report__chart">-->
-<!--                                <canvas id="recent-rep-chart"></canvas>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="col-lg-6">-->
-<!--                    <div class="au-card chart-percent-card">-->
-<!--                        <div class="au-card-inner">-->
-<!--                            <h3 class="title-2 tm-b-5 text-uncapitalize">Статистика вступникiв за навчальним закладом (%)</h3>-->
-<!--                            <div class="row no-gutters">-->
-<!--                                <div class="col-xl-6">-->
-<!--                                    <div class="chart-note-wrap">-->
-<!--                                        <div class="chart-note mr-0 d-block">-->
-<!--                                            <span class="dot dot&#45;&#45;blue"></span>-->
-<!--                                            <span id="count-all-miti"></span>-->
-<!--                                        </div>-->
-<!--                                        <div class="chart-note mr-0 d-block">-->
-<!--                                            <span class="dot dot&#45;&#45;red"></span>-->
-<!--                                            <span id="count-all-vkss"></span>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="col-xl-6">-->
-<!--                                    <div class="percent-chart">-->
-<!--                                        <canvas id="percent-chart"></canvas>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="row">-->
-<!--                <div class="col-lg-6">-->
-<!--                    <div class="au-card chart-percent-card">-->
-<!--                        <div class="au-card-inner">-->
-<!--                            <h3 class="title-2 tm-b-5 text-uncapitalize">Статистика вступникiв за статтю (ВІТІ,%)</h3>-->
-<!--                            <div class="row no-gutters">-->
-<!--                                <div class="col-xl-6">-->
-<!--                                    <div class="chart-note-wrap">-->
-<!--                                        <div class="chart-note mr-0 d-block">-->
-<!--                                            <span class="dot dot&#45;&#45;female"></span>-->
-<!--                                            <span id="count-female-miti" ></span>-->
-<!--                                        </div>-->
-<!--                                        <div class="chart-note mr-0 d-block">-->
-<!--                                            <span class="dot dot&#45;&#45;male"></span>-->
-<!--                                            <span id="count-male-miti" ></span>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="col-xl-6">-->
-<!--                                    <div class="percent-chart">-->
-<!--                                        <canvas id="percent-chart-gender-miti"></canvas>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="col-lg-6">-->
-<!--                    <div class="au-card chart-percent-card">-->
-<!--                        <div class="au-card-inner">-->
-<!--                            <h3 class="title-2 tm-b-5 text-uncapitalize">Статистика вступникiв за статтю (ВКСС,%)</h3>-->
-<!--                            <div class="row no-gutters">-->
-<!--                                <div class="col-xl-6">-->
-<!--                                    <div class="chart-note-wrap">-->
-<!--                                        <div class="chart-note mr-0 d-block">-->
-<!--                                            <span class="dot dot&#45;&#45;female"></span>-->
-<!--                                            <span id="count-female-vkss" ></span>-->
-<!--                                        </div>-->
-<!--                                        <div class="chart-note mr-0 d-block">-->
-<!--                                            <span class="dot dot&#45;&#45;male"></span>-->
-<!--                                            <span id="count-male-vkss" ></span>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="col-xl-6">-->
-<!--                                    <div class="percent-chart">-->
-<!--                                        <canvas id="percent-chart-gender-vkss"></canvas>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
+<!--                                                    </div>-->
+                                                    <div class="recent-report__chart">
+                                                        <canvas id="barChart"></canvas>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-xl-6">
+                                            <div class="au-card chart-percent-card">
+                                                <div class="au-card-inner">
+                                                    <h3 class="title-2 tm-b-5 text-uncapitalize">Статистика заяв за гарнізоном (%)</h3>
+                                                    <div class="row no-gutters">
+                                                        <div class="col-xl-6">
+                                                            <div class="chart-note-wrap">
+                                                                <div class="chart-note mr-0 d-block">
+                                                                    <span class="dot dot--blue"></span>
+                                                                    <span id="count-all-kyiv"></span>
+                                                                </div>
+                                                                <div class="chart-note mr-0 d-block">
+                                                                    <span class="dot dot--red"></span>
+                                                                    <span id="count-all-brov"></span>
+                                                                </div>
+                                                                <div class="chart-note mr-0 d-block">
+                                                                    <span class="dot dot--green"></span>
+                                                                    <span id="count-all-semi"></span>
+                                                                </div>
+                                                                <div class="chart-note mr-0 d-block">
+                                                                    <span class="dot dot--purple"></span>
+                                                                    <span id="count-all-vasi"></span>
+                                                                </div>
+                                                                <div class="chart-note mr-0 d-block">
+                                                                    <span class="dot dot--male"></span>
+                                                                    <span id="count-all-gost"></span>
+                                                                </div>
+                                                                <div class="chart-note mr-0 d-block">
+                                                                    <span class="dot dot--female"></span>
+                                                                    <span id="count-all-pere"></span>
+                                                                </div>
+                                                                <div class="chart-note mr-0 d-block">
+                                                                    <span class="dot dot--yellow"></span>
+                                                                    <span id="count-all-bori"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-6">
+                                                            <div class="percent-chart">
+                                                                <canvas id="percent-chart"></canvas>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="copyright">
@@ -248,7 +217,7 @@
                                 if (theYear < 1900)
                                     theYear = theYear + 1900;
                                 document.write(theYear)
-                            </script>. All rights reserved to Oleksandr Sachuk</p>
+                            </script>. Powered by Sachuk</p>
                     </div>
                 </div>
             </div>
