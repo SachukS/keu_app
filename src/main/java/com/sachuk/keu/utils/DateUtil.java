@@ -8,9 +8,9 @@ import java.util.Date;
 
 public class DateUtil {
 
-    public static final Logger log =  Logger.getLogger(DateUtil.class);
+    public static final Logger log = Logger.getLogger(DateUtil.class);
 
-    public static Date formatDate(String date, String datePattern){
+    public static Date formatDate(String date, String datePattern) {
         log.debug("Before formated date: " + date);
 
         Date resultDate = new Date();

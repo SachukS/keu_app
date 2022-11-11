@@ -14,8 +14,9 @@ public enum Permission {
     public String getName() {
         return name;
     }
-    public static Permission getByValue(String mean){
-        return Arrays.stream(Permission.values()).filter(f->f.getName().equals(mean)).findAny().orElse(null);
+
+    public static Permission getByValue(String mean) {
+        return Arrays.stream(Permission.values()).filter(f -> f.getName().equals(mean)).findAny().orElse(null);
     }
 
 }

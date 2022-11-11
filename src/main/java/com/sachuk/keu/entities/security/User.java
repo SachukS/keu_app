@@ -6,7 +6,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -54,11 +53,13 @@ public class User implements Serializable {
             return null;
         return Date.from(createDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
+
     public Date getUpdateDateTime() {
         if (updateDateTime == null)
             return null;
         return Date.from(updateDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
+
     public String getFormatCreateDateTime() {
         if (getCreateDateTime() != null) {
             return DateUtil.formatDateToString(getCreateDateTime(), "HH:mm dd.MM.yyyy");

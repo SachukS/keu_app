@@ -1,22 +1,16 @@
 package com.sachuk.keu.services.rating;
 
 import com.sachuk.keu.entities.Customer;
-import com.sachuk.keu.rating.GarrisonGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.function.Predicate;
 
 @Service
 public class RatingXlsCreateService {
-    private String specList;
     private static final String ALL = "ALL";
-    @Autowired
-    private RatingGenerator ratingGenerator;
+
     @Autowired
     private RatingXLSCreator xlsCreator;
     private boolean isAll = true;
@@ -24,10 +18,6 @@ public class RatingXlsCreateService {
     public void createXls(String fileName, List<Customer> customers, Customer customer) {
         create(fileName, customers, customer);
     }
-
-//    public void createXls(OutputStream stream) {
-//        create(stream);
-//    }
 
     private void create(Object input, List<Customer> customers, Customer customer) {
         xlsCreator.renew();
@@ -43,7 +33,7 @@ public class RatingXlsCreateService {
             System.out.println(fileName);
             if (fileName != null)
                 xlsCreator.setFileName(fileName);
-                xlsCreator.writeXls(customers, ALL, customer);
+            xlsCreator.writeXls(customers, ALL, customer);
 
             if (stream != null)
                 xlsCreator.close(stream);
@@ -65,28 +55,4 @@ public class RatingXlsCreateService {
         this.isAll = isAll;
     }
 
-//    public void filterBase(boolean isBase) {
-//        ratingGenerator.setFilterBase(isBase);
-//    }
-//
-//    public void filterCollege(boolean isCollege) {
-//        ratingGenerator.setFilterCollege(isCollege);
-//    }
-//
-//    public void filterExtramural(boolean isExtramural) {
-//        ratingGenerator.setFilterExtramural(isExtramural);
-//    }
-
-    public String getSpecList() {
-        return specList;
-    }
-
-    public void setSpecList(String specList) {
-        this.specList = specList;
-    }
-
-//    public void filterChecked(boolean isChecked) {
-//        ratingGenerator.checkedFilter(isChecked);
-//    }
-
-}
+ }

@@ -1,6 +1,5 @@
 package com.sachuk.keu.configurations;
 
-import com.sachuk.keu.database.service.UserService;
 import com.sachuk.keu.services.security.UserDetailServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,13 +9,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
-    public UserDetailServiceImpl userDetailService(){ return new UserDetailServiceImpl(); }
+    public UserDetailServiceImpl userDetailService() {
+        return new UserDetailServiceImpl();
+    }
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

@@ -15,6 +15,7 @@ public enum Verification {
     public String getName() {
         return name;
     }
+
     public static Verification getByValue(String mean) {
 
 

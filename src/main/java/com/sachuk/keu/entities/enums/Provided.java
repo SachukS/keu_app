@@ -14,6 +14,7 @@ public enum Provided {
     public String getName() {
         return name;
     }
+
     public static Provided getByValue(String mean) {
         return Arrays.stream(Provided.values()).filter(f -> f.getName().equals(mean)).findAny().orElse(null);
     }

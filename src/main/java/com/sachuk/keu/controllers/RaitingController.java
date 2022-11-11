@@ -15,8 +15,6 @@ import com.sachuk.keu.entities.security.User;
 import com.sachuk.keu.services.rating.RatingXLSWeb;
 import com.sachuk.keu.services.rating.RatingXlsCreateService;
 import lombok.AllArgsConstructor;
-
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,13 +23,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
-import java.awt.print.*;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -48,11 +42,11 @@ public class RaitingController {
     public WorkService workService;
     public CustomerService customerService;
 
-    public static List<String> garrisons = Arrays.asList("м.Київ","Бориспiль","Семиполки","Переяславський","Бровари","Гостомель","Василькiв");
+    public static List<String> garrisons = Arrays.asList("м.Київ", "Бориспiль", "Семиполки", "Переяславський", "Бровари", "Гостомель", "Василькiв");
 
     @ModelAttribute("quotas")
     @Transactional
-    public List<Quota> getQuota(){
+    public List<Quota> getQuota() {
         return quotaService.findAll().stream()
                 .sorted(Comparator.comparing(Quota::getNameQuota)).collect(Collectors.toList());
     }
@@ -114,6 +108,7 @@ public class RaitingController {
         return workService.findAll().stream().filter(w -> w.getGarrison().equals(garr))
                 .sorted(Comparator.comparing(Work::getWorkPlace)).map(Work::getAccountingPlace).distinct().collect(Collectors.toList());
     }
+
     private static List<Customer> staticCustomers = new ArrayList<>();
 
     @PostMapping("/getRating/{garrison}")
@@ -128,12 +123,12 @@ public class RaitingController {
         staticCustomers = RatingXLSWeb.getCustomers(garrison, customer);
 
         model.addAttribute("customer", customer);
-        model.addAttribute("workPlaces", getAllWorkPlaces(garrison.substring(0,4)));
-        model.addAttribute("accountings", getAllAccountings(garrison.substring(0,4)));
+        model.addAttribute("workPlaces", getAllWorkPlaces(garrison.substring(0, 4)));
+        model.addAttribute("accountings", getAllAccountings(garrison.substring(0, 4)));
         model.addAttribute("user", user);
         model.addAttribute("sort", garrison.substring(4));
         model.addAttribute("search", false);
-        model.addAttribute("garrison", garrison.substring(0,4));
+        model.addAttribute("garrison", garrison.substring(0, 4));
         model.addAttribute("customers", staticCustomers);
         return "rating";
     }
@@ -141,10 +136,10 @@ public class RaitingController {
 
     @PostMapping("/getRating/{garrison}/print")
     public void printToFile(@PathVariable String garrison,
-                              @ModelAttribute("query") SearchQuery query,
-                              @ModelAttribute("customer") Customer customer,
-                              HttpServletResponse response,
-                              Model model) {
+                            @ModelAttribute("query") SearchQuery query,
+                            @ModelAttribute("customer") Customer customer,
+                            HttpServletResponse response,
+                            Model model) {
         System.out.println(customer);
         ratingXlsCreateService.createXls(System.getProperty("user.home") + File.separator + garrison + ".xls", staticCustomers, customer);
 
@@ -166,32 +161,32 @@ public class RaitingController {
         List<Customer> customersPoza;
 
         Customer customer = new Customer();
-        for (String gar:garrisons) {
+        for (String gar : garrisons) {
             customers = customerService.findByGarrison(gar);
-            customers = customers.stream().filter(c->c.getRegistrated().equals(Registrated.YES)).sorted(Comparator.comparing(Customer::getAccountingDate)).collect(Collectors.toList());
-            for (int i = 0; i<customers.size(); i++) {
-                customers.get(i).setZagalna(String.valueOf(i+1));
+            customers = customers.stream().filter(c -> c.getRegistrated().equals(Registrated.YES)).sorted(Comparator.comparing(Customer::getAccountingDate)).collect(Collectors.toList());
+            for (int i = 0; i < customers.size(); i++) {
+                customers.get(i).setZagalna(String.valueOf(i + 1));
             }
             customerService.saveAll(customers);
             customersPersho = new ArrayList<>(customers);
 
             customersPoza = customers.stream()
-                    .filter(c->c.getQuotaType().equals("позачерговий"))
+                    .filter(c -> c.getQuotaType().equals("позачерговий"))
                     .sorted(Comparator.comparing(Customer::getQuotaDate)
                             .thenComparing(c -> c.getAccountingDate()))
                     .collect(Collectors.toList());
-            for (int i = 0; i<customersPoza.size(); i++) {
-                customersPoza.get(i).setPilgova(String.valueOf(i+1));
+            for (int i = 0; i < customersPoza.size(); i++) {
+                customersPoza.get(i).setPilgova(String.valueOf(i + 1));
             }
             customerService.saveAll(customersPoza);
 
             customersPersho = customersPersho.stream()
-                    .filter(c->c.getQuotaType().equals("першочерговий") || (c.getQuotaType2() != null && c.getQuotaType2().equals("першочерговий")))
+                    .filter(c -> c.getQuotaType().equals("першочерговий") || (c.getQuotaType2() != null && c.getQuotaType2().equals("першочерговий")))
                     .sorted(Comparator.comparing(Customer::getQuotaDate)
-                            .thenComparing(c -> c.getQuotaDate2()!=null ? c.getQuotaDate2() : c.getAccountingDate()))
+                            .thenComparing(c -> c.getQuotaDate2() != null ? c.getQuotaDate2() : c.getAccountingDate()))
                     .collect(Collectors.toList());
-            for (int i = 0; i<customersPersho.size(); i++) {
-                customersPersho.get(i).setPilgova(String.valueOf(i+1));
+            for (int i = 0; i < customersPersho.size(); i++) {
+                customersPersho.get(i).setPilgova(String.valueOf(i + 1));
             }
             customerService.saveAll(customersPersho);
         }
@@ -213,8 +208,8 @@ public class RaitingController {
         User user = databaseUserService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
         Customer customer = new Customer();
-        customer.setWork(new Work("Всі","Всі", ""));
-        customer.setQuota(new Quota("Всі","Всі", QuotaType.NONE));
+        customer.setWork(new Work("Всі", "Всі", ""));
+        customer.setQuota(new Quota("Всі", "Всі", QuotaType.NONE));
         customer.setRoomCount(0);
         customer.setFamilyCount(0);
         customer.setRegistrated(Registrated.YES);
@@ -228,7 +223,7 @@ public class RaitingController {
         model.addAttribute("workPlaces", getAllWorkPlaces(garrison));
         model.addAttribute("accountings", getAllAccountings(garrison));
         model.addAttribute("user", user);
-        model.addAttribute("sort",   "ZAGALNA");
+        model.addAttribute("sort", "ZAGALNA");
         model.addAttribute("garrison", garrison);
         model.addAttribute("search", false);
         model.addAttribute("customers", staticCustomers);

@@ -14,6 +14,7 @@ public enum Rozshirennya {
     public String getName() {
         return name;
     }
+
     public static Rozshirennya getByValue(String mean) {
         return Arrays.stream(Rozshirennya.values()).filter(f -> f.getName().equals(mean)).findAny().orElse(null);
     }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+>
 <meta charset="UTF-8">
 <title>Рейтинг</title>
 <head>
@@ -30,28 +30,35 @@
 
 <body id="dynamicContent">
 <div th:replace="fragments/skeleton :: navbar(${user}, ${query})"></div>
-<div class="main-content"  >
+<div class="main-content">
     <form class="col-md-12" th:object="${customer}" th:action="'/getRating/'+${garrison}+'ZAGALNA'" method="post">
-        <h2 class="title-1 text-center m-b-15 rating-title" th:text="'Черга гарнізону '+${customers.get(0).work.garrison}+'      '+${customers.size()}+' осіб'"></h2>
+        <h2 class="title-1 text-center m-b-15 rating-title"
+            th:text="'Черга гарнізону '+${customers.get(0).work.garrison}+'      '+${customers.size()}+' осіб'"></h2>
         <div class="text-center m-b-15">
-            <button type="submit" class="btn" th:classappend="${sort.equals('ZAGALNA')}?'btn-success':'btn-dark'"     >Загальна черга</button>
-            <button type="submit" class="btn" th:classappend="${sort.equals('POZA')}?'btn-success':'btn-dark'"      th:formaction="'/getRating/'+${garrison}+'POZA'">Позачергова</button>
-            <button type="submit" class="btn" th:classappend="${sort.equals('PERSHO')}?'btn-success':'btn-dark'"     th:formaction="'/getRating/'+${garrison}+'PERSHO'">Першочергова</button>
-            <button type="submit" class="btn" th:classappend="${sort.equals('ATO')}?'btn-success':'btn-dark'"      th:formaction="'/getRating/'+${garrison}+'ATO'">Інв./АТО/ООС</button>
+            <button type="submit" class="btn" th:classappend="${sort.equals('ZAGALNA')}?'btn-success':'btn-dark'">
+                Загальна черга
+            </button>
+            <button type="submit" class="btn" th:classappend="${sort.equals('POZA')}?'btn-success':'btn-dark'"
+                    th:formaction="'/getRating/'+${garrison}+'POZA'">Позачергова
+            </button>
+            <button type="submit" class="btn" th:classappend="${sort.equals('PERSHO')}?'btn-success':'btn-dark'"
+                    th:formaction="'/getRating/'+${garrison}+'PERSHO'">Першочергова
+            </button>
+            <button type="submit" class="btn" th:classappend="${sort.equals('ATO')}?'btn-success':'btn-dark'"
+                    th:formaction="'/getRating/'+${garrison}+'ATO'">Інв./АТО/ООС
+            </button>
 
-
-<!--            <a type="button" class="btn" th:classappend="${sort.equals('ІСТ')}?'btn-success':'btn-dark'" role="button"    th:href="'/getRating/'+${garrison}+'ІСТ'">ІСТ</a>-->
-<!--            <a type="button" class="btn" th:classappend="${sort.equals('ВУ')}?'btn-success':'btn-dark'" role="button"     th:href="'/getRating/'+${garrison}+'ВУ'">ВУ</a>-->
-<!--            <a type="button" class="btn" th:classappend="${sort.equals('ОВТ')}?'btn-success':'btn-dark'" role="button"    th:href="'/getRating/'+${garrison}+'ОВТ'">ОВТ</a>-->
-            <button type="submit" class="btn" th:classappend="'btn-dark'" style="float: right"  th:formaction="'/getRating/'+${garrison}+${sort}+'/print'">ДРУК</button>
-<!--            th:href="'/getRating/'+${garrison}+${sort}+'/print'"-->
+            <button type="submit" class="btn" th:classappend="'btn-dark'" style="float: right"
+                    th:formaction="'/getRating/'+${garrison}+${sort}+'/print'">ДРУК
+            </button>
+            <!--            th:href="'/getRating/'+${garrison}+${sort}+'/print'"-->
         </div>
         <div class="text-center m-b-15">
             <div style="display: inline-block">
                 <label class=" form-control-label"><h4>Організація</h4></label>
                 <select class="form-control select" style="max-width: 200px" th:field="*{work.workPlace}">
                     <option th:each="var : ${workPlaces}"
-                            th:value="${var}" th:text="${var}" ></option>
+                            th:value="${var}" th:text="${var}"></option>
                 </select>
             </div>
             <div style="display: inline-block">
@@ -123,7 +130,7 @@
                 <tr>
                     <th>Ред</th>
                     <th>№</th>
-<!--                    <th>Заг.черга.</th>-->
+                    <!--                    <th>Заг.черга.</th>-->
                     <th>Військ. звання</th> <!--sec:authorize="hasAnyAuthority('OPERATOR')"-->
                     <th>Прізвище, ініціали</th>
                     <th>Дата кв/обліку</th>
@@ -144,7 +151,7 @@
                         </a>
                     </td>
                     <td th:utext="${iter.index+1}" class="table-danger"></td>
-<!--                    <td th:utext="${customers.indexOf(item)+1}"></td>-->
+                    <!--                    <td th:utext="${customers.indexOf(item)+1}"></td>-->
                     <td th:utext="${item.getRank().getShortNameRank()}"></td>
                     <td th:utext="${item.getSurname()+' '+item.getName().charAt(0)+'.'+item.getThirdName().charAt(0)+'.'}"></td>
                     <td th:utext="${item.getFormatAccounting()}"></td>
@@ -155,8 +162,6 @@
                     <td th:utext="${item.getWork().getAccountingPlace()}"></td>
                     <td th:utext="${item.getWork().getWorkPlace()}"></td>
                     <td th:utext="${item.getExperience()}"></td>
-<!--                    <td th:text="'Рекомендован'+((${item.isWomen()})?'а':'ий')+${item.isSuccess() ? ' до зарахування' : ' до вступу'}"></td>-->
-                    <!--<td th:text="${item.isSuccess()}?'Поступил': 'Не поступил'"></td>-->
                 </tr>
                 </tbody>
             </table>
@@ -174,7 +179,9 @@
                         if (theYear < 1900)
                             theYear = theYear + 1900;
                         document.write(theYear)
-                    </script>. Powered by Sachuk</p>
+                    </script>
+                    . Powered by Sachuk
+                </p>
             </div>
         </div>
     </div>

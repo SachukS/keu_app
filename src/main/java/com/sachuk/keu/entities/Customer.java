@@ -6,22 +6,19 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
-public class  Customer implements Serializable {
+public class Customer implements Serializable {
 
     private static final long serialVersionUID = 1727059679068137102L;
     @Id
@@ -40,11 +37,11 @@ public class  Customer implements Serializable {
     private Date accountingDate;
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Quota.class)
     @JoinColumn(name = "quota_id")
-    private Quota quota = new Quota("Без пільг","Без пільг", QuotaType.NONE);
+    private Quota quota = new Quota("Без пільг", "Без пільг", QuotaType.NONE);
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Quota.class)
     @JoinColumn(name = "quota_id2")
-    private Quota quota2 = new Quota("Без пільг","Без пільг", QuotaType.NONE);
+    private Quota quota2 = new Quota("Без пільг", "Без пільг", QuotaType.NONE);
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date quotaDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -83,12 +80,12 @@ public class  Customer implements Serializable {
     @ColumnDefault("0")
     private String pilgova;
 
-    public int getExpInt(){
+    public int getExpInt() {
         return Integer.parseInt(getExperience());
     }
 
     public String getFormatAccounting() {
-        if (this.getAccountingDate()!=null)
+        if (this.getAccountingDate() != null)
             return DateUtil.formatDateToString(this.getAccountingDate(), "dd.MM.yyyy");
         return null;
     }
@@ -98,13 +95,15 @@ public class  Customer implements Serializable {
             return null;
         return Date.from(updateDate.atZone(ZoneId.systemDefault()).toInstant());
     }
+
     public String getFormatQuota() {
-        if (this.getQuotaDate()!=null)
+        if (this.getQuotaDate() != null)
             return DateUtil.formatDateToString(this.getQuotaDate(), "dd.MM.yyyy");
         return null;
     }
+
     public String getFormatQuota2() {
-        if (this.getQuotaDate()!=null)
+        if (this.getQuotaDate() != null)
             return DateUtil.formatDateToString(this.getQuotaDate2(), "dd.MM.yyyy");
         return null;
     }

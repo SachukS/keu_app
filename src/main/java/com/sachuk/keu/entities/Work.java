@@ -10,8 +10,8 @@ import java.util.Objects;
 @Entity(name = "Work")
 @Table(name = "Work")
 @NamedQueries({
-        @NamedQuery(name= Work.findByWorkPlace, query="from Work i where i.workPlace=:name"),
-        @NamedQuery(name= Work.findByAccountingPlace, query="from Work i where i.accountingPlace=:name"),
+        @NamedQuery(name = Work.findByWorkPlace, query = "from Work i where i.workPlace=:name"),
+        @NamedQuery(name = Work.findByAccountingPlace, query = "from Work i where i.accountingPlace=:name"),
         @NamedQuery(name = Work.findByGarrison, query = "from Work i where i.garrison=:name")
 })
 @Getter
@@ -28,7 +28,7 @@ public class Work implements Serializable {
     private long id;
     @Column(length = 25)
     private String workPlace;
-    @Column(length=25)
+    @Column(length = 25)
     private String accountingPlace;
     @Column(length = 25)
     private String garrison;
@@ -42,12 +42,15 @@ public class Work implements Serializable {
         this.garrison = garrison;
         //this.privileges = privileges;
     }
+
     public Work(String workPlace, String accountingPlace) {
         this.workPlace = workPlace;
         this.accountingPlace = accountingPlace;
         //this.privileges = privileges;
     }
-    public Work(){}
+
+    public Work() {
+    }
 
     @Override
     public boolean equals(Object o) {

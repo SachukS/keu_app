@@ -14,6 +14,7 @@ public enum FamilyWar2022 {
     public String getName() {
         return name;
     }
+
     public static FamilyWar2022 getByValue(String mean) {
         return Arrays.stream(FamilyWar2022.values()).filter(f -> f.getName().equals(mean)).findAny().orElse(null);
     }

@@ -26,59 +26,32 @@
     <!-- Main CSS-->
     <link th:href="@{../css/theme.css}" rel="stylesheet" media="all">
 
-    <!-- Fontfaces CSS-->
-    <script type="text/javascript">
-        function makeTableScroll() {
-            // Constant retrieved from server-side via JSP
-            var maxRows = 5;
-
-            var table = document.getElementById('abiturientsTable');
-            if (table !== null) {
-                var wrapper = table.parentNode;
-                var rowsInTable = table.rows.length;
-                var height = 0;
-                if (rowsInTable > maxRows) {
-                    for (var i = 0; i < maxRows; i++) {
-                        height += table.rows[i].clientHeight;
-                    }
-                    wrapper.style.height = height + "px";
-                }
-            }
-        }
-
-    </script>
 </head>
 
-<body onload="makeTableScroll();">
+<body>
 <div th:replace="fragments/skeleton :: navbar(${user}, ${query})"></div>
 <!-- END BREADCRUMB-->
 <div class="main-content">
     <div class="section__content section__content--p30">
         <div class="container-fluid">
-
-
             <form th:object="${customer}" th:action="@{/input}" method="post" class="form-horizontal" id="editForm">
                 <div class="row">
-
-                    <div class="card   col-lg-6">
+                    <div class="card col-lg-6">
                         <div class="card-header">
                             <strong>Основні дані про особу</strong>
                         </div>
-
                         <div class="card-body card-block">
                             <input th:field="*{id}" th:value="${customer.id}" hidden/>
                             <input th:field="*{zagalna}" th:value="${customer.zagalna}" hidden/>
                             <input th:field="*{pilgova}" th:value="${customer.pilgova}" hidden/>
-
-
-
                             <div class="col-12 col-md-9">
-                                <h4><label class=" form-control-label" th:text="'Номер в загальній черзі:   '+${customer.zagalna}"></label></h4>
+                                <h4><label class=" form-control-label"
+                                           th:text="'Номер в загальній черзі:   '+${customer.zagalna}"></label></h4>
                             </div>
                             <div class="col-12 col-md-9">
-                                <h4><label class=" form-control-label" th:text="'Номер в пільговій черзі:   '+${customer.pilgova}"></label></h4>
+                                <h4><label class=" form-control-label"
+                                           th:text="'Номер в пільговій черзі:   '+${customer.pilgova}"></label></h4>
                             </div>
-
                             <div class="row form-group">
                                 <div class="col-12 col-md-9">
                                     <label for="text-input" class=" form-control-label"><h4>Прізвище</h4>
@@ -106,10 +79,6 @@
                                 <div class="col-12 col-md-9">
                                     <label for="text-input" class=" form-control-label"><h4>Військове
                                         звання</h4></label>
-<!--                                    <select class="form-control select" th:field="*{rank}">-->
-<!--                                        <option th:each="var : ${ranks}"-->
-<!--                                                th:value="${var.id}" th:text="${var.getNameRank()}"></option>-->
-<!--                                    </select>-->
                                     <input type="text" th:field="*{rank.nameRank}"
                                            list="r"
                                            name="text-input"
@@ -118,33 +87,9 @@
                                         <option th:each="var : ${ranks}"
                                                 th:value="${var.getNameRank()}">
                                     </datalist>
-<!--                                    <script>-->
-<!--                                        document.querySelector('input[list]').addEventListener('input', function(e) {-->
-<!--                                            var input = e.target,-->
-<!--                                                list = input.getAttribute('list'),-->
-<!--                                                options = document.querySelectorAll('#' + list + ' option'),-->
-<!--                                                hiddenInput = document.getElementById(input.getAttribute('id') + '-hidden'),-->
-<!--                                                inputValue = input.value;-->
-
-<!--                                            hiddenInput.value = inputValue;-->
-
-<!--                                            for(var i = 0; i < options.length; i++) {-->
-<!--                                                var option = options[i];-->
-
-<!--                                                if(option.innerText === inputValue) {-->
-<!--                                                    hiddenInput.value = option.getAttribute('data-value');-->
-<!--                                                    break;-->
-<!--                                                }-->
-<!--                                            }-->
-<!--                                        });-->
-<!--                                    </script>-->
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <label for="text-input" class=" form-control-label"><h4>Місце служби</h4></label>
-<!--                                    <select class="form-control select" th:field="*{work}">-->
-<!--                                        <option th:each="var : ${works}"-->
-<!--                                                th:value="${var.id}" th:text="${var.getWorkPlace()}"></option>-->
-<!--                                    </select>-->
                                     <input type="text" th:field="*{work.workPlace}"
                                            list="w"
                                            name="text-input"
@@ -155,8 +100,8 @@
                                     </datalist>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                <label class="form-control-label"><h4>Номер телефону</h4></label>
-<!--                                <div class="form-group">-->
+                                    <label class="form-control-label"><h4>Номер телефону</h4></label>
+                                    <!--                                <div class="form-group">-->
                                     <div class="input-group">
                                         <div class="input-group-addon">+38</div>
                                         <input type="tel" th:field="*{phoneNumber}"
@@ -176,24 +121,20 @@
                                            name="date-input" id="acc"
                                            placeholder="Дата постановки" class="form-control date">
                                 </div>
-
-    <!--                            </div>-->
-
                                 <div class="col-12 col-md-9">
-                                    <label for="text-input" class=" form-control-label"><h4>Кількість членів сім'ї</h4></label>
+                                    <label for="text-input" class=" form-control-label"><h4>Кількість членів сім'ї</h4>
+                                    </label>
                                     <input type="number" th:field="*{familyCount}"
                                            th:value="${customer?.familyCount}" name="text-input"
                                            placeholder="Кількість членів сім'ї" class="form-control">
                                 </div>
-
-
                                 <div class="col-12 col-md-9">
-                                    <label for="text-input" class=" form-control-label"><h4>Кількість кімнат</h4></label>
+                                    <label for="text-input" class=" form-control-label"><h4>Кількість кімнат</h4>
+                                    </label>
                                     <input type="number" th:field="*{roomCount}"
                                            th:value="${customer?.roomCount}" name="text-input"
                                            placeholder="Кількість кімнат" class="form-control">
                                 </div>
-
                             </div>
                             <div class="col-12 col-md-9">
                                 <p class="form-control-static"><h4>Потребує доотримання житла?</h4></p>
@@ -215,25 +156,23 @@
                                 articles2 = document.getElementById('rozshirennya1');
 
                                 articles.addEventListener('click', showMil, false);
+
                                 function showMil(ev) {
                                     document.getElementById('addressText').setAttribute('class', 'row form-group');
                                 }
 
                                 articles2.addEventListener('click', showMil2, false);
+
                                 function showMil2(ev) {
                                     document.getElementById('addressText').setAttribute('class', 'row form-group d-none');
                                 }
-
-                                // function showMil(ev) {
-                                //     document.getElementById('militaryUnitText').setAttribute('class', 'row form-group');
-                                // }
-                                // document.getElementById('militaryUnitText').setAttribute('class', 'row form-group');
 
                             </script>
                             <div id="addressText" class="row form-group"
                                  th:classappend="${#strings.equals(customer.address, null)}?'d-none':''">
                                 <div class="col-12 col-md-9">
-                                    <label for="text-input" class=" form-control-label"><h4>Адреса проживання</h4></label>
+                                    <label for="text-input" class=" form-control-label"><h4>Адреса проживання</h4>
+                                    </label>
                                     <input type="text" th:field="*{address}"
                                            th:value="${customer?.address}" name="text-input-null"
                                            placeholder="Введіть адресу" class="form-control">
@@ -281,7 +220,8 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-12 col-md-9">
-                                        <label for="text-input" class=" form-control-label"><h4>Пільга 2(за наявності)</h4></label>
+                                        <label for="text-input" class=" form-control-label"><h4>Пільга 2(за
+                                            наявності)</h4></label>
                                         <select class="form-control select" th:field="*{quota2}">
                                             <option id="qu2" th:each="var : ${quotas}"
                                                     th:value="${var.id}" th:text="${var.nameQuota}"></option>
@@ -298,7 +238,8 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col-12 col-md-9 co">
-                                        <p class="form-control-static"><h4>Сім'я в/сл. загиблого з часу широкомасштабного вторгнення рф?</h4></p>
+                                        <p class="form-control-static"><h4>Сім'я в/сл. загиблого з часу
+                                        широкомасштабного вторгнення рф?</h4></p>
                                         <div class="form-check">
                                             <div class="radio"
                                                  th:each="ty : ${T(com.sachuk.keu.entities.enums.FamilyWar2022).values()}">
@@ -332,11 +273,13 @@
                                         articles2 = document.getElementById('registrated1');
 
                                         articles.addEventListener('click', showMil, false);
+
                                         function showMil(ev) {
                                             document.getElementById('flatText').setAttribute('class', 'row form-group');
                                         }
 
                                         articles2.addEventListener('click', showMil2, false);
+
                                         function showMil2(ev) {
                                             document.getElementById('flatText').setAttribute('class', 'row form-group d-none');
                                         }
@@ -365,7 +308,8 @@
                                 <div id="flatText" class="row form-group"
                                      th:classappend="${#strings.equals(customer.flatFileNumber, null)||#strings.equals(customer.flatFileNumber, '')}?'d-none':''">
                                     <div class="col-12 col-md-9">
-                                        <label for="text-input" class=" form-control-label"><h4>Квартирна справа №</h4></label>
+                                        <label for="text-input" class=" form-control-label"><h4>Квартирна справа №</h4>
+                                        </label>
                                         <input type="text" th:field="*{flatFileNumber}"
                                                th:value="${customer?.flatFileNumber}" name="text-input-null"
                                                placeholder="Введіть номер" class="form-control">
@@ -393,408 +337,8 @@
                                                 </textarea>
                                     </div>
                                 </div>
-<!--                                <div class="col-12 col-md-9">-->
-<!--                                    <label for="text-input" class=" form-control-label"><h4>Номер та серія</h4></label>-->
-<!--                                    <input type="text" hidden th:field="*{certificate.id}"-->
-<!--                                           th:value="${enrollee?.certificate?.id}" name="text-input"-->
-<!--                                           placeholder="Номер та серія атестату" class="form-control">-->
-<!--                                    <input type="text" th:field="*{certificate.seriesNumberCertificate}"-->
-<!--                                           th:value="${enrollee.certificate?.seriesNumberCertificate}" name="text-input"-->
-<!--                                           placeholder="Номер та серія атестату" class="form-control">-->
-<!--                                </div>-->
-<!--                                <div class="col-12 col-md-9">-->
-<!--                                    <label class=" form-control-label"><h4>Середній бал (12-бальна шкала, 5-бальна - для-->
-<!--                                        Курсів лідерства)</h4></label>-->
-<!--                                    <input id="average12" type="number" step="0.1"-->
-<!--                                           th:field="*{certificate.average12}"-->
-<!--                                           th:value="${enrollee?.certificate?.average12}"-->
-<!--                                           placeholder="Середній бал (12-бальна шкала)" class="form-control">-->
-<!--                                    <input id="average200" style="display: none" type="number" step="0.1"-->
-<!--                                           th:field="*{certificate.average200}"-->
-<!--                                           th:value="${enrollee?.certificate?.average200}"-->
-<!--                                           class="form-control">-->
-<!--                                </div>-->
-<!--                                <script type="text/javascript">-->
-<!--                                    document.getElementById("average12").onchange = function () {-->
-<!--                                        Array.from(document.getElementsByClassName("someClassname")).forEach(-->
-<!--                                            elem => {-->
-<!--                                                var average12 = document.getElementById("average12").value;-->
-<!--                                                if (elem.checked)-->
-<!--                                                    if (elem.value === "LEADERSHIP") {-->
-<!--                                                        if (average12 <= 1)-->
-<!--                                                            document.getElementById("average200").setAttribute("value", 20);-->
-<!--                                                        else-->
-<!--                                                            document.getElementById("average200").setAttribute("value", average12 * 20);-->
-<!--                                                    } else {-->
-<!--                                                        if (average12 <= 2)-->
-<!--                                                            document.getElementById("average200").setAttribute("value", 100);-->
-<!--                                                        else-->
-<!--                                                            document.getElementById("average200").setAttribute("value", (average12 - 2) * 10 + 100)-->
-
-<!--                                                    }-->
-
-<!--                                            }-->
-<!--                                        )-->
-<!--                                        // if (document.getElementById("forward") != null)-->
-<!--                                        //     if-->
-<!--                                        //     document.getElementById("average12").setAttribute("value", )-->
-<!--                                    }-->
-<!--                                </script>-->
-<!--                                <div class="col-12 col-md-9">-->
-<!--                                    <label class=" form-control-label"><h4>Дата видачі</h4></label>-->
-<!--                                    <input type="date" th:field="*{certificate.issueDateCertificate}"-->
-<!--                                           th:value="${enrollee.certificate?.issueDateCertificate}"-->
-<!--                                           name="date-input"-->
-<!--                                           placeholder="Дата видачі" class="form-control date">-->
-<!--                                </div>-->
-<!--                                <div class="col-12 col-md-9">-->
-<!--                                    <label class=" form-control-label"><h4>Навчальний заклад</h4></label>-->
-<!--                                    <input type="text" th:field="*{eduInstitution}"-->
-<!--                                           th:value="${enrollee?.eduInstitution}"-->
-<!--                                           placeholder="Навчальний заклад" class="form-control">-->
-<!--                                    <div class="form-check">-->
-<!--                                        <label class="form-check-label" for="lyceumCheck">-->
-<!--                                            <input id="lyceumCheck" type="checkbox" th:field="*{licey}"-->
-<!--                                                   th:value="${T(viti.kaf22.entities.enums.Lyceum).LYCEUM}"-->
-<!--                                                   class="form-check-input"> Ліцей-->
-<!--                                        </label>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-
-
-
-
                             </div>
-
-<!--                            <div class="row form-group">-->
-<!--                                <div class="col-12 col-md-9">-->
-<!--                                    <label for="text-input" class="form-control-label"><h4>Пільги</h4></label>-->
-
-<!--                                    <button class="btn-sm btn-outline-success" type="submit"-->
-<!--                                            th:name="addPrivilege"><i class="fa fa-plus"></i>-->
-<!--                                    </button>-->
-<!--                                    <div class="col-12 col-md-9" th:each="row,rowStat : *{privileges}">-->
-<!--                                        <input hidden type="text"-->
-<!--                                               th:field="*{privileges[__${rowStat.index}__].id}"-->
-<!--                                               th:value="${enrollee.privileges[__${rowStat.index}__].id}"-->
-<!--                                               class="form-control">-->
-<!--                                        <label for="text-input" class="form-control-label badge badge-primary"-->
-<!--                                               th:text="'Пільговий документ №'+${rowStat.count} "></label>-->
-<!--                                        <button class="btn-sm btn-outline-danger" type="submit"-->
-<!--                                                th:name="removePrivilege"-->
-<!--                                                th:value="${rowStat.index}"><i class="fa fa-minus"></i>-->
-<!--                                        </button>-->
-<!--                                        <div class="row form-group">-->
-<!--                                            <div class="col-12 col-md-9 form-group">-->
-<!--                                                <label>Документ</label>-->
-<!--                                                <input hidden type="text"-->
-<!--                                                       th:field="*{privileges[__${rowStat.index}__].id}"-->
-<!--                                                       th:value="${enrollee.privileges[__${rowStat.index}__].id}"-->
-<!--                                                       class="form-control">-->
-<!--                                                <select class="form-control select2-container"-->
-<!--                                                        th:field="*{privileges[__${rowStat.index}__].privilegeDocument}"-->
-<!--                                                        th:value="${enrollee.privileges[__${rowStat.index}__].privilegeDocument}">-->
-<!--                                                    <option th:each="var : ${privilegeDocuments}"-->
-<!--                                                            th:value="${var.id}"-->
-<!--                                                            th:text="${var.getNameQuota}"></option>-->
-<!--                                                </select>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="row form-group">-->
-<!--                                            <div class="col-12 col-md-9 form-group">-->
-<!--                                                <label>Тип</label>-->
-<!--                                                <select class="form-control select2-container"-->
-<!--                                                        th:field="*{privileges[__${rowStat.index}__].priviligeType}">-->
-<!--                                                    <option th:each="var : ${T(viti.kaf22.entities.enums.PriviligeType).values()}"-->
-<!--                                                            th:value="${var}" th:text="${var.getName()}"></option>-->
-<!--                                                </select>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="row form-group">-->
-<!--                                            <div class="col-12 col-md-9 form-group">-->
-<!--                                                <label>Номер та серія</label>-->
-<!--                                                <input type="text"-->
-<!--                                                       th:field="*{privileges[__${rowStat.index}__].privilegeNumber}"-->
-<!--                                                       th:value="${enrollee.privileges[__${rowStat.index}__].privilegeNumber}"-->
-<!--                                                       placeholder="Номер та серія" class="form-control">-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="row form-group">-->
-<!--                                            <div class="col-12 col-md-9 form-group">-->
-<!--                                                <label>Дата видачі</label>-->
-<!--                                                <input type="date"-->
-<!--                                                       th:field="*{privileges[__${rowStat.index}__].issueDatePrivilege}"-->
-<!--                                                       th:value="${enrollee.privileges[__${rowStat.index}__].issueDatePrivilege}"-->
-<!--                                                       placeholder="Дата видачі" class="form-control">-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="row form-group">-->
-<!--                                <div class="col-12 col-md-9 ">-->
-<!--                                    <label for="text-input" class="form-control-label"><h4>Дані про сертифікат ЗНО (Вступні іспити)</h4></label>-->
-<!--                                    <button class="btn-sm btn-outline-success" type="submit"-->
-<!--                                            th:name="addZNO"><i class="fa fa-plus"></i>-->
-<!--                                    </button>-->
-
-<!--                                    <script type="text/javascript">-->
-<!--                                        showZNOCheckbox = document.getElementById('lyceumCheck');-->
-
-<!--                                        showZNOCheckbox.addEventListener('change', function() {-->
-<!--                                            if(this.checked)-->
-<!--                                                document.getElementById('znoForLyceumCheck').setAttribute('class', 'row form-group ml-1');-->
-<!--                                            else-->
-<!--                                                document.getElementById('znoForLyceumCheck').setAttribute('class', 'row form-group ml-1 d-none');-->
-<!--                                        } );-->
-<!--                                    </script>-->
-<!--                                    <div id="znoForLyceumCheck"-->
-<!--                                         th:class="${(enrollee.licey != null and enrollee.licey.getName().equals('Ліцей')) or enrollee.getForward().getName().equals('ВКСС') or enrollee.socialStatus.getShortName().equals('ВСЛ') ? 'row form-group ml-1' : 'row form-group ml-1 d-none'}">-->
-<!--                                        <label class="switch switch-3d switch-danger mr-3">-->
-<!--                                            <input type="checkbox" id="checkboxForZNOCheck"-->
-<!--                                                   th:field="*{znoCertificateAbsence}"-->
-<!--                                                   th:value="${enrollee.znoCertificateAbsence}"-->
-<!--                                                   class="switch-input">-->
-<!--                                            <span class="switch-label"></span>-->
-<!--                                            <span class="switch-handle"></span>-->
-<!--                                        </label>-->
-<!--                                        <p> Сертифікат ЗНО відсутній </p>-->
-<!--                                    </div>-->
-
-<!--                                    <div class="col-12" th:each="row,rowStat : *{znoCertificates}">-->
-<!--                                        <input hidden type="text"-->
-<!--                                               th:field="*{znoCertificates[__${rowStat.index}__].id}"-->
-<!--                                               th:value="${enrollee.znoCertificates[__${rowStat.index}__].id}"-->
-<!--                                               class="form-control">-->
-<!--                                        <label for="text-input" class="form-control-label badge badge-dark"-->
-<!--                                               th:text="'Cертифікат №'+${rowStat.count} "></label>-->
-<!--                                        <button class="btn-sm btn-outline-danger" type="submit"-->
-<!--                                                th:name="removeZNO" th:value="${rowStat.index}"><i-->
-<!--                                                class="fa fa-minus"></i>-->
-<!--                                        </button>-->
-<!--                                        <div class="row form-group">-->
-<!--                                            <div class="col-md-7">-->
-<!--                                                <label>Номер сертифікату</label>-->
-<!--                                                <input type="text"-->
-<!--                                                       th:field="*{znoCertificates[__${rowStat.index}__].seriesNumber}"-->
-<!--                                                       th:value="${enrollee.znoCertificates[__${rowStat.index}__].seriesNumber}"-->
-<!--                                                       placeholder="Номер сертифікату" class="form-control">-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="row form-group">-->
-<!--                                            <div class="col-12 col-md-12 form-group">-->
-<!--                                                <label class="form-control-label">Бали</label>-->
-<!--                                                <button class="btn-sm btn-outline-success" type="submit"-->
-<!--                                                        th:name="addSubject" th:value="${rowStat.index}"><i-->
-<!--                                                        class="fa fa-plus"></i>-->
-<!--                                                </button>-->
-<!--                                                <div class="col-12 col-md-12"-->
-<!--                                                     th:each="rou,rouStat : *{znoCertificates[__${rowStat.index}__].znoEvaluations}">-->
-<!--                                                    <label class="badge badge-dark"-->
-<!--                                                           th:text="'Предмет №'+${rouStat.index+1}"></label>-->
-<!--                                                    <button class="btn-sm btn-outline-danger" type="submit"-->
-<!--                                                            th:name="removeSubject"-->
-<!--                                                            th:value="${rowStat.index} +' '+${rouStat.index}"><i-->
-<!--                                                            class="fa fa-minus"></i>-->
-<!--                                                    </button>-->
-<!--                                                    <input hidden type="text"-->
-<!--                                                           th:field="*{znoCertificates[__${rowStat.index}__].znoEvaluations[__${rouStat.index}__].id}"-->
-<!--                                                           th:value="${enrollee.znoCertificates[__${rowStat.index}__].znoEvaluations[__${rouStat.index}__].id}"-->
-<!--                                                           class="form-control">-->
-<!--                                                    <div class="row form-group">-->
-<!--                                                        <div class="col-md-9">-->
-<!--                                                            <label>Дисципліна</label>-->
-<!--                                                            <select class="form-control select2-container"-->
-<!--                                                                    th:field="*{znoCertificates[__${rowStat.index}__].znoEvaluations[__${rouStat.index}__].znoDiscipline}"-->
-<!--                                                                    th:value="${enrollee.znoCertificates[__${rowStat.index}__].znoEvaluations[__${rouStat.index}__].znoDiscipline}">-->
-<!--                                                                <option value="0"></option>-->
-<!--                                                                <option th:each="disc: ${znoEvaluations}"-->
-<!--                                                                        th:value="${disc.id}"-->
-<!--                                                                        th:text="${disc.discipline}"></option>-->
-<!--                                                            </select>-->
-<!--                                                        </div>-->
-<!--                                                        <div class="col-md-3">-->
-<!--                                                            <label>Бал</label>-->
-<!--                                                            <input type="text"-->
-<!--                                                                   th:field="*{znoCertificates[__${rowStat.index}__].znoEvaluations[__${rouStat.index}__].evaluation}"-->
-<!--                                                                   th:value="${enrollee.znoCertificates[__${rowStat.index}__].znoEvaluations[__${rouStat.index}__].evaluation}"-->
-<!--                                                                   placeholder="" class="form-control">-->
-<!--                                                        </div>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--&lt;!&ndash;                                <div class="col-12 col-md-9">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <label class=" form-control-label"><h4>Мотиваційний лист (якщо є)</h4></label>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <input id="motivationMark" type="number"&ndash;&gt;-->
-<!--&lt;!&ndash;                                           th:field="*{motivationMark}"&ndash;&gt;-->
-<!--&lt;!&ndash;                                           placeholder="Бал (200-бальна шкала)" class="form-control">&ndash;&gt;-->
-<!--&lt;!&ndash;                                 </div>&ndash;&gt;-->
-<!--                            </div>-->
-<!--                            <div class="row form-group">-->
-<!--                                <div class="col-12 col-md-12 form-group">-->
-<!--                                    <label for="text-input" class="form-control-label"><h4>Пріорітети</h4></label>-->
-
-<!--                                    <button class="btn-sm btn-outline-success" type="submit"-->
-<!--                                            th:name="addPriority"><i class="fa fa-plus"></i>-->
-<!--                                    </button>-->
-<!--                                    <div class="col-12 col-md-12" th:each="spec,specStat : *{specialties}">-->
-<!--                                        <input hidden type="text"-->
-<!--                                               th:field="*{specialties[__${specStat.index}__].id}"-->
-<!--                                               th:value="${enrollee.specialties[__${specStat.index}__].id}"-->
-<!--                                               class="form-control">-->
-<!--                                        <label for="text-input" class="form-control-label badge badge-warning"-->
-<!--                                               th:text="'Пріорітет №'+${specStat.count} "></label>-->
-<!--                                        <button class="btn-sm btn-outline-danger" type="submit" th:name="removePriority"-->
-<!--                                                th:value="${specStat.index}"><i class="fa fa-minus"></i>-->
-<!--                                        </button>-->
-<!--                                        <div class="row form-group col-md-12">-->
-
-<!--                                            <div th:unless="${enrollee.getForward().getName().equals('ВКСС')}" id="VITI"-->
-<!--                                                 th:class="${!enrollee.getForward().getName().equals('ВКСС') ? 'form-group col-md-9' : 'form-group col-md-9 d-none'}">-->
-<!--                                                <label>Спеціальність</label>-->
-<!--                                                <select class="form-control select2-container"-->
-<!--                                                        th:field="*{specialties[__${specStat.index}__].specialty}">-->
-<!--                                                    <option value="0"></option>-->
-<!--                                                    <option th:each="spe : ${specs}"-->
-<!--                                                            th:value="${spe.id}"-->
-<!--                                                            th:text="${spe.specialty}"></option>-->
-<!--                                                </select>-->
-<!--                                            </div>-->
-<!--                                            <div th:if="${enrollee.getForward().getName().equals('ВКСС')}" id="VKSS"-->
-<!--                                                 th:class="${enrollee.getForward().getName().equals('ВКСС') ? 'form-group col-md-9' : 'form-group col-md-9 d-none'}">-->
-<!--                                                <label>Спеціальність</label>-->
-<!--                                                <select class="form-control select2-container"-->
-<!--                                                        th:field="*{specialties[__${specStat.index}__].specialty}"-->
-<!--                                                        th:value="${enrollee.specialties[__${specStat.index}__].specialty}">-->
-<!--                                                    <option value="0"></option>-->
-<!--                                                    <option th:each="spe : ${specsForVKSS}"-->
-<!--                                                            th:value="${spe.id}"-->
-<!--                                                            th:text="${spe.specialty}">-->
-<!--                                                    </option>-->
-<!--                                                </select>-->
-<!--                                            </div>-->
-
-<!--                                            <div class="form-group col-md-3">-->
-<!--                                                <label>Пріорітет</label>-->
-<!--                                                <select  class="form-control select2-container"-->
-<!--                                                        th:field="*{specialties[__${specStat.index}__].priority}">-->
-<!--                                                    <option value="0"></option>-->
-<!--                                                    <option value="1">1</option>-->
-<!--                                                    <option value="2">2</option>-->
-<!--                                                    <option value="3" th:unless="${enrollee.getForward().getName().equals('ВКСС')}">3</option>-->
-<!--                                                    <option value="4" th:unless="${enrollee.getForward().getName().equals('ВКСС')}">4</option>-->
-<!--                                                    <option value="5" th:unless="${enrollee.getForward().getName().equals('ВКСС')}">5</option>-->
-<!--                                                </select>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="row form-group">-->
-<!--                                <div class="col-md-4">-->
-<!--                                    <p class="form-control-static"><h4>Медогляд</h4></p>-->
-<!--                                    <div class="form-check">-->
-<!--                                        <div class="radio"-->
-<!--                                             th:each="ty : ${T(viti.kaf22.entities.enums.MedicalInspection).values()}">-->
-
-<!--                                            <input th:field="*{medicalInspection}" th:value="${ty}"-->
-<!--                                                   th:text="${ty.getName()}" type="radio"-->
-<!--                                                   name="radios" class="form-check-input">-->
-<!--                                            <label th:for="${#ids.prev('medicalInspection')}"-->
-<!--                                                   class="form-check-label"></label>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-
-<!--                                <div class="col-md-4">-->
-<!--                                    <p class="form-control-static"><h4>Фізо</h4></p>-->
-<!--                                    <div class="form-check">-->
-<!--                                        <div class="radio"-->
-<!--                                             th:each="ty : ${T(viti.kaf22.entities.enums.PhysicalTraining).values()}">-->
-
-<!--                                            <input th:field="*{physicalTraining}" th:value="${ty}"-->
-<!--                                                   th:text="${ty.getName()}" type="radio"-->
-<!--                                                   name="radios" class="form-check-input">-->
-<!--                                            <label th:for="${#ids.prev('physicalTraining')}"-->
-<!--                                                   class="form-check-label"></label>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="col-md-4">-->
-<!--                                    <p class="form-control-static"><h4>Профвідбір</h4></p>-->
-<!--                                    <div class="form-check">-->
-<!--                                        <div class="radio"-->
-<!--                                             th:each="ty : ${T(viti.kaf22.entities.enums.ProfessionalSelection).values()}">-->
-
-<!--                                            <input th:field="*{professionalSelection}" th:value="${ty}"-->
-<!--                                                   th:text="${ty.getName()}" type="radio"-->
-<!--                                                   name="radios" class="form-check-input">-->
-<!--                                            <label th:for="${#ids.prev('physicalTraining')}"-->
-<!--                                                   class="form-check-label"></label>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="col-md-6">-->
-<!--                                    <label class="badge badge-danger">Забрав документи</label>-->
-<!--                                    <div class="form-check">-->
-<!--                                        <label class="form-check-label" for="liceumCheck">-->
-<!--                                            <input type="checkbox" th:field="*{takenAwayDocs}"-->
-<!--                                                   th:value="${T(viti.kaf22.entities.enums.TakenAwayDocs).TAKEN_AWAY}"-->
-<!--                                                   class="form-check-input"> Забрав-->
-<!--                                        </label>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="col-md-6">-->
-<!--                                    <label class="badge badge-success">Вступив</label>-->
-<!--                                    <div class="form-check">-->
-<!--                                        <label class="form-check-label" for="liceumCheck">-->
-<!--                                            <input type="checkbox" th:field="*{entered}"-->
-<!--                                                   th:value="${T(viti.kaf22.entities.enums.Entered).ENTERED}"-->
-<!--                                                   class="form-check-input"> Вступив-->
-<!--                                        </label>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="col-md-6">-->
-<!--                                    <label class="badge badge-primary">Статус перевірки документів</label>-->
-<!--                                    <div class="form-check">-->
-<!--                                        <div class="radio"-->
-<!--                                             th:each="ty : ${T(viti.kaf22.entities.enums.Checked).values()}">-->
-<!--                                            <input th:field="*{checked}" th:value="${ty}"-->
-<!--                                                   th:text="${ty.getName()}" type="radio"-->
-<!--                                                   name="radios" class="form-check-input">-->
-<!--                                            <label th:for="${#ids.prev('checked')}"-->
-<!--                                                   class="form-check-label"></label>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="col-md-6">-->
-<!--                                    <label class="badge badge-primary">Квота</label>-->
-<!--                                    <div class="form-check">-->
-<!--                                        <div class="radio"-->
-<!--                                             th:each="ty : ${T(viti.kaf22.entities.enums.Quotas).values()}">-->
-<!--                                            <input th:field="*{quota}" th:value="${ty}"-->
-<!--                                                   th:text="${ty.getName()}" type="radio"-->
-<!--                                                   name="radios" class="form-check-input">-->
-<!--                                            <label th:for="${#ids.prev('checked')}"-->
-<!--                                                   class="form-check-label"></label>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="col-md-12">-->
-<!--                                    <label class="badge badge-primary">Примітки</label>-->
-<!--                                    <textarea th:field="*{remark}" th:value="${enrollee.remark}" rows="5"-->
-<!--                                              type="text" class="form-control">-->
-<!--                                            </textarea>-->
-<!--                                </div>-->
-
-<!--                            </div>-->
                         </div>
-
                     </div>
                 </div>
 
@@ -808,51 +352,11 @@
                     <a href="/input" class="btn btn-danger btn-sm">
                         <i class="fa fa-ban"></i> Очистити поля
                     </a>
-                    <button type="submit" class="btn btn-primary btn-sm" th:formaction="'/input/print'" style="float: right">
+                    <button type="submit" class="btn btn-primary btn-sm" th:formaction="'/input/print'"
+                            style="float: right">
                         <i class="fa fa-dot-circle-o"></i> Друк довідки
                     </button>
                 </div>
-                <!--<div class="col-md-12">
-                    <div class="table-responsive table&#45;&#45;no-card m-b-40">
-                        <table id="abiturientsTable" class="table table-borderless table-striped table-earning">
-                            <thead>
-                            <tr>
-                                <th>Ред.</th>
-                                <th>№</th>
-                                <th>Підрозділ</th>
-                                <th>Номер о/С</th>
-                                <th>ПІБ</th>
-                                <th>Стать</th>
-                                <th>Соціальний статус</th>
-                                <th>Рейтинг</th>
-                                <th>ЗНО</th>
-                                <th>Вступив</th>
-                                <th>Спеціальність</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="item : ${enrollees}">
-                                <td> &lt;!&ndash;sec:authorize="hasAnyAuthority('OPERATOR')"&ndash;&gt;
-                                    <a class="btn btn-light" th:href="@{'edit/'+${item.getId()}}">
-                                        <i class="fa fa-edit" aria-hidden="true"></i>
-                                    </a>
-                                </td>
-                                <td th:text="${item?.id}"></td>
-                                <td th:text="${item?.forward}"></td>
-                                <td th:text="${item?.personalFile}"></td>
-                                <td th:text="${item?.lastName?.concat(' ').concat(item.firstName?.concat(' ').concat(item?.thirdName))}"></td>
-                                <td th:text="${item?.gender?.shortName}"></td>
-                                <td th:text="${item?.socialStatus}"></td>
-                                <td th:text="${item?.certificate?.getAverage200()}"></td>
-                                <td th:utext="${item?.getZNOEvaluations()}"></td>
-                                <td th:text="${item?.getEntered()}"></td>
-                                <td th:utext="${item?.getAllSpecialties()}"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>-->
-
                 <div class="row mt-5">
                     <div class="col-md-12">
                         <div class="copyright">
@@ -864,7 +368,9 @@
                                     if (theYear < 1900)
                                         theYear = theYear + 1900;
                                     document.write(theYear)
-                                </script>. Powered by Sachuk</p>
+                                </script>
+                                . Powered by Sachuk
+                            </p>
                         </div>
                     </div>
                 </div>

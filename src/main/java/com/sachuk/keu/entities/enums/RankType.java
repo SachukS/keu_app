@@ -8,14 +8,15 @@ public enum RankType {
 
     private String name;
 
-    RankType(String name){
+    RankType(String name) {
         this.name = name;
     }
 
     public String getName() {
         return name;
     }
-    public static QuotaType getByValue(String mean){
-        return Arrays.stream(QuotaType.values()).filter(f->f.getName().equals(mean)).findAny().orElse(null);
+
+    public static QuotaType getByValue(String mean) {
+        return Arrays.stream(QuotaType.values()).filter(f -> f.getName().equals(mean)).findAny().orElse(null);
     }
 }

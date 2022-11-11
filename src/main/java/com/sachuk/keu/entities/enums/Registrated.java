@@ -15,6 +15,7 @@ public enum Registrated {
     public String getName() {
         return name;
     }
+
     public static Registrated getByValue(String mean) {
         return Arrays.stream(Registrated.values()).filter(f -> f.getName().equals(mean)).findAny().orElse(null);
     }

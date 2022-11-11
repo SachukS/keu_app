@@ -13,10 +13,8 @@ public class Enumerable {
      * Generates a sequence of integral numbers within a specified range </br>
      * <i>Like Enumarable.Range in C#</i>
      *
-     * @param start
-     *            first int value
-     * @param count
-     *            number of int in range
+     * @param start first int value
+     * @param count number of int in range
      * @return
      */
     public static List<Integer> range(int start, int count) {

@@ -1,21 +1,18 @@
 package com.sachuk.keu.entities;
 
-import com.sachuk.keu.entities.enums.QuotaType;
 import com.sachuk.keu.entities.enums.RankType;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity(name = "Rank")
 @Table(name = "Rank")
 @NamedQueries({
-        @NamedQuery(name= Rank.findByNameRank, query="from Rank i where i.nameRank=:name"),
-        @NamedQuery(name= Rank.findByShortNameRank, query="from Rank i where i.shortNameRank=:name")
+        @NamedQuery(name = Rank.findByNameRank, query = "from Rank i where i.nameRank=:name"),
+        @NamedQuery(name = Rank.findByShortNameRank, query = "from Rank i where i.shortNameRank=:name")
 })
 @Getter
 @Setter
@@ -30,7 +27,7 @@ public class Rank implements Serializable {
     private long id;
     @Column(length = 100)
     private String nameRank;
-    @Column(length=20)
+    @Column(length = 20)
     private String shortNameRank;
 
     @Enumerated(EnumType.STRING)
@@ -45,7 +42,9 @@ public class Rank implements Serializable {
         this.rankType = rankType;
         //this.privileges = privileges;
     }
-    public Rank(){}
+
+    public Rank() {
+    }
 
     @Override
     public boolean equals(Object o) {

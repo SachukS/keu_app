@@ -14,6 +14,7 @@ public enum Roles {
     public String getName() {
         return name;
     }
+
     public static Roles getByValue(String mean) {
         return Arrays.stream(Roles.values()).filter(f -> f.getName().equals(mean)).findAny().orElse(null);
     }

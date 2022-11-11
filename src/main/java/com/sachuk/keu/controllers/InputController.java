@@ -29,7 +29,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Controller
@@ -39,7 +42,6 @@ public class InputController {
 
     private static final Logger log = Logger.getLogger(InputController.class);
 
-//    public ZNODisciplineService znoDisciplineService;
     public QuotaService quotaService;
     public WorkService workService;
     public RankService rankService;
@@ -54,6 +56,7 @@ public class InputController {
         return rankService.findAll().stream()
                 .sorted(Comparator.comparing(Rank::getNameRank)).collect(Collectors.toList());
     }
+
     @ModelAttribute("works")
     public Collection<Work> getAllWorks() {
         return workService.findAll().stream()
@@ -68,12 +71,14 @@ public class InputController {
 
     @ModelAttribute("user")
     @Transactional
-    public User getUser(){ return databaseUserService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName()); }
+    public User getUser() {
+        return databaseUserService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+    }
 
 
     @ModelAttribute("quotas")
     @Transactional
-    public List<Quota> getQuota(){
+    public List<Quota> getQuota() {
         return quotaService.findAll().stream()
                 .sorted(Comparator.comparing(Quota::getId)).collect(Collectors.toList());
     }
@@ -107,6 +112,7 @@ public class InputController {
 
         return "input";
     }
+
     @Transactional
     @RequestMapping(value = "/input", method = {RequestMethod.POST})
     public String saveInputModel(@ModelAttribute("customer") Customer customer, Model model) throws IOException {
@@ -114,9 +120,9 @@ public class InputController {
             System.out.println("THIS IS HERE MOFUCKA");
 
             if (customer.getRank().getId() == 0L)
-                customer.setRank(getAllRanks().stream().filter(r-> Objects.equals(r.getNameRank(), customer.getRank().getNameRank())).findFirst().get());
+                customer.setRank(getAllRanks().stream().filter(r -> Objects.equals(r.getNameRank(), customer.getRank().getNameRank())).findFirst().get());
             if (customer.getWork().getId() == 0L)
-                customer.setWork(getAllWorks().stream().filter(w-> Objects.equals(w.getWorkPlace(), customer.getWork().getWorkPlace())).findFirst().get());
+                customer.setWork(getAllWorks().stream().filter(w -> Objects.equals(w.getWorkPlace(), customer.getWork().getWorkPlace())).findFirst().get());
             if (customer.getRankType() == null)
                 customer.setRankType(customer.getRank().getRankType().getName());
             if (customer.getQuotaType() == null)
@@ -152,29 +158,28 @@ public class InputController {
         System.out.println("print Dovidka");
         System.out.println(customer);
         if (customer.getRank().getId() == 0L)
-            customer.setRank(getAllRanks().stream().filter(r-> Objects.equals(r.getNameRank(), customer.getRank().getNameRank())).findFirst().get());
+            customer.setRank(getAllRanks().stream().filter(r -> Objects.equals(r.getNameRank(), customer.getRank().getNameRank())).findFirst().get());
         if (customer.getWork().getId() == 0L)
-            customer.setWork(getAllWorks().stream().filter(w-> Objects.equals(w.getWorkPlace(), customer.getWork().getWorkPlace())).findFirst().get());
-        if (customer.getRankType()==null)
+            customer.setWork(getAllWorks().stream().filter(w -> Objects.equals(w.getWorkPlace(), customer.getWork().getWorkPlace())).findFirst().get());
+        if (customer.getRankType() == null)
             customer.setRankType(customer.getRank().getRankType().getName());
-        if (customer.getQuotaType()==null)
+        if (customer.getQuotaType() == null)
             customer.setQuotaType(customer.getQuota().getQuotaType().getName());
-        if (customer.getQuotaType2()==null)
+        if (customer.getQuotaType2() == null)
             customer.setQuotaType2(customer.getQuota2().getQuotaType().getName());
-        if (customer.getAddress()=="")
+        if (customer.getAddress() == "")
             customer.setAddress(null);
-        if (customer.getFamily()=="")
+        if (customer.getFamily() == "")
             customer.setFamily(null);
-        if (customer.getInfo()=="")
+        if (customer.getInfo() == "")
             customer.setInfo(null);
-        if (customer.getFlatFileNumber()=="")
+        if (customer.getFlatFileNumber() == "")
             customer.setFlatFileNumber(null);
-        if (customer.getServiceFrom()!=null){
-            if (customer.getServiceUntill()!=null){
-                customer.setExperience(String.valueOf(customer.getServiceUntill().getYear()-customer.getServiceFrom().getYear()));
-            }
-            else
-                customer.setExperience(String.valueOf(LocalDateTime.now().getYear()-customer.getServiceFrom().getYear()-1900));
+        if (customer.getServiceFrom() != null) {
+            if (customer.getServiceUntill() != null) {
+                customer.setExperience(String.valueOf(customer.getServiceUntill().getYear() - customer.getServiceFrom().getYear()));
+            } else
+                customer.setExperience(String.valueOf(LocalDateTime.now().getYear() - customer.getServiceFrom().getYear() - 1900));
         }
 
         String garrison = customer.getWork().getGarrison();
@@ -202,7 +207,7 @@ public class InputController {
                 break;
         }
         String sort = "";
-        switch (customer.getQuotaType()){
+        switch (customer.getQuotaType()) {
             case "без пiльг":
                 sort = "ZAGALNA";
                 break;
@@ -215,14 +220,14 @@ public class InputController {
         }
 
         Customer customer1 = new Customer();
-        customer1.setWork(new Work("Всі","Всі", "BORI"));
-        customer1.setQuota(new Quota("Всі","Всі", QuotaType.NONE));
+        customer1.setWork(new Work("Всі", "Всі", "BORI"));
+        customer1.setQuota(new Quota("Всі", "Всі", QuotaType.NONE));
         customer1.setRoomCount(0);
         customer1.setFamilyCount(0);
         customer1.setRegistrated(Registrated.YES);
         customer1.setExperience("100");
 
-        ratingXlsCreateService.createXls(System.getProperty("user.home") + File.separator + "DOVIDKA.xls", RatingXLSWeb.getCustomers(garrison+sort, customer1), customer);
+        ratingXlsCreateService.createXls(System.getProperty("user.home") + File.separator + "DOVIDKA.xls", RatingXLSWeb.getCustomers(garrison + sort, customer1), customer);
 
         Path file = Paths.get(System.getProperty("user.home") + File.separator + "DOVIDKA.xls");
 

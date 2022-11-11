@@ -24,40 +24,50 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final HttpServletRequest request;
 
-
     public List<User> findAll() {
         return userRepository.findAll();
     }
+
     public User findById(Long id) {
         return userRepository.getOne(id);
     }
+
     public User save(User user) {
         return userRepository.save(user);
     }
+
     public void delete(User user) {
         userRepository.delete(user);
     }
+
     public boolean existsById(Long id) {
         return userRepository.existsById(id);
     }
+
     public void deleteById(Long id) {
         userRepository.deleteById(id);
     }
+
     public User saveAndFlush(User user) {
         return userRepository.saveAndFlush(user);
     }
+
     public void flush() {
         userRepository.flush();
     }
+
     public void saveAll(Iterable<User> users) {
         userRepository.saveAll(users);
     }
+
     public long count() {
         return userRepository.count();
     }
+
     public void deleteAll() {
         userRepository.deleteAll();
     }
+
     public List<User> getAllBySurname(String surname) {
         return userRepository.getAllByLastName(surname);
     }
@@ -97,7 +107,7 @@ public class UserService {
     }
 
 
-    public  List<GrantedAuthority> getAuthorities (Roles role) {
+    public List<GrantedAuthority> getAuthorities(Roles role) {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(role.toString()));
         System.out.println(role.getName());
@@ -106,7 +116,7 @@ public class UserService {
 
     private String getClientIP() {
         String xfHeader = request.getHeader("X-Forwarded-For");
-        if (xfHeader == null){
+        if (xfHeader == null) {
             return request.getRemoteAddr();
         }
         return xfHeader.split(",")[0];

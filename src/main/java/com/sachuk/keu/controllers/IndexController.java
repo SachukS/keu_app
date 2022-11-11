@@ -13,13 +13,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
-import java.util.List;
 
 @Controller
 @AllArgsConstructor
 public class IndexController {
 
-    //public EnrolleeService enrolleeService;
     public CustomerService customerService;
     private final UserService databaseUserService;
 
@@ -29,7 +27,9 @@ public class IndexController {
     }
 
     @ModelAttribute("uri")
-    public String getUri(HttpServletRequest request){ return request.getRequestURI().substring(request.getContextPath().length()); }
+    public String getUri(HttpServletRequest request) {
+        return request.getRequestURI().substring(request.getContextPath().length());
+    }
 
     @RequestMapping(value = {"/", "/cabinet"}, method = {RequestMethod.GET})
     public String show(@RequestParam(value = "error", required = false, defaultValue = "false") boolean error,
@@ -48,9 +48,10 @@ public class IndexController {
         return "cabinet";
 
     }
+
     @RequestMapping(value = {"/cabinet/delete/{id}"}, method = {RequestMethod.GET})
     public String delete(@PathVariable("id") String id,
-                       Model modelAndView) {
+                         Model modelAndView) {
         User user = databaseUserService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         if (customerService.existsById(Long.valueOf(id))) {
             customerService.deleteById(Long.valueOf(id));
@@ -59,7 +60,7 @@ public class IndexController {
         return "redirect:/cabinet?success=false";
     }
 
-    @RequestMapping(value = "/redirect", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/redirect", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView showMain(ModelAndView modelAndView) {
 
         modelAndView = new ModelAndView();

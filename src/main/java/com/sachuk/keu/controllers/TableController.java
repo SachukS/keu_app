@@ -4,7 +4,6 @@ import com.sachuk.keu.database.service.CustomerService;
 import com.sachuk.keu.database.service.UserService;
 import com.sachuk.keu.entities.Customer;
 import com.sachuk.keu.entities.SearchQuery;
-import com.sachuk.keu.entities.enums.Registrated;
 import com.sachuk.keu.entities.security.User;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,17 +19,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.transaction.Transactional;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Transactional
 @Controller
 @AllArgsConstructor
 public class TableController {
 
-//    private RatingGenerator ratingGenerator;
     private CustomerService customerService;
     private UserService databaseUserService;
-//    private SpecialtyService specialtyService;
 
     @ModelAttribute("query")
     public SearchQuery createQuery() {
@@ -52,13 +48,13 @@ public class TableController {
         modelAndView.addAttribute("customers", customers);
         modelAndView.addAttribute("currentPage", currentPage + 1);
         modelAndView.addAttribute("pageSize", pageSize);
-        modelAndView.addAttribute("search",false);
+        modelAndView.addAttribute("search", false);
         return "table";
 
     }
 
     @RequestMapping(value = {"/find"}, method = {RequestMethod.POST})
-    public String find (Model modelAndView, @ModelAttribute("query") SearchQuery query) {
+    public String find(Model modelAndView, @ModelAttribute("query") SearchQuery query) {
         System.out.println(query.getQuery());
         User user = databaseUserService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         System.out.println(user);
@@ -67,13 +63,13 @@ public class TableController {
 
 
         modelAndView.addAttribute("customers", customerList);
-        modelAndView.addAttribute("search",true);
+        modelAndView.addAttribute("search", true);
         return "table";
 
     }
 
     @RequestMapping(value = {"/findToday"}, method = {RequestMethod.GET})
-    public String findToday (Model modelAndView) {
+    public String findToday(Model modelAndView) {
         User user = databaseUserService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         System.out.println(user);
         modelAndView.addAttribute("user", user);
@@ -81,7 +77,7 @@ public class TableController {
 
 
         modelAndView.addAttribute("customers", customerList);
-        modelAndView.addAttribute("search",true);
+        modelAndView.addAttribute("search", true);
         return "table";
 
     }
