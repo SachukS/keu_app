@@ -11,6 +11,21 @@ server:
   port: 8081
 
 ---
+
+spring:
+  profiles: keuProd
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://mysql:3306/keudb?characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&useSSL=false
+    username: keuDbUser
+    password: fgjrfksgcbc
+    driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  port: 8081
+
+---
 spring:
   profiles: sachukDBlocalhost
   jpa:

@@ -33,7 +33,7 @@
 <div class="main-content">
     <form class="col-md-12" th:object="${customer}" th:action="'/getRating/'+${garrison}+'ZAGALNA'" method="post">
         <h2 class="title-1 text-center m-b-15 rating-title"
-            th:text="'Черга гарнізону '+${customers.get(0).work.garrison}+'      '+${customers.size()}+' осіб'"></h2>
+            th:text="'Черга гарнізону '+${customers.getPageList().get(0).work.garrison}+'       '+${customers.getSource().size()}+' осіб'"></h2>
         <div class="text-center m-b-15">
             <button type="submit" class="btn" th:classappend="${sort.equals('ZAGALNA')}?'btn-success':'btn-dark'">
                 Загальна черга
@@ -126,7 +126,7 @@
         </div>
         <div class="table-responsive m-b-40">
             <table class="table table-borderless mx-auto">
-                <thead class="thead-dark">
+                <thead class="thead-blue">
                 <tr>
                     <th>Ред</th>
                     <th>№</th>
@@ -144,13 +144,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="item,iter : ${customers}" th:class="'table-success'">
+                <tr th:each="item, iter : ${customers.getPageList()}" th:class="'table-blue'">
                     <td> <!--sec:authorize="hasAnyAuthority('OPERATOR')"-->
                         <a class="btn btn-light" th:href="@{'edit/'+${item.getId()}}">
                             <i class="fa fa-edit" aria-hidden="true"></i>
                         </a>
                     </td>
-                    <td th:utext="${iter.index+1}" class="table-danger"></td>
+                    <td th:utext="${customers.getSource().indexOf(item) + 1}" class="table-danger"></td>
                     <!--                    <td th:utext="${customers.indexOf(item)+1}"></td>-->
                     <td th:utext="${item.getRank().getShortNameRank()}"></td>
                     <td th:utext="${item.getSurname()+' '+item.getName().charAt(0)+'.'+item.getThirdName().charAt(0)+'.'}"></td>
@@ -165,6 +165,46 @@
                 </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="col-md-12 text-lg-right text-md-right text-center" th:if="${!search}">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li th:class="${customers.isFirstPage()} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" th:if="${firstopen}"
+                           th:href="@{'/generateAndShowRating/'+${garrison}(currentPage = ${currentPage - 2}, pageSize = ${pageSize})}">Попередня</a>
+                        <button type="submit" class="page-link" th:if="${!firstopen}"
+                           th:formaction="'/getRating/'+${garrison}+${sort} + '?currentPage='+ ${currentPage}+'&pageSize='+ ${pageSize}">Попередня</button>
+                    </li>
+                    <li class="page-item" th:hidden="${customers.isFirstPage()}">
+                        <a class="page-link" th:if="${firstopen}"
+                             th:href="@{'/generateAndShowRating/'+${garrison}(currentPage = ${currentPage - 2}, pageSize = ${pageSize})}"
+                             th:text="${currentPage - 1}">
+                        </a>
+                        <button type="submit" class="page-link" th:if="${!firstopen}"
+                                th:formaction="'/getRating/'+${garrison}+${sort} + '?currentPage='+ ${currentPage - 2}+'&pageSize='+ ${pageSize}"
+                                th:text="${currentPage - 1}">
+                        </button>
+                    </li>
+                    <li class="page-item active">
+                        <a class="page-link" href="#" th:text="${currentPage}"> <span
+                                class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="page-item" th:hidden="${customers.isLastPage()}">
+                        <a class="page-link" th:if="${firstopen}"
+                             th:href="@{'/generateAndShowRating/'+${garrison}(currentPage = ${currentPage}, pageSize = ${pageSize})}"
+                             th:text="${currentPage + 1}">
+                        </a>
+                        <button type="submit" class="page-link" th:if="${!firstopen}"
+                                th:formaction="'/getRating/'+${garrison}+${sort} + '?currentPage='+ ${currentPage}+'&pageSize='+ ${pageSize}"
+                                th:text="${currentPage + 1}">
+                        </button>
+                    </li>
+                    <li th:class="${customers.isLastPage()} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" th:if="${firstopen}" th:href="@{'/generateAndShowRating/'+${garrison}(currentPage = ${currentPage}, pageSize = ${pageSize})}">Наступна</a>
+                        <button type="submit" class="page-link" th:if="${!firstopen}" th:formaction="'/getRating/'+${garrison}+${sort} + '?currentPage='+ ${currentPage}+'&pageSize='+ ${pageSize}">Наступна</button>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </form>
     <div class="row mt-5">

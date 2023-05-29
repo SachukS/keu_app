@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         //TODO : REPLACE AJAX
-        httpSecurity.authorizeRequests().antMatchers("/js/**", "/images/**", "/data/**", "/less/**", "/vendor/**", "/fonts/**", "/index/**", "/css/**").permitAll();
+        httpSecurity.authorizeRequests().antMatchers("/js/**", "/images/**", "/data/**", "/less/**", "/vendor/**", "/fonts/**", "/index/**", "/css/**", "/assets/**").permitAll();
 
         httpSecurity
                 .authorizeRequests()

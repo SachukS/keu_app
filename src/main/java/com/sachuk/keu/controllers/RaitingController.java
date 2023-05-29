@@ -15,13 +15,14 @@ import com.sachuk.keu.entities.security.User;
 import com.sachuk.keu.services.rating.RatingXLSWeb;
 import com.sachuk.keu.services.rating.RatingXlsCreateService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
@@ -115,6 +116,8 @@ public class RaitingController {
     public String getRating(@PathVariable String garrison,
                             @ModelAttribute("query") SearchQuery query,
                             @ModelAttribute("customer") Customer customer,
+                            @RequestParam(required = false, defaultValue = "0") int currentPage,
+                            @RequestParam(required = false, defaultValue = "50") int pageSize,
                             Model model) {
 
         User user = databaseUserService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -122,14 +125,21 @@ public class RaitingController {
 
         staticCustomers = RatingXLSWeb.getCustomers(garrison, customer);
 
+        PagedListHolder<Customer> pagination = new PagedListHolder<>(staticCustomers);
+        pagination.setPage(currentPage);
+        pagination.setPageSize(pageSize);
+
+        model.addAttribute("currentPage", currentPage + 1);
+        model.addAttribute("pageSize", pageSize);
         model.addAttribute("customer", customer);
         model.addAttribute("workPlaces", getAllWorkPlaces(garrison.substring(0, 4)));
         model.addAttribute("accountings", getAllAccountings(garrison.substring(0, 4)));
         model.addAttribute("user", user);
         model.addAttribute("sort", garrison.substring(4));
         model.addAttribute("search", false);
+        model.addAttribute("firstopen", false);
         model.addAttribute("garrison", garrison.substring(0, 4));
-        model.addAttribute("customers", staticCustomers);
+        model.addAttribute("customers", pagination);
         return "rating";
     }
 
@@ -163,7 +173,11 @@ public class RaitingController {
         Customer customer = new Customer();
         for (String gar : garrisons) {
             customers = customerService.findByGarrison(gar);
-            customers = customers.stream().filter(c -> c.getRegistrated().equals(Registrated.YES)).sorted(Comparator.comparing(Customer::getAccountingDate)).collect(Collectors.toList());
+            //customers = customers.stream().filter(c -> c.getRegistrated().equals(Registrated.YES)).sorted(Comparator.comparing(Customer::getAccountingDate)).collect(Collectors.toList());
+            customers = customers.stream().filter(c -> c.getRegistrated().equals(Registrated.YES)).sorted(Comparator.comparing(Customer::getAccountingDate).reversed()
+                            .thenComparing(Customer::getQuotaType).reversed()
+                            .thenComparing(c -> c.getQuotaDate() != null ? c.getQuotaDate() : c.getAccountingDate()))
+                    .collect(Collectors.toList());
             for (int i = 0; i < customers.size(); i++) {
                 customers.get(i).setZagalna(String.valueOf(i + 1));
             }
@@ -204,7 +218,9 @@ public class RaitingController {
     @GetMapping("/generateAndShowRating/{garrison}")
     public String generateAndShowRating(@PathVariable String garrison,
                                         @ModelAttribute("query") SearchQuery query,
-                                        Model model) {
+                                        Model model,
+                                        @RequestParam(required = false, defaultValue = "0") int currentPage,
+                                        @RequestParam(required = false, defaultValue = "50") int pageSize) {
         User user = databaseUserService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 
         Customer customer = new Customer();
@@ -218,7 +234,13 @@ public class RaitingController {
 
         staticCustomers = RatingXLSWeb.getCustomers(garrison + "ZAGALNA", customer);
         //staticCustomers = customerService.findByGarrison(garrison);
+        PagedListHolder<Customer> pagination = new PagedListHolder<>(staticCustomers);
+        pagination.setPage(currentPage);
+        pagination.setPageSize(pageSize);
 
+
+        model.addAttribute("currentPage", currentPage + 1);
+        model.addAttribute("pageSize", pageSize);
         model.addAttribute("customer", customer);
         model.addAttribute("workPlaces", getAllWorkPlaces(garrison));
         model.addAttribute("accountings", getAllAccountings(garrison));
@@ -226,7 +248,8 @@ public class RaitingController {
         model.addAttribute("sort", "ZAGALNA");
         model.addAttribute("garrison", garrison);
         model.addAttribute("search", false);
-        model.addAttribute("customers", staticCustomers);
+        model.addAttribute("firstopen", true);
+        model.addAttribute("customers", pagination);
 
         return "rating";
     }
