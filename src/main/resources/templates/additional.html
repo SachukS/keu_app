@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<meta charset="UTF-8">
+<title>Додавання військової частини, житлової комісії</title>
+<head>
+    <link th:href="@{../css/font-face.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/font-awesome-4.7/css/font-awesome.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/font-awesome-5/css/fontawesome-all.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/mdi-font/css/material-design-iconic-font.min.css}" rel="stylesheet" media="all">
+
+    <!-- Bootstrap CSS-->
+    <link th:href="@{../vendor/bootstrap-4.1/bootstrap.min.css}" rel="stylesheet" media="all">
+
+    <!-- Vendor CSS-->
+    <link th:href="@{../vendor/animsition/animsition.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/wow/animate.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/css-hamburgers/hamburgers.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/slick/slick.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/select2/select2.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/perfect-scrollbar/perfect-scrollbar.css}" rel="stylesheet" media="all">
+    <link th:href="@{../vendor/vector-map/jqvmap.min.css}" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link th:href="@{../css/theme.css}" rel="stylesheet" media="all">
+
+</head>
+
+<body>
+<div th:replace="fragments/skeleton :: navbar(${user}, ${query})"></div>
+<!-- END BREADCRUMB-->
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+
+                <div class="row">
+                    <div class="card col-lg-3">
+                        <div class="card-header">
+                            <strong>Додати військову частину</strong>
+                        </div>
+                        <form th:object="${workToAdd}" th:action="@{/additional}" method="post" class="form-horizontal" id="addForm">
+                        <div class="card-body card-block">
+                            <div class="row form-group">
+                                <div class="col-12 col-md-12">
+                                    <label for="text-input" class=" form-control-label"><h4>Назва</h4>
+                                    </label>
+                                    <input type="text" th:field="*{workPlace}" th:value="${workToAdd.workPlace}"
+                                           name="text-input" id="text-input"
+                                           placeholder="Назва" class="form-control">
+                                </div>
+                                <div class="col-12 col-md-12">
+                                    <label for="text-input" class=" form-control-label"><h4>Виберіть ЖК або введіть нову</h4></label>
+                                    <input type="text" th:field="*{accountingPlace}"
+                                           list="a"
+                                           name="text-input"
+                                           autocomplete="off"
+                                           class="form-control">
+                                    <datalist id="a">
+                                        <option th:each="var : ${accountings}"
+                                                th:value="${var}">
+                                    </datalist>
+                                </div>
+                                <div class="col-12 col-md-12">
+                                    <label for="text-input" class=" form-control-label"><h4>Гарнізон</h4>
+                                    </label>
+                                    <input type="text" th:field="*{garrison}"
+                                           list="g"
+                                           name="text-input"
+                                           autocomplete="off"
+                                           class="form-control">
+                                    <datalist id="g">
+                                        <option th:each="var : ${garrisons}"
+                                                th:value="${var}">
+                                    </datalist>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm" th:formaction="'/additional/addBase'">
+                                <i class="fa fa-dot-circle-o"></i> Зберегти
+                            </button>
+                        </div>
+                        </form>
+                    </div>
+                    <div class="card col-lg-3">
+                        <div class="card-header">
+                            <strong>Перейменувати ЖК</strong>
+                        </div>
+                        <form th:object="${workToRename}" th:action="@{/additional}" method="post" class="form-horizontal" id="rename">
+                        <div class="card-body card-block">
+                            <div class="row form-group">
+                                <div class="col-12 col-md-12">
+                                    <label for="text-input" class=" form-control-label"><h4>Виберіть ЖК</h4></label>
+                                    <input type="text" th:field="*{accountingPlace}"
+                                           list="a2"
+                                           name="text-input"
+                                           autocomplete="off"
+                                           class="form-control">
+                                    <datalist id="a2">
+                                        <option th:each="var : ${accountings}"
+                                                th:value="${var}">
+                                    </datalist>
+                                </div>
+                                <div class="col-12 col-md-12">
+                                    <label for="text-input" class=" form-control-label"><h4>Нова назва ЖК</h4>
+                                    </label>
+                                    <input type="text" th:field="*{workPlace}" th:value="${workToRename.workPlace}"
+                                           name="text-input" id="text-input"
+                                           placeholder="Назва" class="form-control">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm" th:formaction="'/additional/renameZHK'">
+                                <i class="fa fa-dot-circle-o"></i> Зберегти
+                            </button>
+                        </div>
+                        </form>
+                    </div>
+                    <div class="card col-lg-3">
+                        <div class="card-header">
+                            <strong>Змінити приналежність до ЖК</strong>
+                        </div>
+                        <form th:object="${workToChange}" th:action="@{/additional}" method="post" class="form-horizontal" id="changeForm">
+                        <div class="card-body card-block">
+                            <label for="text-input" class=" form-control-label"><h4>Виберіть в/ч</h4></label>
+                            <div class="row form-group">
+                                <div class="col-12 col-md-12">
+                                    <input type="text" th:field="*{workPlace}"
+                                           list="w"
+                                           name="text-input"
+                                           autocomplete="off"
+                                           class="form-control">
+                                    <datalist id="w">
+                                        <option th:each="var : ${works}"
+                                                th:value="${var.getWorkPlace()}">
+                                    </datalist>
+                                </div>
+                                <div class="col-12 col-md-12">
+                                    <label for="text-input" class=" form-control-label"><h4>Виберіть або введіть нову ЖК</h4></label>
+                                    <input type="text" th:field="*{accountingPlace}"
+                                           list="a3"
+                                           name="text-input"
+                                           autocomplete="off"
+                                           class="form-control">
+                                    <datalist id="a3">
+                                        <option th:each="var : ${accountings}"
+                                                th:value="${var}">
+                                    </datalist>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm" th:formaction="'/additional/changeZHK'">
+                                <i class="fa fa-dot-circle-o"></i> Зберегти
+                            </button>
+                        </div>
+                        </form>
+                    </div>
+                    <div class="card col-lg-3">
+                        <div class="card-header">
+                            <strong>Видалити військову частину</strong>
+                        </div>
+                        <form th:object="${workToDelete}" th:action="@{/additional}" method="post" class="form-horizontal" id="deleteForm">
+                        <div class="card-body card-block">
+                            <label for="text-input" class=" form-control-label"><h4>Виберіть в/ч</h4></label>
+                            <div class="row form-group">
+                                <div class="col-12 col-md-12">
+                                    <input type="text" th:field="*{workPlace}"
+                                           list="d"
+                                           name="text-input"
+                                           autocomplete="off"
+                                           class="form-control">
+                                    <datalist id="d">
+                                        <option th:each="var : ${works}"
+                                                th:value="${var.getWorkPlace()}">
+                                    </datalist>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-danger btn-sm" th:formaction="'/additional/delete/' + ${workToDelete.getId()}">
+                                <i class="fa fa-dot-circle-o"></i> Видалити
+                            </button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            <div class="table-responsive m-b-40">
+                <table class="table table-borderless mx-auto">
+                    <thead class="thead-blue">
+                    <tr>
+                        <th>№</th>
+                        <!--                    <th>Заг.черга.</th>-->
+                        <th>Військова частина</th> <!--sec:authorize="hasAnyAuthority('OPERATOR')"-->
+                        <th>Житлова комісія</th>
+                        <th>Гарнізон</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item, iter : ${works}" th:class="'table-blue'">
+                        <td th:utext="${iter.index + 1}" class="table-danger"></td>
+                        <!--                    <td th:utext="${customers.indexOf(item)+1}"></td>-->
+                        <td th:utext="${item.workPlace}"></td>
+                        <td th:utext="${item.accountingPlace}"></td>
+                        <td th:utext="${item.garrison}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+                <div class="row mt-5">
+                    <div class="col-md-12">
+                        <div class="copyright">
+                            <p>Ministry of Defense of Ukraine</p>
+                            <p>2022 -
+                                <script language="JavaScript" type="text/javascript">
+                                    now = new Date;
+                                    theYear = now.getYear();
+                                    if (theYear < 1900)
+                                        theYear = theYear + 1900;
+                                    document.write(theYear)
+                                </script>
+                                . Powered by Sachuk
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- END PAGE CONTAINER-->
+</div>
+</div>
+<!--<script>-->
+<!--    document.getElementById("editForm").onsubmit = function () {-->
+<!--        if (!document.getElementById("text-input").value || !document.getElementById("acc").value) {-->
+<!--            alert("Заповніть важливі поля з першої колонки")-->
+<!--            return false;-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
+<!-- Jquery JS-->
+<script th:src="@{../vendor/jquery-3.2.1.min.js}"></script>
+<script th:src="@{../vendor/bootstrap-4.1/popper.min.js}"></script>
+<script th:src="@{../vendor/bootstrap-4.1/bootstrap.min.js}"></script>
+<script th:src="@{../vendor/slick/slick.min.js}"></script>
+<script th:src="@{../vendor/wow/wow.min.js}"></script>
+<script th:src="@{../vendor/animsition/animsition.min.js}"></script>
+<script th:src="@{../vendor/bootstrap-progressbar/bootstrap-progressbar.min.js}"></script>
+<script th:src="@{../vendor/counter-up/jquery.waypoints.min.js}"></script>
+<script th:src="@{../vendor/counter-up/jquery.counterup.min.js}"></script>
+<script th:src="@{../vendor/circle-progress/circle-progress.min.js}"></script>
+<script th:src="@{../vendor/perfect-scrollbar/perfect-scrollbar.js}"></script>
+<script th:src="@{../vendor/chartjs/Chart.bundle.min.js}"></script>
+<script th:src="@{../vendor/select2/select2.min.js}"></script>
+<!--<script th:src="@{../js/sidebarOpen.js}"></script>-->
+<script th:src="@{../js/main.js}"></script>
+</body>
+</html>

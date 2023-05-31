@@ -24,7 +24,7 @@ public class Work implements Serializable {
     public static final String findByGarrison = "work.findByGarrison";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(length = 25)
     private String workPlace;
