@@ -1,4 +1,4 @@
-FROM java:8-jdk
+FROM openjdk:8
 VOLUME /tmp
 ADD ./target/keu-0.0.1-SNAPSHOT.jar keu-0.0.1-SNAPSHOT.jar
 EXPOSE 8081

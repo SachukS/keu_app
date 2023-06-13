@@ -2872,6 +2872,12 @@ section {
     background-color: #233242;
     border-color: #32383e
 }
+.telefon::-webkit-outer-spin-button,
+.telefon::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
 
 .table-blue, .table-blue > td, .table-blue > th {
     background-color: #C0D6DF;

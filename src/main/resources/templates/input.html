@@ -44,11 +44,11 @@
                             <input th:field="*{id}" th:value="${customer.id}" hidden/>
                             <input th:field="*{zagalna}" th:value="${customer.zagalna}" hidden/>
                             <input th:field="*{pilgova}" th:value="${customer.pilgova}" hidden/>
-                            <div class="col-12 col-md-9">
+                            <div class="col-12 col-md-9" th:if="${customer.zagalna != null}">
                                 <h4><label class=" form-control-label"
                                            th:text="'Номер в загальній черзі:   '+${customer.zagalna}"></label></h4>
                             </div>
-                            <div class="col-12 col-md-9">
+                            <div class="col-12 col-md-9" th:if="${customer.pilgova != null}">
                                 <h4><label class=" form-control-label"
                                            th:text="'Номер в пільговій черзі:   '+${customer.pilgova}"></label></h4>
                             </div>
@@ -104,8 +104,8 @@
                                     <!--                                <div class="form-group">-->
                                     <div class="input-group">
                                         <div class="input-group-addon">+38</div>
-                                        <input type="tel" th:field="*{phoneNumber}"
-                                               th:value="${customer.phoneNumber}" class="form-control">
+                                        <input type="number" th:field="*{phoneNumber}"
+                                               th:value="${customer.phoneNumber}" class="form-control telefon">
                                         <div class="input-group-addon">
                                             <i class="fa fa-phone"></i>
                                         </div>
