@@ -105,8 +105,9 @@ public class InputController {
             customer.setFamilyWar2022(FamilyWar2022.NO);
         if (Objects.equals(customer.getProvided(), null))
             customer.setProvided(Provided.NO);
-        System.out.println(customer);
-        System.out.println("edit");
+        log.info("open to edit");
+        log.info(customer);
+        log.info(getUser());
         modelAndView.addAttribute("customers", customerService.getTop());
         modelAndView.addAttribute("customer", customer);
 
@@ -117,7 +118,7 @@ public class InputController {
     @RequestMapping(value = "/input", method = {RequestMethod.POST})
     public String saveInputModel(@ModelAttribute("customer") Customer customer, Model model) throws IOException {
         if (getUser().getRole().equals(Roles.ROLE_ADMIN)) {
-            System.out.println("THIS IS HERE MOFUCKA");
+            log.info("saving customer");
 
             if (customer.getRank().getId() == 0L)
                 customer.setRank(getAllRanks().stream().filter(r -> Objects.equals(r.getNameRank(), customer.getRank().getNameRank())).findFirst().get());
@@ -146,7 +147,8 @@ public class InputController {
 
             customer.setUpdateDate(LocalDateTime.now());
             customerService.save(customer);
-            System.out.println(customer);
+            log.info(customer);
+            log.info(getUser());
 
             return "redirect:/cabinet?success=true";
         }
@@ -155,8 +157,9 @@ public class InputController {
 
     @RequestMapping(value = "/input/print", method = {RequestMethod.POST})
     public void print(@ModelAttribute("customer") Customer customer, HttpServletResponse response, Model model) throws IOException {
-        System.out.println("print Dovidka");
-        System.out.println(customer);
+        log.info("print dovidka");
+        log.info(customer);
+        log.info(getUser());
         if (customer.getRank().getId() == 0L)
             customer.setRank(getAllRanks().stream().filter(r -> Objects.equals(r.getNameRank(), customer.getRank().getNameRank())).findFirst().get());
         if (customer.getWork().getId() == 0L)

@@ -5,6 +5,7 @@ import com.sachuk.keu.database.service.UserService;
 import com.sachuk.keu.entities.SearchQuery;
 import com.sachuk.keu.entities.security.User;
 import lombok.AllArgsConstructor;
+import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import java.time.LocalDate;
 @Controller
 @AllArgsConstructor
 public class IndexController {
+    private static final Logger log = Logger.getLogger(IndexController.class);
 
     public CustomerService customerService;
     private final UserService databaseUserService;
@@ -53,8 +55,10 @@ public class IndexController {
     public String delete(@PathVariable("id") String id,
                          Model modelAndView) {
         User user = databaseUserService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        log.info("deleting customer");
         if (customerService.existsById(Long.valueOf(id))) {
             customerService.deleteById(Long.valueOf(id));
+            log.info("customer above deleted");
             return "redirect:/cabinet?success=true";
         }
         return "redirect:/cabinet?success=false";

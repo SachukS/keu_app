@@ -64,7 +64,6 @@ public class RatingXLSWeb {
         }
 
         String sortBy = nameSort.substring(4);
-        System.out.println(sortBy);
 
         switch (sortBy) {
             case "ZAGALNA":

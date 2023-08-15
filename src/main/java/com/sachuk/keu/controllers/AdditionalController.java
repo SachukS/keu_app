@@ -91,9 +91,9 @@ public class AdditionalController {
     public String saveBase(@ModelAttribute("workToAdd") Work work, Model model) throws IOException {
         if (getUser().getRole().equals(Roles.ROLE_ADMIN)) {
 
-            System.out.println(work);
             workService.save(work);
-
+            log.info("adding military base");
+            log.info(work);
             return "redirect:/additional";
         }
         return "";
@@ -106,9 +106,8 @@ public class AdditionalController {
 
             List<Work> zhkToRename = works.stream().filter(w -> w.getAccountingPlace().equals(work.getAccountingPlace())).collect(Collectors.toList());
             zhkToRename.stream().forEach(work1 -> work1.setAccountingPlace(work.getWorkPlace()));
-            System.out.println(zhkToRename);
             workService.saveAll(zhkToRename);
-
+            log.info("renamed accounting place: " + zhkToRename);
             return "redirect:/additional";
         }
         return "";
@@ -119,11 +118,11 @@ public class AdditionalController {
     public String change(@ModelAttribute("workToChange") Work work, @ModelAttribute("works") List<Work> works, Model model) throws IOException {
         if (getUser().getRole().equals(Roles.ROLE_ADMIN)) {
 
-            System.out.println(work);
             Work workToChange = works.stream().filter(w->w.getWorkPlace().equals(work.getWorkPlace())).findFirst().get();
             workToChange.setAccountingPlace(work.getAccountingPlace());
             workService.save(workToChange);
 
+            log.info("accounting place for: "+workToChange.getWorkPlace()+" changed to: "+work.getAccountingPlace());
             return "redirect:/additional";
         }
         return "";
@@ -137,9 +136,9 @@ public class AdditionalController {
             System.out.println(work);
 
             Work workDelete = works.stream().filter(w->w.getWorkPlace().equals(work.getWorkPlace())).findFirst().get();
-            System.out.println(workDelete);
-            workService.delete(workDelete);
 
+            workService.delete(workDelete);
+            log.info("deleted military base: "+workDelete);
             return "redirect:/additional";
         }
         return "";

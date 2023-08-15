@@ -50,8 +50,6 @@ public class AjaxRestController {
         none.add(Math.round(((double) customerService.findAll().stream().filter(customer -> customer.getQuota().getId() == 0 && customer.getWork().getGarrison().equals("Василькiв")).count() / vasi.get(0)) * 100));
         none.add(Math.round(((double) customerService.findAll().stream().filter(customer -> customer.getQuota().getId() == 0 && customer.getWork().getGarrison().equals("Семиполки")).count() / semi.get(0)) * 100));
 
-        System.out.println(none.toString());
-
         persho.add(Math.round(((double) customerService.findAllByQuotaType(QuotaType.FIRSTINPRIORITY.getName()).stream().filter(customer -> customer.getWork().getGarrison().equals("м.Київ")).count() / kyiv.get(0)) * 100));
         persho.add(Math.round(((double) customerService.findAllByQuotaType(QuotaType.FIRSTINPRIORITY.getName()).stream().filter(customer -> customer.getWork().getGarrison().equals("Бровари")).count() / brov.get(0)) * 100));
         persho.add(Math.round(((double) customerService.findAllByQuotaType(QuotaType.FIRSTINPRIORITY.getName()).stream().filter(customer -> customer.getWork().getGarrison().equals("Бориспiль")).count() / bori.get(0)) * 100));
