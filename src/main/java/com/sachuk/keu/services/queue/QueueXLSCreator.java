@@ -1,13 +1,12 @@
-package com.sachuk.keu.services.rating;
+package com.sachuk.keu.services.queue;
 
-import com.sachuk.keu.entities.Customer;
+import com.sachuk.keu.entities.MilitaryMan;
 import com.sachuk.keu.entities.Work;
 import com.sachuk.keu.utils.DateUtil;
 import com.sachuk.keu.utils.Enumerable;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -22,7 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class RatingXLSCreator implements AutoCloseable {
+public class QueueXLSCreator implements AutoCloseable {
 
     private static final String[] ALL = {"All", "Всі", "Повний список", "Загальний"};
     private Workbook book = new HSSFWorkbook();
@@ -33,20 +32,20 @@ public class RatingXLSCreator implements AutoCloseable {
     private int isSecond;
     private String fileName;
     private CellStyle style;
-    private static List<Customer> customers = new ArrayList<>();
+    private static List<MilitaryMan> militaryMEN = new ArrayList<>();
     private String[] names = {"№", "№плг", "Військ. звання", "Прізвище, ініціали", "Дата кв/обліку", "Дата пільги", "Категорія пільг", "чл.сім.", "кімн.", "ЖК", "Організація", "Висл"};
     private Row rows = null;
 
     private static Work getWorkWithGarrison() {
-        return customers.stream().map(Customer::getWork).findFirst().get();
+        return militaryMEN.stream().map(MilitaryMan::getWork).findFirst().get();
     }
 
-    public RatingXLSCreator() {
+    public QueueXLSCreator() {
         Arrays.sort(ALL);
         style = book.createCellStyle();
     }
 
-    public RatingXLSCreator(String fileName) {
+    public QueueXLSCreator(String fileName) {
         this.fileName = fileName;
         Arrays.sort(ALL);
         style = book.createCellStyle();
@@ -65,9 +64,9 @@ public class RatingXLSCreator implements AutoCloseable {
         SPEC = "";
     }
 
-    public void writeXls(List<Customer> list, String name, Customer customer) {
+    public void writeXls(List<MilitaryMan> list, String name, MilitaryMan militaryMan) {
         if (!fileName.equals(System.getProperty("user.home") + File.separator + "DOVIDKA.xls")) {
-            customers = list;
+            militaryMEN = list;
             isSecond = 1;
             System.out.println(name);
 
@@ -85,7 +84,7 @@ public class RatingXLSCreator implements AutoCloseable {
                 sheet.setMargin(Sheet.RightMargin, 0.24);
                 sheet.setMargin(Sheet.TopMargin, 0.24);
 
-                createTableHeaderForSheet(name, customer);
+                createTableHeaderForSheet(name, militaryMan);
 
             } else {
                 sheet = book.getSheet(name);
@@ -141,7 +140,7 @@ public class RatingXLSCreator implements AutoCloseable {
                 sheet.autoSizeColumn(c);
             });
         } else {
-            customers = list;
+            militaryMEN = list;
 
             if (book == null)
                 return;
@@ -150,7 +149,7 @@ public class RatingXLSCreator implements AutoCloseable {
 
                 sheet.setMargin(Sheet.TopMargin, 0.24);
 
-                createDovidka(list, customer);
+                createDovidka(list, militaryMan);
 
             } else {
                 sheet = book.getSheet(name);
@@ -165,7 +164,7 @@ public class RatingXLSCreator implements AutoCloseable {
         }
     }
 
-    private void createDovidka(List<Customer> customers, Customer customer) {
+    private void createDovidka(List<MilitaryMan> militaryMEN, MilitaryMan militaryMan) {
         style = book.createCellStyle();
         Font font = book.createFont();
         font.setFontHeightInPoints((short) 11);
@@ -218,22 +217,22 @@ public class RatingXLSCreator implements AutoCloseable {
         Row rowFour = sheet.createRow(3);
 
         Cell ranVal = rowFour.createCell(0);
-        ranVal.setCellValue(customer.getRank().getNameRank());
+        ranVal.setCellValue(militaryMan.getRank().getNameRank());
         ranVal.setCellStyle(style);
         sheet.addMergedRegion(new CellRangeAddress(3, 3, 0, 1));
 
         Cell surVal = rowFour.createCell(2);
-        surVal.setCellValue(customer.getSurname());
+        surVal.setCellValue(militaryMan.getSurname());
         surVal.setCellStyle(style);
         sheet.addMergedRegion(new CellRangeAddress(3, 3, 2, 4));
 
         Cell nameVal = rowFour.createCell(5);
-        nameVal.setCellValue(customer.getName());
+        nameVal.setCellValue(militaryMan.getName());
         nameVal.setCellStyle(style);
         sheet.addMergedRegion(new CellRangeAddress(3, 3, 5, 6));
 
         Cell thirdnameVal = rowFour.createCell(7);
-        thirdnameVal.setCellValue(customer.getThirdName());
+        thirdnameVal.setCellValue(militaryMan.getThirdName());
         thirdnameVal.setCellStyle(style);
         sheet.addMergedRegion(new CellRangeAddress(3, 3, 7, 9));
 
@@ -241,7 +240,7 @@ public class RatingXLSCreator implements AutoCloseable {
         Row sixRow = sheet.createRow(5);
 
         Cell garrison = sixRow.createCell(0);
-        garrison.setCellValue("Гарнізон " + customer.getWork().getGarrison());
+        garrison.setCellValue("Гарнізон " + militaryMan.getWork().getGarrison());
         garrison.setCellStyle(style);
         sheet.addMergedRegion(new CellRangeAddress(5, 5, 0, 3));
 
@@ -254,7 +253,7 @@ public class RatingXLSCreator implements AutoCloseable {
         sheet.addMergedRegion(new CellRangeAddress(7, 7, 0, 2));
 
         Cell kwValue = eightRow.createCell(3);
-        kwValue.setCellValue(customer.getAccountingDate() != null ? customer.getFormatAccounting() : "-");
+        kwValue.setCellValue(militaryMan.getAccountingDate() != null ? militaryMan.getFormatAccounting() : "-");
         kwValue.setCellStyle(style);
 
         Cell kst = eightRow.createCell(5);
@@ -263,7 +262,7 @@ public class RatingXLSCreator implements AutoCloseable {
         sheet.addMergedRegion(new CellRangeAddress(7, 7, 5, 6));
 
         Cell kstValue = eightRow.createCell(7);
-        kstValue.setCellValue(customer.getFamilyCount());
+        kstValue.setCellValue(militaryMan.getFamilyCount());
         kstValue.setCellStyle(style);
 
 
@@ -275,7 +274,7 @@ public class RatingXLSCreator implements AutoCloseable {
         sheet.addMergedRegion(new CellRangeAddress(9, 9, 0, 1));
 
         Cell mestoVal = tenRow.createCell(2);
-        mestoVal.setCellValue(customer.getWork().getWorkPlace());
+        mestoVal.setCellValue(militaryMan.getWork().getWorkPlace());
         mestoVal.setCellStyle(style);
         sheet.addMergedRegion(new CellRangeAddress(9, 9, 2, 3));
 
@@ -285,7 +284,7 @@ public class RatingXLSCreator implements AutoCloseable {
 //        sheet.addMergedRegion(new CellRangeAddress(9,9,4,5));
 
         Cell skladVal = tenRow.createCell(6);
-        skladVal.setCellValue(customer.getFamily());
+        skladVal.setCellValue(militaryMan.getFamily());
         skladVal.setCellStyle(styleSimple);
         sheet.addMergedRegion(new CellRangeAddress(9, 15, 6, 9));
 
@@ -298,7 +297,7 @@ public class RatingXLSCreator implements AutoCloseable {
         sheet.addMergedRegion(new CellRangeAddress(11, 11, 0, 1));
 
         Cell zhkVal = row12.createCell(2);
-        zhkVal.setCellValue(customer.getWork().getAccountingPlace());
+        zhkVal.setCellValue(militaryMan.getWork().getAccountingPlace());
         zhkVal.setCellStyle(style);
         sheet.addMergedRegion(new CellRangeAddress(11, 11, 2, 4));
 
@@ -311,7 +310,7 @@ public class RatingXLSCreator implements AutoCloseable {
         sheet.addMergedRegion(new CellRangeAddress(14, 14, 0, 2));
 
         Cell plgVal = row15.createCell(3);
-        plgVal.setCellValue(customer.getQuota().getShortNameQuota());
+        plgVal.setCellValue(militaryMan.getQuota().getShortNameQuota());
         plgVal.setCellStyle(style);
         sheet.addMergedRegion(new CellRangeAddress(14, 14, 3, 5));
 
@@ -324,7 +323,7 @@ public class RatingXLSCreator implements AutoCloseable {
         sheet.addMergedRegion(new CellRangeAddress(16, 16, 0, 2));
 
         Cell plgDateVal = row17.createCell(3);
-        plgDateVal.setCellValue(customer.getQuotaDate() != null ? customer.getFormatQuota() : "-");
+        plgDateVal.setCellValue(militaryMan.getQuotaDate() != null ? militaryMan.getFormatQuota() : "-");
         plgDateVal.setCellStyle(style);
         sheet.addMergedRegion(new CellRangeAddress(16, 16, 3, 4));
 
@@ -334,7 +333,7 @@ public class RatingXLSCreator implements AutoCloseable {
         sheet.addMergedRegion(new CellRangeAddress(16, 16, 5, 6));
 
         Cell katVal = row17.createCell(7);
-        katVal.setCellValue(customer.getQuotaType());
+        katVal.setCellValue(militaryMan.getQuotaType());
         katVal.setCellStyle(style);
         sheet.addMergedRegion(new CellRangeAddress(16, 16, 7, 8));
 
@@ -347,7 +346,7 @@ public class RatingXLSCreator implements AutoCloseable {
         sheet.addMergedRegion(new CellRangeAddress(18, 18, 0, 3));
 
         Cell zagVal = row19.createCell(4);
-        zagVal.setCellValue(customer.getZagalna());
+        zagVal.setCellValue(militaryMan.getZagalna());
         zagVal.setCellStyle(style);
 
 
@@ -359,12 +358,12 @@ public class RatingXLSCreator implements AutoCloseable {
         sheet.addMergedRegion(new CellRangeAddress(20, 20, 0, 1));
 
         Cell nomType = row21.createCell(2);
-        nomType.setCellValue(customer.getQuotaType());
+        nomType.setCellValue(militaryMan.getQuotaType());
         nomType.setCellStyle(styleSimple);
         sheet.addMergedRegion(new CellRangeAddress(20, 20, 2, 3));
 
         Cell nomVal = row21.createCell(4);
-        nomVal.setCellValue(customer.getQuotaType().equals("без пільг") ? "немає" : String.valueOf(customer.getPilgova()));
+        nomVal.setCellValue(militaryMan.getQuotaType().equals("без пільг") ? "немає" : String.valueOf(militaryMan.getPilgova()));
         nomVal.setCellStyle(style);
         sheet.addMergedRegion(new CellRangeAddress(20, 20, 2, 3));
 
@@ -377,7 +376,7 @@ public class RatingXLSCreator implements AutoCloseable {
         sheet.addMergedRegion(new CellRangeAddress(22, 22, 0, 1));
 
         Cell primVal = row23.createCell(2);
-        primVal.setCellValue(customer.getInfo());
+        primVal.setCellValue(militaryMan.getInfo());
         primVal.setCellStyle(styleSimple);
         sheet.addMergedRegion(new CellRangeAddress(22, 28, 2, 6));
 
@@ -390,7 +389,7 @@ public class RatingXLSCreator implements AutoCloseable {
         sheet.addMergedRegion(new CellRangeAddress(31, 32, 0, 9));
     }
 
-    private void createTableHeaderForSheet(String name, Customer customer) {
+    private void createTableHeaderForSheet(String name, MilitaryMan militaryMan) {
         Font font = book.createFont();
         font.setFontHeightInPoints((short) 7);
         font.setFontName("Arial");
@@ -421,7 +420,7 @@ public class RatingXLSCreator implements AutoCloseable {
         cellOrg.setCellStyle(style);
 
         Cell cellOrg2 = rowSecond.createCell(3);
-        cellOrg2.setCellValue(customer.getWork().getWorkPlace() + " (перевірку пройшли: " + customer.getRegistrated().getName() + ")");
+        cellOrg2.setCellValue(militaryMan.getWork().getWorkPlace() + " (перевірку пройшли: " + militaryMan.getRegistrated().getName() + ")");
         cellOrg2.setCellStyle(style);
         sheet.addMergedRegion(new CellRangeAddress(1, 1, 3, 5));
 
@@ -432,7 +431,7 @@ public class RatingXLSCreator implements AutoCloseable {
         cellKat.setCellStyle(style);
 
         Cell cellQuot = rowThird.createCell(3);
-        cellQuot.setCellValue(customer.getQuotaType() == null ? "Всі" : customer.getQuotaType());
+        cellQuot.setCellValue(militaryMan.getQuotaType() == null ? "Всі" : militaryMan.getQuotaType());
         cellQuot.setCellStyle(style);
 
         Row rowFour = sheet.createRow(3);
@@ -442,12 +441,12 @@ public class RatingXLSCreator implements AutoCloseable {
         cellKwart.setCellStyle(style);
 
         Cell cellCount = rowFour.createCell(3);
-        cellCount.setCellValue(customer.getRoomCount() == 0 ? "Всі" : String.valueOf(customer.getRoomCount()));
+        cellCount.setCellValue(militaryMan.getRoomCount() == 0 ? "Всі" : String.valueOf(militaryMan.getRoomCount()));
         cellCount.setCellStyle(style);
 
         Row rowFive = sheet.createRow(4);
         Cell cellCountAll = rowFive.createCell(3);
-        cellCountAll.setCellValue(customers.size() + " осіб");
+        cellCountAll.setCellValue(militaryMEN.size() + " осіб");
         cellCountAll.setCellStyle(style);
 
         Row rowSix = sheet.createRow(5);

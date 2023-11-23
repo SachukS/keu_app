@@ -2,17 +2,10 @@ package com.sachuk.keu.controllers;
 
 import com.sachuk.keu.database.service.*;
 import com.sachuk.keu.entities.*;
-import com.sachuk.keu.entities.enums.FamilyWar2022;
-import com.sachuk.keu.entities.enums.Provided;
-import com.sachuk.keu.entities.enums.QuotaType;
-import com.sachuk.keu.entities.enums.Registrated;
 import com.sachuk.keu.entities.security.Roles;
 import com.sachuk.keu.entities.security.User;
-import com.sachuk.keu.services.rating.RatingXLSWeb;
-import com.sachuk.keu.services.rating.RatingXlsCreateService;
 import lombok.AllArgsConstructor;
 import org.apache.log4j.Logger;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,18 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Controller

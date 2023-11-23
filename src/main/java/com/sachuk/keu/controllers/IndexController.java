@@ -1,6 +1,6 @@
 package com.sachuk.keu.controllers;
 
-import com.sachuk.keu.database.service.CustomerService;
+import com.sachuk.keu.database.service.MilitaryManService;
 import com.sachuk.keu.database.service.UserService;
 import com.sachuk.keu.entities.SearchQuery;
 import com.sachuk.keu.entities.security.User;
@@ -20,7 +20,7 @@ import java.time.LocalDate;
 public class IndexController {
     private static final Logger log = Logger.getLogger(IndexController.class);
 
-    public CustomerService customerService;
+    public MilitaryManService militaryManService;
     private final UserService databaseUserService;
 
     @ModelAttribute("query")
@@ -39,14 +39,14 @@ public class IndexController {
                        Model modelAndView) {
         User user = databaseUserService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         System.out.println(user);
-        long kyivCount = (long) customerService.findByGarrison("м.Київ").size();
+        long kyivCount = (long) militaryManService.findByGarrison("м.Київ").size();
         modelAndView.addAttribute("success", success);
         modelAndView.addAttribute("error", error);
         modelAndView.addAttribute("user", user);
         modelAndView.addAttribute("kyivCount", kyivCount);
-        modelAndView.addAttribute("todayCount", customerService.countAllAfterDate(LocalDate.now().atStartOfDay()));
-        modelAndView.addAttribute("oblastCount", customerService.count() - kyivCount);
-        modelAndView.addAttribute("allCount", customerService.count());
+        modelAndView.addAttribute("todayCount", militaryManService.countAllAfterDate(LocalDate.now().atStartOfDay()));
+        modelAndView.addAttribute("oblastCount", militaryManService.count() - kyivCount);
+        modelAndView.addAttribute("allCount", militaryManService.count());
         return "cabinet";
 
     }
@@ -56,8 +56,8 @@ public class IndexController {
                          Model modelAndView) {
         User user = databaseUserService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         log.info("deleting customer");
-        if (customerService.existsById(Long.valueOf(id))) {
-            customerService.deleteById(Long.valueOf(id));
+        if (militaryManService.existsById(Long.valueOf(id))) {
+            militaryManService.deleteById(Long.valueOf(id));
             log.info("customer above deleted");
             return "redirect:/cabinet?success=true";
         }

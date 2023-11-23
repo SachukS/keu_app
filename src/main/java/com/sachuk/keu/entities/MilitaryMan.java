@@ -18,7 +18,7 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-public class Customer implements Serializable {
+public class MilitaryMan implements Serializable {
 
     private static final long serialVersionUID = 1727059679068137102L;
     @Id
@@ -39,13 +39,13 @@ public class Customer implements Serializable {
     @JoinColumn(name = "quota_id")
     private Quota quota = new Quota("Без пільг", "Без пільг", QuotaType.NONE);
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Quota.class)
-    @JoinColumn(name = "quota_id2")
-    private Quota quota2 = new Quota("Без пільг", "Без пільг", QuotaType.NONE);
+//    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Quota.class)
+//    @JoinColumn(name = "quota_id2")
+//    private Quota quota2 = new Quota("Без пільг", "Без пільг", QuotaType.NONE);
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date quotaDate;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date quotaDate2;
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    private Date quotaDate2;
     private int familyCount;
     private int roomCount;
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Work.class)
@@ -102,18 +102,18 @@ public class Customer implements Serializable {
         return null;
     }
 
-    public String getFormatQuota2() {
-        if (this.getQuotaDate() != null)
-            return DateUtil.formatDateToString(this.getQuotaDate2(), "dd.MM.yyyy");
-        return null;
-    }
+//    public String getFormatQuota2() {
+//        if (this.getQuotaDate() != null)
+//            return DateUtil.formatDateToString(this.getQuotaDate2(), "dd.MM.yyyy");
+//        return null;
+//    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Customer customer = (Customer) o;
-        return familyCount == customer.familyCount && roomCount == customer.roomCount && Objects.equals(surname, customer.surname) && Objects.equals(name, customer.name) && Objects.equals(thirdName, customer.thirdName) && Objects.equals(accountingDate, customer.accountingDate) && Objects.equals(quotaDate, customer.quotaDate) && Objects.equals(quotaType, customer.quotaType) && registrated == customer.registrated;
+        MilitaryMan militaryMan = (MilitaryMan) o;
+        return familyCount == militaryMan.familyCount && roomCount == militaryMan.roomCount && Objects.equals(surname, militaryMan.surname) && Objects.equals(name, militaryMan.name) && Objects.equals(thirdName, militaryMan.thirdName) && Objects.equals(accountingDate, militaryMan.accountingDate) && Objects.equals(quotaDate, militaryMan.quotaDate) && Objects.equals(quotaType, militaryMan.quotaType) && registrated == militaryMan.registrated;
     }
 
     @Override
