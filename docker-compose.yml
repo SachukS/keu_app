@@ -15,7 +15,7 @@ services:
     container_name: keu-server
     build: /
     ports:
-      - "8081:8081"
+      - "443:443"
     networks:
       - db-network
     depends_on:
