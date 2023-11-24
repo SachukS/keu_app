@@ -11,15 +11,15 @@ services:
     ports:
       - "3307:3306"
 
-#  keu-server:
-#    container_name: keu-server
-#    build: /
-#    ports:
-#      - "8081:8081"
-#    networks:
-#      - db-network
-#    depends_on:
-#      - db
+  keu-server:
+    container_name: keu-server
+    build: /
+    ports:
+      - "8081:8081"
+    networks:
+      - db-network
+    depends_on:
+      - db
 
 networks:
   db-network:

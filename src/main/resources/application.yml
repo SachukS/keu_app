@@ -4,56 +4,29 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL5Dialect
   datasource:
+    url: jdbc:mysql://db:3306/keu_db?characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+    username: keuDbUser
+    password: fgjrfksgcbc
+    driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  port: 8081
+
+---
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+  datasource:
     url: jdbc:mysql://localhost:3307/keu_db?characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
     username: keuDbUser
     password: fgjrfksgcbc
     driver-class-name: com.mysql.cj.jdbc.Driver
-server:
-  port: 8081
-
----
-
-spring:
-  jpa:
-    hibernate:
-      ddl-auto: update
-    database-platform: org.hibernate.dialect.MySQL5Dialect
-  datasource:
-    url: jdbc:mysql://db:3307/keu_db?characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&useSSL=false
-    username: keuDbUser
-    password: fgjrfksgcbc
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  config:
-    activate:
-      on-profile: keuProd
-server:
-  port: 8081
-
----
-spring:
-  jpa:
-    hibernate:
-      ddl-auto: update
-    database-platform: org.hibernate.dialect.MySQL5Dialect
-  datasource:
-    url: jdbc:mysql://db:3307/keu_db?characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
-    username: root
-    password:
-    driver-class-name: com.mysql.cj.jdbc.Driver
   config:
     activate:
       on-profile: localhostDB
+server:
+  port: 8081
+
 ---
-spring:
-  jpa:
-    hibernate:
-      ddl-auto: update
-    database-platform: org.hibernate.dialect.MySQL5Dialect
-  datasource:
-    url: jdbc:mysql://db:3307/keu_db?characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&useSSL=false
-    username: keuDbUser
-    password: fgjrfksgcbc
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  config:
-    activate:
-      on-profile: sachukDBbackup
