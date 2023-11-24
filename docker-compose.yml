@@ -1,0 +1,25 @@
+version: "3.1"
+
+services:
+
+  db:
+    container_name: db
+    build: /src/main/resources/db
+    restart: always
+    networks:
+      - db-network
+    ports:
+      - "3307:3306"
+
+  keu-server:
+    container_name: keu-server
+    build: /
+    ports:
+      - "8081:8081"
+    networks:
+      - db-network
+    depends_on:
+      - db
+
+networks:
+  db-network:
