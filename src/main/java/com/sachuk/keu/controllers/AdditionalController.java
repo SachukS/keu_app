@@ -3,7 +3,6 @@ package com.sachuk.keu.controllers;
 import com.sachuk.keu.database.service.*;
 import com.sachuk.keu.entities.*;
 import com.sachuk.keu.entities.security.Roles;
-import com.sachuk.keu.entities.security.User;
 import lombok.AllArgsConstructor;
 import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,107 +25,107 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class AdditionalController {
 
-    private static final Logger log = Logger.getLogger(AdditionalController.class);
-
-    public WorkService workService;
-    private UserService databaseUserService;
-
-    @ModelAttribute("works")
-    public Collection<Work> getAllWorks() {
-        return workService.findAll().stream()
-                .sorted(Comparator.comparing(Work::getWorkPlace)).collect(Collectors.toList());
-    }
-    @ModelAttribute("garrisons")
-    public Collection<String> getAllGarrisons() {
-        return getAllWorks().stream().map(Work::getGarrison).distinct().collect(Collectors.toList());
-    }
-    @ModelAttribute("accountings")
-    public Collection<String> getAllAccountings() {
-        return getAllWorks().stream().map(Work::getAccountingPlace).distinct().collect(Collectors.toList());
-    }
-
-    @ModelAttribute("query")
-    public SearchQuery createQuery() {
-        return new SearchQuery();
-    }
-
-
-    @ModelAttribute("user")
-    @Transactional
-    public User getUser() {
-        return databaseUserService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-    }
-
-
-    @RequestMapping(value = {"/additional"}, method = {RequestMethod.GET})
-    public String putNewInputModel(Model modelAndView) {
-        if (getUser().getRole().equals(Roles.ROLE_ADMIN)) {
-            Work work = new Work();
-            modelAndView.addAttribute("workToAdd", work);
-            modelAndView.addAttribute("workToRename", work);
-            modelAndView.addAttribute("workToChange", work);
-            modelAndView.addAttribute("workToDelete", work);
-
-            return "additional";
-        }
-        return "";
-    }
-
-    @Transactional
-    @RequestMapping(value = "/additional/addBase", method = {RequestMethod.POST})
-    public String saveBase(@ModelAttribute("workToAdd") Work work, Model model) throws IOException {
-        if (getUser().getRole().equals(Roles.ROLE_ADMIN)) {
-
-            workService.save(work);
-            log.info("adding military base");
-            log.info(work);
-            return "redirect:/additional";
-        }
-        return "";
-    }
-
-    @Transactional
-    @RequestMapping(value = "/additional/renameZHK", method = {RequestMethod.POST})
-    public String rename(@ModelAttribute("workToRename") Work work, @ModelAttribute("works") List<Work> works, Model model) throws IOException {
-        if (getUser().getRole().equals(Roles.ROLE_ADMIN)) {
-
-            List<Work> zhkToRename = works.stream().filter(w -> w.getAccountingPlace().equals(work.getAccountingPlace())).collect(Collectors.toList());
-            zhkToRename.stream().forEach(work1 -> work1.setAccountingPlace(work.getWorkPlace()));
-            workService.saveAll(zhkToRename);
-            log.info("renamed accounting place: " + zhkToRename);
-            return "redirect:/additional";
-        }
-        return "";
-    }
-
-    @Transactional
-    @RequestMapping(value = "/additional/changeZHK", method = {RequestMethod.POST})
-    public String change(@ModelAttribute("workToChange") Work work, @ModelAttribute("works") List<Work> works, Model model) throws IOException {
-        if (getUser().getRole().equals(Roles.ROLE_ADMIN)) {
-
-            Work workToChange = works.stream().filter(w->w.getWorkPlace().equals(work.getWorkPlace())).findFirst().get();
-            workToChange.setAccountingPlace(work.getAccountingPlace());
-            workService.save(workToChange);
-
-            log.info("accounting place for: "+workToChange.getWorkPlace()+" changed to: "+work.getAccountingPlace());
-            return "redirect:/additional";
-        }
-        return "";
-    }
-
-    @Transactional
-    @RequestMapping(value = "/additional/delete/{id}", method = {RequestMethod.POST})
-    public String delete(@ModelAttribute("workToDelete") Work work, @ModelAttribute("works") List<Work> works, @PathVariable("id") String id, Model model) throws IOException {
-        if (getUser().getRole().equals(Roles.ROLE_ADMIN)) {
-
-            System.out.println(work);
-
-            Work workDelete = works.stream().filter(w->w.getWorkPlace().equals(work.getWorkPlace())).findFirst().get();
-
-            workService.delete(workDelete);
-            log.info("deleted military base: "+workDelete);
-            return "redirect:/additional";
-        }
-        return "";
-    }
+//    private static final Logger log = Logger.getLogger(AdditionalController.class);
+//
+//    public WorkService workService;
+//    private UserService databaseUserService;
+//
+//    @ModelAttribute("works")
+//    public Collection<Work> getAllWorks() {
+//        return workService.findAll().stream()
+//                .sorted(Comparator.comparing(Work::getWorkPlace)).collect(Collectors.toList());
+//    }
+//    @ModelAttribute("garrisons")
+//    public Collection<String> getAllGarrisons() {
+//        return getAllWorks().stream().map(Work::getGarrison).distinct().collect(Collectors.toList());
+//    }
+//    @ModelAttribute("accountings")
+//    public Collection<String> getAllAccountings() {
+//        return getAllWorks().stream().map(Work::getAccountingPlace).distinct().collect(Collectors.toList());
+//    }
+//
+//    @ModelAttribute("query")
+//    public SearchQuery createQuery() {
+//        return new SearchQuery();
+//    }
+//
+//
+//    @ModelAttribute("user")
+//    @Transactional
+//    public User getUser() {
+//        return databaseUserService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+//    }
+//
+//
+//    @RequestMapping(value = {"/additional"}, method = {RequestMethod.GET})
+//    public String putNewInputModel(Model modelAndView) {
+//        if (getUser().getRole().equals(Roles.ROLE_ADMIN)) {
+//            Work work = new Work();
+//            modelAndView.addAttribute("workToAdd", work);
+//            modelAndView.addAttribute("workToRename", work);
+//            modelAndView.addAttribute("workToChange", work);
+//            modelAndView.addAttribute("workToDelete", work);
+//
+//            return "additional";
+//        }
+//        return "";
+//    }
+//
+//    @Transactional
+//    @RequestMapping(value = "/additional/addBase", method = {RequestMethod.POST})
+//    public String saveBase(@ModelAttribute("workToAdd") Work work, Model model) throws IOException {
+//        if (getUser().getRole().equals(Roles.ROLE_ADMIN)) {
+//
+//            workService.save(work);
+//            log.info("adding military base");
+//            log.info(work);
+//            return "redirect:/additional";
+//        }
+//        return "";
+//    }
+//
+//    @Transactional
+//    @RequestMapping(value = "/additional/renameZHK", method = {RequestMethod.POST})
+//    public String rename(@ModelAttribute("workToRename") Work work, @ModelAttribute("works") List<Work> works, Model model) throws IOException {
+//        if (getUser().getRole().equals(Roles.ROLE_ADMIN)) {
+//
+//            List<Work> zhkToRename = works.stream().filter(w -> w.getAccountingPlace().equals(work.getAccountingPlace())).collect(Collectors.toList());
+//            zhkToRename.stream().forEach(work1 -> work1.setAccountingPlace(work.getWorkPlace()));
+//            workService.saveAll(zhkToRename);
+//            log.info("renamed accounting place: " + zhkToRename);
+//            return "redirect:/additional";
+//        }
+//        return "";
+//    }
+//
+//    @Transactional
+//    @RequestMapping(value = "/additional/changeZHK", method = {RequestMethod.POST})
+//    public String change(@ModelAttribute("workToChange") Work work, @ModelAttribute("works") List<Work> works, Model model) throws IOException {
+//        if (getUser().getRole().equals(Roles.ROLE_ADMIN)) {
+//
+//            Work workToChange = works.stream().filter(w->w.getWorkPlace().equals(work.getWorkPlace())).findFirst().get();
+//            workToChange.setAccountingPlace(work.getAccountingPlace());
+//            workService.save(workToChange);
+//
+//            log.info("accounting place for: "+workToChange.getWorkPlace()+" changed to: "+work.getAccountingPlace());
+//            return "redirect:/additional";
+//        }
+//        return "";
+//    }
+//
+//    @Transactional
+//    @RequestMapping(value = "/additional/delete/{id}", method = {RequestMethod.POST})
+//    public String delete(@ModelAttribute("workToDelete") Work work, @ModelAttribute("works") List<Work> works, @PathVariable("id") String id, Model model) throws IOException {
+//        if (getUser().getRole().equals(Roles.ROLE_ADMIN)) {
+//
+//            System.out.println(work);
+//
+//            Work workDelete = works.stream().filter(w->w.getWorkPlace().equals(work.getWorkPlace())).findFirst().get();
+//
+//            workService.delete(workDelete);
+//            log.info("deleted military base: "+workDelete);
+//            return "redirect:/additional";
+//        }
+//        return "";
+//    }
 }

@@ -1,70 +1,47 @@
 package com.sachuk.keu.entities;
 
 import com.sachuk.keu.entities.enums.QuotaType;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
+import java.util.Date;
 
-@Entity(name = "Quota")
-@Table(name = "Quota")
-@NamedQueries({
-        @NamedQuery(name = Quota.findByNameQuota, query = "from Quota i where i.nameQuota=:name"),
-        @NamedQuery(name = Quota.findByShortNameQuota, query = "from Quota i where i.shortNameQuota=:name")
-})
+@Entity
+@Table(name = "quotas")
+@NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode
+@ToString
 public class Quota implements Serializable {
-
-    private static final long serialVersionUID = -6430509643986769733L;
-    public static final String findByNameQuota = "quota.findByNameQuota";
-    public static final String findByShortNameQuota = "quota.findByShortNameQuota";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-    @Column(length = 100, unique = true)
-    private String nameQuota;
-    @Column(length = 100, unique = true)
-    private String shortNameQuota;
+    private Long id;
+
+    @Column(name = "name", length = 100, unique = true)
+    private String name;
+
+    @Column(name = "short_name", length = 100, unique = true)
+    private String shortName;
+
     @Enumerated(EnumType.STRING)
-    private QuotaType quotaType = QuotaType.NONE;
+    private QuotaType type = QuotaType.NONE;
+
+    @Column(name = "quota_date", nullable = true)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date quotaDate;
 //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "Quota",targetEntity=Privilege.class)
 //    private List<Privilege> privileges = new ArrayList<>();
 
 
-    public Quota(String nameQuota, String shortNameQuota, QuotaType quotaType) {
-        this.nameQuota = nameQuota;
-        this.shortNameQuota = shortNameQuota;
+    public Quota(String name, String shortName, QuotaType type, Date date) {
+        this.name = name;
+        this.shortName = shortName;
 //        this.privileges = privileges;
-        this.quotaType = quotaType;
-    }
-
-    public Quota() {
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Quota quota = (Quota) o;
-        return Objects.equals(nameQuota, quota.nameQuota) && Objects.equals(shortNameQuota, quota.shortNameQuota) && quotaType == quota.quotaType;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(nameQuota, shortNameQuota, quotaType);
-    }
-
-    @Override
-    public String toString() {
-        return "Quota{" +
-                "id=" + id +
-                ", nameQuota='" + nameQuota + '\'' +
-                ", shortNameQuota='" + shortNameQuota + '\'' +
-                ", quotaType=" + quotaType +
-                '}';
+        this.type = type;
+        this.quotaDate = date;
     }
 }

@@ -19,30 +19,30 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/api/v1")
 public class FindRestController {
-    private MilitaryManService militaryManService;
-
-    @RequestMapping("/find")
-    public Page<MilitaryMan> findMilitaryMan(@RequestParam(defaultValue = "0") int page,
-                                             @RequestParam(defaultValue = "50") int size,
-                                             @RequestParam(required = false) SearchQuery searchQuery) {
-        Pageable pageable;
-        if (size == 0) {
-            pageable = Pageable.unpaged();
-        } else {
-            pageable = PageRequest.of(page, size);
-        }
-        return militaryManService.freeFind(searchQuery.getQuery(), pageable);
-    }
-
-    @RequestMapping("/findToday")
-    public Page<MilitaryMan> findToday(@RequestParam(defaultValue = "0") int page,
-                                       @RequestParam(defaultValue = "50") int size) {
-        Pageable pageable;
-        if (size == 0) {
-            pageable = Pageable.unpaged();
-        } else {
-            pageable = PageRequest.of(page, size);
-        }
-        return militaryManService.getAllToday(pageable);
-    }
+//    private MilitaryManService militaryManService;
+//
+//    @RequestMapping("/find")
+//    public Page<MilitaryMan> findMilitaryMan(@RequestParam(defaultValue = "0") int page,
+//                                             @RequestParam(defaultValue = "50") int size,
+//                                             @RequestParam(required = false) SearchQuery searchQuery) {
+//        Pageable pageable;
+//        if (size == 0) {
+//            pageable = Pageable.unpaged();
+//        } else {
+//            pageable = PageRequest.of(page, size);
+//        }
+//        return militaryManService.freeFind(searchQuery.getQuery(), pageable);
+//    }
+//
+//    @RequestMapping("/findToday")
+//    public Page<MilitaryMan> findToday(@RequestParam(defaultValue = "0") int page,
+//                                       @RequestParam(defaultValue = "50") int size) {
+//        Pageable pageable;
+//        if (size == 0) {
+//            pageable = Pageable.unpaged();
+//        } else {
+//            pageable = PageRequest.of(page, size);
+//        }
+//        return militaryManService.getAllToday(pageable);
+//    }
 }

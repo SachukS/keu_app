@@ -14,6 +14,7 @@ services:
   keu-server:
     container_name: keu-server
     build: /
+    restart: always
     ports:
       - "8081:8081"
     networks:

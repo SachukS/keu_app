@@ -16,19 +16,19 @@ import java.util.List;
 public interface MilitaryManRepository extends JpaRepository<MilitaryMan, Long>, JpaSpecificationExecutor<MilitaryMan> {
 
 
-    @Query(value = "SELECT * FROM customer WHERE customer.work_id IN (SELECT id FROM work WHERE work.garrison = :query) ", nativeQuery = true)
-    List<MilitaryMan> findAllByGarrison(@Param("query") String query);
-
-    @Query(value = "SELECT * FROM customer WHERE (surname like %:query%) OR (phone_number like %:query%) ", nativeQuery = true, name = "query")
-    Page<MilitaryMan> freeSearch(@Param("query") String query, Pageable pageable);
-
-    List<MilitaryMan> findFirst20ByOrderByAccountingDate();
-
-    List<MilitaryMan> findAllByQuotaType(String quotaType);
-
-    long countByUpdateDateAfter(LocalDateTime afterSearchDate);
-
-    Page<MilitaryMan> findAllByUpdateDateAfter(LocalDateTime afterSearchDate, Pageable pageable);
+//    @Query(value = "SELECT * FROM customer WHERE customer.work_id IN (SELECT id FROM work WHERE work.garrison = :query) ", nativeQuery = true)
+//    List<MilitaryMan> findAllByGarrison(@Param("query") String query);
+//
+//    @Query(value = "SELECT * FROM customer WHERE (surname like %:query%) OR (phone_number like %:query%) ", nativeQuery = true, name = "query")
+//    Page<MilitaryMan> freeSearch(@Param("query") String query, Pageable pageable);
+//
+//    List<MilitaryMan> findFirst20ByOrderByAccountingDate();
+//
+//    List<MilitaryMan> findAllByQuotaType(String quotaType);
+//
+//    long countByUpdateDateAfter(LocalDateTime afterSearchDate);
+//
+//    Page<MilitaryMan> findAllByUpdateDateAfter(LocalDateTime afterSearchDate, Pageable pageable);
 
 
 }

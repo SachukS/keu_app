@@ -3,7 +3,7 @@ package com.sachuk.keu.entities.security;
 import java.util.Arrays;
 
 public enum Roles {
-    ROLE_ADMIN("Адмін"), ROLE_OPERATOR("Оператор");
+    ROLE_ADMIN("Адмін"), ROLE_OPERATOR("Оператор"), ROLE_USER("Користувач");
 
     private String name;
 
