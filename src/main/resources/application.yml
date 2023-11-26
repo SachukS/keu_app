@@ -8,12 +8,43 @@ spring:
     username: keuDbUser
     password: fgjrfksgcbc
     driver-class-name: com.mysql.cj.jdbc.Driver
+  config:
+    activate:
+      on-profile: prod
+server:
+  ssl:
+    key-store: server.p12
+    key-store-password: 450297viti
+    key-store-type: pkcs12
+    key-password: 450297viti
+  port: 443
+keu:
+  app:
+    jwtExpirationMs: '7200000'
+    jwtSecret: fgjrfksgcbc
+
+---
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+  datasource:
+    url: jdbc:mysql://db:3306/keu_db?characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+    username: keuDbUser
+    password: fgjrfksgcbc
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  config:
+    activate:
+      on-profile: dev
 server:
   port: 8081
 keu:
   app:
     jwtExpirationMs: '7200000'
     jwtSecret: fgjrfksgcbc
+
 ---
 
 spring:
@@ -31,7 +62,10 @@ spring:
       on-profile: localhostDB
 server:
   port: 8081
-
+keu:
+  app:
+    jwtExpirationMs: '7200000'
+    jwtSecret: fgjrfksgcbc
 ---
 
 spring:
@@ -49,5 +83,8 @@ spring:
       on-profile: localhostDBCreate
 server:
   port: 8081
-
+keu:
+  app:
+    jwtExpirationMs: '7200000'
+    jwtSecret: fgjrfksgcbc
 ---

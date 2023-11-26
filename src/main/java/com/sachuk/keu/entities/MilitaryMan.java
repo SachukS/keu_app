@@ -43,9 +43,6 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "work_experience", nullable = false)
-    private int workExperience;
-
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
@@ -95,7 +92,7 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     @Column(name = "expected_compensation_value", nullable = false)
     private double expectedCompensationValue = 0.0;
 
-    @Column(name = "death_date", nullable = false)
+    @Column(name = "death_date")
     @DateTimeFormat(pattern = "dd-mm-yyyy")
     private Date deathDate;
 
@@ -121,15 +118,15 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     @DateTimeFormat(pattern = "dd-mm-yyyy")
     private Date serviceFrom;
 
-    @Column(name = "service_until", nullable = false)
+    @Column(name = "service_until")
     @DateTimeFormat(pattern = "dd-mm-yyyy")
     private Date serviceUntil;
 
-    @Column(name = "apartment_file_date", nullable = false)
+    @Column(name = "apartment_file_date")
     @DateTimeFormat(pattern = "dd-mm-yyyy")
     private Date apartmentFileDate;
 
-    @Column(name = "apartment_file_number", nullable = false)
+    @Column(name = "apartment_file_number")
     private String apartmentFileNumber;
 
     @OneToMany

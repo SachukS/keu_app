@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,13 +27,13 @@ public class MilitaryManService {
         return militaryManRepository.findAll(pageable);
     }
 
-    public MilitaryMan findById(Long id) {
-        return militaryManRepository.getOne(id);
+    public Optional<MilitaryMan> findById(Long id) {
+        return militaryManRepository.findById(id);
     }
 
-    public List<MilitaryMan> findByIdSet(List<Long> customerID) {
-        return customerID.stream().map(this::findById).collect(Collectors.toList());
-    }
+//    public List<MilitaryMan> findByIdSet(List<Long> customerID) {
+//        return customerID.stream().map(this::findById).collect(Collectors.toList());
+//    }
 
     public Page<MilitaryMan> freeFind(String query, Pageable pageable) {
         return militaryManRepository.freeSearch(query, pageable);

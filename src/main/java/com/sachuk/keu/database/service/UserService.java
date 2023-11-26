@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -22,8 +23,8 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User findById(Long id) {
-        return userRepository.getOne(id);
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
     }
 
     public User save(User user) {

@@ -28,7 +28,7 @@ public class Registry {
     private ProvidedFlat providedFlat;
 
     @Column(name = "received_money")
-    private double receivedMoney;
+    private double receivedMoney = 0.0;
 
     @Column(name = "receive_date", nullable = false)
     @DateTimeFormat(pattern = "dd-mm-yyyy")

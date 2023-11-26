@@ -5,4 +5,4 @@ ENV MYSQL_PASSWORD=fgjrfksgcbc
 ENV MYSQL_ROOT_PASSWORD=root
 ENV MYSQL_DATABASE=keu_db
 
-#COPY keudb_old.sql /docker-entrypoint-initdb.d/
+COPY keu_db.sql /docker-entrypoint-initdb.d/

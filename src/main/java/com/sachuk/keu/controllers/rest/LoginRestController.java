@@ -176,7 +176,7 @@ public class LoginRestController {
             month++;
         }
 
-        user.setBirth_date(new Date(year, month, days));
+        user.setBirthDate(new Date(year, month, days));
         user.setSex(maleNumber % 2 == 0 ? SexEnum.FEMALE : SexEnum.MALE);
     }
 }

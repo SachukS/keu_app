@@ -38,9 +38,7 @@ public class QueueService {
             case "general":
                 queueInGarrison = militaryManService.findByGarrison(garrison)
                         .stream().sorted(
-                                Comparator.comparing(MilitaryMan::getAccountingDate).reversed()
-                                        .thenComparing(m -> m.getQuota().getType()).reversed()
-                                        .thenComparing(MilitaryMan::getQuotaDate).reversed())
+                                Comparator.comparing(MilitaryMan::getGeneralQueue))
                         .collect(Collectors.toList());
                 break;
             case "firstinpriority":
@@ -54,7 +52,7 @@ public class QueueService {
                 queueInGarrison = militaryManService.findByGarrison(garrison)
                         .stream().filter(MilitaryMan::isWantCompensation).sorted(
                                 Comparator.comparing(MilitaryMan::getAccountingDate).reversed()
-                                        .thenComparing(MilitaryMan::getQuotaDate).reversed())
+                                        .thenComparing(MilitaryMan::getServiceFrom).reversed())
                         .collect(Collectors.toList());
                 break;
         }

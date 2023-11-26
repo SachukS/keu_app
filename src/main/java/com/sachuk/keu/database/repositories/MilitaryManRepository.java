@@ -18,9 +18,9 @@ import java.util.Optional;
 public interface MilitaryManRepository extends JpaRepository<MilitaryMan, Long>, JpaSpecificationExecutor<MilitaryMan> {
 
 
-    @Query(value = "SELECT * FROM military_man WHERE military_man.registrated = true AND military_man.provided != 'POST' AND military_man.provided != 'COMP' AND military_man.work_id IN (SELECT id FROM works WHERE works.garrison = :garrison) ", nativeQuery = true)
+    @Query(value = "SELECT * FROM military_man WHERE military_man.registrated = 1 AND military_man.provided != 'POST' AND military_man.provided != 'COMP' AND military_man.work_id IN (SELECT id FROM works WHERE works.garrison = :garrison) ", nativeQuery = true)
     List<MilitaryMan> findAllByGarrison(@Param("garrison") String garrison);
-    @Query(value = "SELECT * FROM military_man WHERE military_man.registrated = true AND military_man.provided != 'POST' AND military_man.provided != 'COMP' " +
+    @Query(value = "SELECT * FROM military_man WHERE military_man.registrated = 1 AND military_man.provided != 'POST' AND military_man.provided != 'COMP' " +
             "AND military_man.work_id IN (SELECT id FROM works WHERE works.garrison = :garrison) " +
             "AND military_man.quota_id IN (SELECT id FROM quotas WHERE quotas.type = :type) ", nativeQuery = true)
     List<MilitaryMan> findQueueTypeByGarrison(@Param("garrison") String garrison, @Param("type") String type);

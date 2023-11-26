@@ -31,7 +31,8 @@ public class InputRestController {
 
     @GetMapping("/edit/{id}")
     public MilitaryMan edit(@PathVariable("id") String id) {
-        return militaryManService.findById(Long.parseLong(id));
+        return militaryManService.findById(Long.parseLong(id)).orElseThrow(
+                () -> new IllegalArgumentException("military man with id: " + id + " is not found"));
     }
 
     @PostMapping("/")
@@ -40,11 +41,6 @@ public class InputRestController {
             // find superbabka and send notification
         }
         return militaryManService.save(militaryMan);
-    }
-
-    @GetMapping("/test")
-    public String edit() {
-        return "militaryMan";
     }
 
 }

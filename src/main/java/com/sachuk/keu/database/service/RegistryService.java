@@ -5,6 +5,7 @@ import com.sachuk.keu.entities.Registry;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RegistryService {
@@ -28,11 +29,15 @@ public class RegistryService {
         return registryRepository.save(registry);
     }
     public List<Registry> findByReceivedFlat(String garrison) {
-        return registryRepository.findByReceivedFlat(garrison);
+        return registryRepository.findByReceivedFlat(garrison).stream()
+                .filter(r -> r.getMilitaryMan().getWork().getGarrison().equals(garrison))
+                .collect(Collectors.toList());
     }
 
     public List<Registry> findByReceivedMoney(String garrison) {
-        return registryRepository.findByReceivedMoney(garrison);
+        return registryRepository.findByReceivedMoney(garrison).stream()
+                .filter(r -> r.getMilitaryMan().getWork().getGarrison().equals(garrison))
+                .collect(Collectors.toList());
     }
 
 
