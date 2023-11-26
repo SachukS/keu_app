@@ -104,7 +104,7 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     @Column(name = "ipn", nullable = false)
     private String ipn;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Column(name = "provided", nullable = false)
     private Provided provided = Provided.NO;
 

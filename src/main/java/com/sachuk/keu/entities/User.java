@@ -62,7 +62,7 @@ public class User {
     @DateTimeFormat(pattern = "dd-mm-yyyy")
     private Date birth_date;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Column(name = "sex", nullable = false)
     private SexEnum sex;
 

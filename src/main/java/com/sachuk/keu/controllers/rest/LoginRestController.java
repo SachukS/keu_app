@@ -70,7 +70,7 @@ public class LoginRestController {
                     .body("Пароль електронного підпису не вірний");
         }
 
-        User user = null;
+        User user = new User();
         try {
             String jksContent = encryptionJksFileToString(ecp);
             Pattern p = Pattern.compile("pb_sign_(?<IPN>\\d{10}).+?ФІЗИЧНА ОСОБА\\d.\\d.+?\\w.+?\\d(?=(?<FULLNAME>.*?)\\d)");
@@ -82,7 +82,7 @@ public class LoginRestController {
                     String[] splitFullName = m.group("FULLNAME").split(" ");
 
                     user.setIpn(m.group("IPN"));
-                    user.setPassword(password);
+                    user.setPassword(encoder.encode(password));
                     user.setName(splitFullName[0]);
                     user.setSurname(splitFullName[1]);
                     user.setThirdname(splitFullName[2]);
