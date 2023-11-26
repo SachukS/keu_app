@@ -52,7 +52,6 @@ public class LoginRestController {
         MultipartFile ecp = loginRequest.getEcp();
         String password = loginRequest.getPassword();
 
-        //code for checking ecp
         try {
             FileInputStream key = new FileInputStream("C:\\work\\keu_app\\pb_3746509431.jks");
             KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());

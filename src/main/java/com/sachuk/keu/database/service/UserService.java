@@ -1,66 +1,67 @@
 package com.sachuk.keu.database.service;
 
+import com.sachuk.keu.database.repositories.UserRepository;
+import com.sachuk.keu.entities.User;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
 @AllArgsConstructor
 public class UserService {
-//
-//    private final UserRepository userRepository;
-//    private final BCryptPasswordEncoder passwordEncoder;
-//    private final HttpServletRequest request;
-//
-//    public List<User> findAll() {
-//        return userRepository.findAll();
-//    }
-//
-//    public User findById(Long id) {
-//        return userRepository.getOne(id);
-//    }
-//
-//    public User save(User user) {
-//        return userRepository.save(user);
-//    }
-//
-//    public void delete(User user) {
-//        userRepository.delete(user);
-//    }
-//
-//    public boolean existsById(Long id) {
-//        return userRepository.existsById(id);
-//    }
-//
-//    public void deleteById(Long id) {
-//        userRepository.deleteById(id);
-//    }
-//
-//    public User saveAndFlush(User user) {
-//        return userRepository.saveAndFlush(user);
-//    }
-//
-//    public void flush() {
-//        userRepository.flush();
-//    }
-//
-//    public void saveAll(Iterable<User> users) {
-//        userRepository.saveAll(users);
-//    }
-//
-//    public long count() {
-//        return userRepository.count();
-//    }
-//
-//    public void deleteAll() {
-//        userRepository.deleteAll();
-//    }
-//
-//    public List<User> getAllBySurname(String surname) {
-//        return userRepository.getAllByLastName(surname);
-//    }
+
+    private final UserRepository userRepository;
+    private final HttpServletRequest request;
+
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public User findById(Long id) {
+        return userRepository.getOne(id);
+    }
+
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    public void delete(User user) {
+        userRepository.delete(user);
+    }
+
+    public boolean existsById(Long id) {
+        return userRepository.existsById(id);
+    }
+
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    public User saveAndFlush(User user) {
+        return userRepository.saveAndFlush(user);
+    }
+
+    public void flush() {
+        userRepository.flush();
+    }
+
+    public void saveAll(Iterable<User> users) {
+        userRepository.saveAll(users);
+    }
+
+    public long count() {
+        return userRepository.count();
+    }
+
+    public void deleteAll() {
+        userRepository.deleteAll();
+    }
+
 //
 //    @Transactional
 //    public User getByEmail(String email) {

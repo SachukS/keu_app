@@ -2,6 +2,7 @@ package com.sachuk.keu.controllers.rest;
 
 import com.sachuk.keu.database.service.MilitaryManService;
 import com.sachuk.keu.entities.MilitaryMan;
+import com.sachuk.keu.entities.Registry;
 import com.sachuk.keu.services.queue.QueueService;
 import com.sachuk.keu.services.queue.QueueXlsCreateService;
 import lombok.AllArgsConstructor;
@@ -27,91 +28,54 @@ import java.util.stream.Collectors;
 @RestController
 @Transactional
 @AllArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/queue")
 public class QueueRestController {
-//    public MilitaryManService militaryManService;
-//    private QueueXlsCreateService queueXlsCreateService;
-//    private static List<MilitaryMan> staticMilitaryMEN = new ArrayList<>();
-//    public static List<String> garrisons = Arrays.asList("м.Київ", "Бориспiль", "Семиполки", "Переяславський", "Бровари", "Гостомель", "Василькiв");
-//
-//    @GetMapping("/getQueue/{garrison}/{queueType}")
-//    public Page<MilitaryMan> getQueue(@PathVariable String garrison,
-//                                      @PathVariable String queueType,
-//                                      @RequestParam(required = false, defaultValue = "0") int page,
-//                                      @RequestParam(required = false, defaultValue = "50") int size,
-//                                      @RequestBody MilitaryMan militaryMan) {
-//        staticMilitaryMEN = QueueService.getCustomers(garrison, queueType, militaryMan);
-//        Pageable pageable;
-//        if (size == 0) {
-//            pageable = Pageable.unpaged();
-//        } else {
-//            pageable = PageRequest.of(page, size);
-//        }
-//        int start = (int) pageable.getOffset();
-//        int end = Math.min((start + pageable.getPageSize()), staticMilitaryMEN.size());
-//
-//        List<MilitaryMan> pageContent = staticMilitaryMEN.subList(start, end);
-//        return new PageImpl<>(pageContent, pageable, staticMilitaryMEN.size());
-//    }
-//
-//    @GetMapping("/getQueue/{garrison}/received")
-//    public Page<MilitaryMan> getReceivedQueue(@PathVariable String garrison,
-//                                      @RequestParam(required = false, defaultValue = "0") int page,
-//                                      @RequestParam(required = false, defaultValue = "50") int size,
-//                                      @RequestBody MilitaryMan militaryMan) {
-//        ///TODO implement case for received type
-//        List<MilitaryMan> queue = QueueService.getCustomers(garrison, "received", militaryMan);
-//        Pageable pageable;
-//        if (size == 0) {
-//            pageable = Pageable.unpaged();
-//        } else {
-//            pageable = PageRequest.of(page, size);
-//        }
-//        int start = (int) pageable.getOffset();
-//        int end = Math.min((start + pageable.getPageSize()), queue.size());
-//
-//        List<MilitaryMan> pageContent = queue.subList(start, end);
-//        return new PageImpl<>(pageContent, pageable, queue.size());
-//    }
-//
-//    @GetMapping("/getQueue/{garrison}/compensation")
-//    public Page<MilitaryMan> getCompensationQueue(@PathVariable String garrison,
-//                                              @RequestParam(required = false, defaultValue = "0") int page,
-//                                              @RequestParam(required = false, defaultValue = "50") int size,
-//                                              @RequestBody MilitaryMan militaryMan) {
-//        ///TODO implement case for compensation type
-//        List<MilitaryMan> queue = QueueService.getCustomers(garrison, "compensation", militaryMan);
-//        Pageable pageable;
-//        if (size == 0) {
-//            pageable = Pageable.unpaged();
-//        } else {
-//            pageable = PageRequest.of(page, size);
-//        }
-//        int start = (int) pageable.getOffset();
-//        int end = Math.min((start + pageable.getPageSize()), queue.size());
-//
-//        List<MilitaryMan> pageContent = queue.subList(start, end);
-//        return new PageImpl<>(pageContent, pageable, queue.size());
-//    }
-//
-//    @PostMapping("/getQueue/print")
-//    public void printToFile(@RequestBody MilitaryMan militaryMan,
-//                            HttpServletResponse response) {
-//        System.out.println(militaryMan);
-//        queueXlsCreateService.createXls(System.getProperty("user.home") + File.separator + "garrison" + ".xls", staticMilitaryMEN, militaryMan);
-//
-//        Path file = Paths.get(System.getProperty("user.home") + File.separator + "garrison" + ".xls");
-//
-//        response.setHeader("Content-disposition", "attachment; filename=" + "garrison" + ".xls");
-//        try {
-//            response.getOutputStream().write(Files.readAllBytes(file));
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//    }
-//
-//    //admin
+    public MilitaryManService militaryManService;
+    private QueueXlsCreateService queueXlsCreateService;
+    private static List<MilitaryMan> staticMilitaryMEN = new ArrayList<>();
+    public static List<String> garrisons = Arrays.asList("м.Київ", "Бориспiль", "Семиполки", "Переяславський", "Бровари", "Гостомель", "Василькiв");
+
+    @GetMapping("/{garrison}/{queueType}")
+    public Page<MilitaryMan> getQueue(@PathVariable String garrison,
+                                      @PathVariable String queueType,
+                                      @RequestParam(required = false, defaultValue = "0") int page,
+                                      @RequestParam(required = false, defaultValue = "50") int size) {
+        staticMilitaryMEN = QueueService.getQueue(garrison, queueType);
+        Pageable pageable;
+        if (size == 0) {
+            pageable = Pageable.unpaged();
+        } else {
+            pageable = PageRequest.of(page, size);
+        }
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), staticMilitaryMEN.size());
+
+        List<MilitaryMan> pageContent = staticMilitaryMEN.subList(start, end);
+        return new PageImpl<>(pageContent, pageable, staticMilitaryMEN.size());
+    }
+
+    @GetMapping("/{garrison}/received/{receivedType}")
+    public Page<Registry> getReceivedQueue(@PathVariable String garrison,
+                                           @PathVariable String receivedType,
+                                           @RequestParam(required = false, defaultValue = "0") int page,
+                                           @RequestParam(required = false, defaultValue = "50") int size) {
+        ///TODO implement case for received type
+        List<Registry> queue = QueueService.getReceivedQueue(garrison, receivedType);
+        Pageable pageable;
+        if (size == 0) {
+            pageable = Pageable.unpaged();
+        } else {
+            pageable = PageRequest.of(page, size);
+        }
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), queue.size());
+
+        List<Registry> pageContent = queue.subList(start, end);
+        return new PageImpl<>(pageContent, pageable, queue.size());
+    }
+
+
+    //admin
 //    @PostMapping("/calculate")
 //    public void calculateQueue() {
 //        List<MilitaryMan> militaryMEN;

@@ -36,7 +36,4 @@ public class FamilyMember {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
 
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = MilitaryMan.class)
-    @JoinColumn(name = "military_man_id", nullable = false)
-    private MilitaryMan militaryMan;
 }

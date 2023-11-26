@@ -3,6 +3,7 @@ package com.sachuk.keu.services.queue;
 import com.sachuk.keu.database.service.MilitaryManService;
 import com.sachuk.keu.entities.MilitaryMan;
 import com.sachuk.keu.entities.Quota;
+import com.sachuk.keu.entities.Registry;
 import com.sachuk.keu.entities.enums.QuotaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,23 +15,48 @@ import java.util.stream.Collectors;
 
 @Service
 public class QueueService {
-//    private static MilitaryManService militaryManService;
-//    private static QueueXlsCreateService queueXlsCreateService;
-//
-//    @Autowired
-//    public void setRatingXlsCreateService(QueueXlsCreateService queueXlsCreateService) {
-//        this.queueXlsCreateService = queueXlsCreateService;
-//    }
-//
-//    @Autowired
-//    public void setCustomerService(MilitaryManService militaryManService) {
-//        this.militaryManService = militaryManService;
-//    }
-//
-//    public static List<MilitaryMan> getCustomers(String garrison, String queueType, MilitaryMan militaryMan) {
-//
-//        List<MilitaryMan> customersInGarrison = militaryManService.findByGarrison(garrison);
-//
+    private static MilitaryManService militaryManService;
+    private static QueueXlsCreateService queueXlsCreateService;
+
+    @Autowired
+    public void setRatingXlsCreateService(QueueXlsCreateService queueXlsCreateService) {
+        this.queueXlsCreateService = queueXlsCreateService;
+    }
+
+    @Autowired
+    public void setCustomerService(MilitaryManService militaryManService) {
+        this.militaryManService = militaryManService;
+    }
+
+    public static List<MilitaryMan> getQueue(String garrison, String queueType) {
+        List<MilitaryMan> queueInGarrison = new ArrayList<>();
+        switch (queueType) {
+            case "general":
+                queueInGarrison = militaryManService.findByGarrison(garrison)
+                        .stream().sorted(
+                                Comparator.comparing(MilitaryMan::getAccountingDate).reversed()
+                                        .thenComparing(militaryMan -> militaryMan.getQuota().getQuotaDate()).reversed())
+                        .collect(Collectors.toList());
+                break;
+            case "firstinpriority":
+            case "outofqueue":
+                queueInGarrison = militaryManService.findQueueTypeByGarrison(garrison, queueType.toUpperCase())
+                        .stream().sorted(
+                                Comparator.comparing(MilitaryMan::getQuotaQueue))
+                        .collect(Collectors.toList());
+            case "compensation":
+                queueInGarrison = militaryManService.findByGarrison(garrison)
+                        .stream().filter(MilitaryMan::isCompensation).sorted(
+                                Comparator.comparing(MilitaryMan::getAccountingDate).reversed()
+                                        .thenComparing(militaryMan -> militaryMan.getQuota().getQuotaDate()).reversed())
+                        .collect(Collectors.toList());
+                break;
+        }
+        return queueInGarrison;
+    }
+    public static List<Registry> getReceivedQueue(String garrison, String queueType) {
+        return new ArrayList<>();
+    }
 //        if (!militaryMan.getWork().getAccountingPlace().equals("Всі")) {
 //            customersInGarrison = customersInGarrison.stream()
 //                    .filter(c -> c.getWork().getAccountingPlace().equals(militaryMan.getWork().getAccountingPlace()))
@@ -61,9 +87,9 @@ public class QueueService {
 //                    .filter(c -> c.getRegistrated().equals(militaryMan.getRegistrated()))
 //                    .collect(Collectors.toList());
 //        }
-//
-//        //String sortBy = nameSort.substring(4);
-//
+
+        //String sortBy = nameSort.substring(4);
+
 //        switch (queueType) {
 //            case "ZAGALNA":
 //                List<MilitaryMan> customersWithExp = customersInGarrison.stream().filter(c -> c.getExperience() != null && !c.getExperience().equals("0")).collect(Collectors.toList());
@@ -160,5 +186,5 @@ public class QueueService {
 //        //ratingXlsCreateService.createXls(System.getProperty("user.home") + File.separator + nameSort + ".xls", customersInGarrison, customer);
 //        //System.out.println(customersInGarrison.get(0).getSurname());
 //        return customersInGarrison;
-//    }
+  //  }
 }

@@ -15,14 +15,16 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @EqualsAndHashCode
 @ToString
-@Table(name = "military_men")
+@Table(name = "military_man")
 public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor length fields
 
     @Id
@@ -63,7 +65,6 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     @JoinColumn(name = "work_id", nullable = false)
     private Work work;
 
-
     @Lob
     @Column(name = "info", nullable = true)
     @Type(type = "org.hibernate.type.TextType")
@@ -77,7 +78,6 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     @ColumnDefault("0")
     private String quotaQueue;
 
-
     @Column(name = "registrated", nullable = false)
     @ColumnDefault("false")
     private boolean registrated;
@@ -85,6 +85,20 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     @Column(name = "rozshirennya", nullable = false)
     @ColumnDefault("false")
     private boolean rozshirennya;
+
+    @Column(name = "compensation", nullable = false)
+    @ColumnDefault("false")
+    private boolean compensation;
+
+    @Column(name = "expected_compensation_value", nullable = false)
+    private double expected_compensation_value;
+
+    @Column(name = "death_date", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date deathDate;
+
+    @Column(name = "ipn", nullable = false)
+    private String ipn;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "provided", nullable = false)
@@ -115,6 +129,10 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
 
     @Column(name = "apartment_file_number", nullable = false)
     private String apartmentFileNumber;
+
+    @OneToMany
+    @JoinColumn(name = "military_man_id")
+    private List<FamilyMember> family = new ArrayList<>();
 
 //    public int getExpInt() {
 //        return getWorkExperience();

@@ -22,51 +22,23 @@ import java.util.stream.Collectors;
 @RestController
 @Transactional
 @AllArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/input")
 public class InputRestController {
-//    public MilitaryManService militaryManService;
-//    public RankService rankService;
-//    public WorkService workService;
-//
-//    private Collection<Rank> ranks = rankService.findAll().stream()
-//            .sorted(Comparator.comparing(Rank::getNameRank)).collect(Collectors.toList());
-//    private Collection<Work> works = workService.findAll().stream()
-//            .sorted(Comparator.comparing(Work::getWorkPlace)).collect(Collectors.toList());
-//
-//    @GetMapping("/edit/{id}")
-//    public MilitaryMan edit(@PathVariable("id") String id) {
-//        MilitaryMan militaryMan = militaryManService.findById(Long.parseLong(id));
-//        if (Objects.equals(militaryMan.getFlatFileNumber(), "0"))
-//            militaryMan.setFlatFileNumber(null);
-//        if (Objects.equals(militaryMan.getFamilyWar2022(), null))
-//            militaryMan.setFamilyWar2022(FamilyWar2022.NO);
-//        if (Objects.equals(militaryMan.getProvided(), null))
-//            militaryMan.setProvided(Provided.NO);
-//        return militaryMan;
-//    }
-//
-//    @PostMapping("/input")
-//    public MilitaryMan saveMilitaryMan(@RequestBody MilitaryMan militaryMan) {
-//        if (militaryMan.getRank().getId() == 0L)
-//            militaryMan.setRank(ranks.stream().filter(r -> Objects.equals(r.getNameRank(), militaryMan.getRank().getNameRank())).findFirst().get());
-//        if (militaryMan.getWork().getId() == 0L)
-//            militaryMan.setWork(works.stream().filter(w -> Objects.equals(w.getWorkPlace(), militaryMan.getWork().getWorkPlace())).findFirst().get());
-//        if (militaryMan.getRankType() == null)
-//            militaryMan.setRankType(militaryMan.getRank().getRankType().getName());
-//        if (militaryMan.getQuotaType() == null)
-//            militaryMan.setQuotaType(militaryMan.getQuota().getQuotaType().getName());
-//        if (militaryMan.getAddress() == "")
-//            militaryMan.setAddress(null);
-//        if (militaryMan.getFamily() == "")
-//            militaryMan.setFamily(null);
-//        if (militaryMan.getInfo() == "")
-//            militaryMan.setInfo(null);
-//        if (militaryMan.getFlatFileNumber() == "")
-//            militaryMan.setFlatFileNumber(null);
-//        militaryMan.setUpdateDate(LocalDateTime.now());
-//        return militaryManService.save(militaryMan);
-//    }
-//
+    public MilitaryManService militaryManService;
+    public RankService rankService;
+    public WorkService workService;
+
+    @GetMapping("/edit/{id}")
+    public MilitaryMan edit(@PathVariable("id") String id) {
+        return militaryManService.findById(Long.parseLong(id));
+    }
+
+    @PostMapping("/")
+    public MilitaryMan saveMilitaryMan(@RequestBody MilitaryMan militaryMan) {
+        militaryMan.setUpdateDate(LocalDateTime.now());
+        return militaryManService.save(militaryMan);
+    }
+
     @GetMapping("/test")
     public String edit() {
         return "militaryMan";

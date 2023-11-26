@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public enum QuotaType {
 
-    NONE("без пільг"), OUTOFTURN("позачерговий"), FIRSTINPRIORITY("першочерговий");
+    NONE("без пільг"), OUTOFQUEUE("позачерговий"), FIRSTINPRIORITY("першочерговий");
 
     private String name;
 
