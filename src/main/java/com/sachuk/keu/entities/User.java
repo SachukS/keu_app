@@ -60,7 +60,7 @@ public class User {
 
     @Column(name = "birth_date", nullable = false)
     @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private Date birth_date;
+    private Date birthDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "sex", nullable = false)
@@ -84,7 +84,7 @@ public class User {
         this.ipn = ipn;
         this.password = password;
         this.militaryMan = militaryMan;
-        this.birth_date = birth_date;
+        this.birthDate = birth_date;
         this.sex = sex;
     }
 }

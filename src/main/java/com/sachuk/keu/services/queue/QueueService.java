@@ -39,6 +39,7 @@ public class QueueService {
                 queueInGarrison = militaryManService.findByGarrison(garrison)
                         .stream().sorted(
                                 Comparator.comparing(MilitaryMan::getAccountingDate).reversed()
+                                        .thenComparing(m -> m.getQuota().getType()).reversed()
                                         .thenComparing(MilitaryMan::getQuotaDate).reversed())
                         .collect(Collectors.toList());
                 break;

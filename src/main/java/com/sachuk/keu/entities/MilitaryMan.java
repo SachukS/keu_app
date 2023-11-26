@@ -75,12 +75,10 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     private String info;
 
     @Column(name = "general_queue")
-    @ColumnDefault("0")
-    private String generalQueue;
+    private int generalQueue = 0;
 
     @Column(name = "quota_queue")
-    @ColumnDefault("0")
-    private String quotaQueue;
+    private int quotaQueue = 0;
 
     @Column(name = "registrated", nullable = false)
     @ColumnDefault("false")

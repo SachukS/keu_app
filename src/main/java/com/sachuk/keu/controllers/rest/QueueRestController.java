@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @Transactional
@@ -78,12 +80,12 @@ public class QueueRestController {
 //        for (String gar : garrisons) {
 //            militaryMEN = militaryManService.findByGarrison(gar);
 //            //customers = customers.stream().filter(c -> c.getRegistrated().equals(Registrated.YES)).sorted(Comparator.comparing(Customer::getAccountingDate)).collect(Collectors.toList());
-//            militaryMEN = militaryMEN.stream().filter(c -> c.getRegistrated().equals(Registrated.YES)).sorted(Comparator.comparing(MilitaryMan::getAccountingDate).reversed()
-//                            .thenComparing(MilitaryMan::getQuotaType).reversed()
+//            militaryMEN = militaryMEN.stream().sorted(Comparator.comparing(MilitaryMan::getAccountingDate).reversed()
+//                            .thenComparing(m -> m.getQuota().getType()).reversed()
 //                            .thenComparing(c -> c.getQuotaDate() != null ? c.getQuotaDate() : c.getAccountingDate()))
 //                    .collect(Collectors.toList());
 //            for (int i = 0; i < militaryMEN.size(); i++) {
-//                militaryMEN.get(i).setZagalna(String.valueOf(i + 1));
+//                militaryMEN.get(i).setGeneralQueue(String.valueOf(i + 1));
 //            }
 //            militaryManService.saveAll(militaryMEN);
 //            customersPersho = new ArrayList<>(militaryMEN);
