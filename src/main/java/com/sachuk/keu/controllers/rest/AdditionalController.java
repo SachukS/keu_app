@@ -1,24 +1,9 @@
-package com.sachuk.keu.controllers;
+package com.sachuk.keu.controllers.rest;
 
-import com.sachuk.keu.database.service.*;
-import com.sachuk.keu.entities.*;
-import com.sachuk.keu.entities.security.Roles;
 import lombok.AllArgsConstructor;
-import org.apache.log4j.Logger;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.transaction.Transactional;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @Transactional

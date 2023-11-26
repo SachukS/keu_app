@@ -1,4 +1,4 @@
-package com.sachuk.keu.controllers;
+package com.sachuk.keu.controllers.rest;
 
 import com.sachuk.keu.database.service.MilitaryManService;
 import com.sachuk.keu.database.service.RankService;
@@ -67,5 +67,9 @@ public class InputRestController {
 //        return militaryManService.save(militaryMan);
 //    }
 //
+    @GetMapping("/test")
+    public String edit() {
+        return "militaryMan";
+    }
 
 }

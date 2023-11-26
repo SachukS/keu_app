@@ -1,11 +1,16 @@
 package com.sachuk.keu.entities;
 
-import com.sachuk.keu.entities.security.Roles;
+import com.sachuk.keu.entities.enums.SexEnum;
+import com.sachuk.keu.entities.enums.RoleEnum;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -29,9 +34,11 @@ public class User {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createDateTime;
 
-    @Column(name = "role", nullable = false)
-    @Enumerated(EnumType.ORDINAL)
-    private Roles role;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(	name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     @Column(name = "thirdname", nullable = false, length = 100)
     private String thirdname;
@@ -43,6 +50,8 @@ public class User {
     @Column(name = "ipn", nullable = false, length = 100)
     private String ipn;
 
+    @Column(name = "password", nullable = false, length = 100)
+    private String password;
 
     @OneToOne
     @JoinColumn(name = "military_man_id", nullable = false)
@@ -52,6 +61,7 @@ public class User {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birth_date;
 
-    @Column(name = "sex", nullable = false, length = 100)
-    private String sex;
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "sex", nullable = false)
+    private SexEnum sex;
 }

@@ -10,7 +10,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 server:
   port: 8081
-
+keu:
+  app:
+    jwtExpirationMs: '7200000'
+    jwtSecret: fgjrfksgcbc
 ---
 
 spring:

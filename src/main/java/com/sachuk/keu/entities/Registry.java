@@ -24,7 +24,7 @@ public class Registry {
     private MilitaryMan militaryMan;
 
     @OneToOne(fetch = FetchType.EAGER, targetEntity = ProvidedFlat.class)
-    @JoinColumn(name = "provided_flat_id", nullable = false)
+    @JoinColumn(name = "provided_flat_id", nullable = true)
     private ProvidedFlat ProvidedFlat;
 
     @Column(name = "received_money", nullable = true)

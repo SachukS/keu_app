@@ -25,7 +25,7 @@ public class ProvidedFlat {
     @Column(name = "room_count", nullable = false)
     private int roomCount;
 
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = FinanceSource.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = FinanceSource.class)
     @JoinColumn(name = "finance_source_id", nullable = false)
     private FinanceSource financeSource;
 
