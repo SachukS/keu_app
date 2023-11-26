@@ -7,13 +7,13 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "works")
+@Table(name = "deleted_militery_men")
 @NoArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode
 @ToString
-public class DeletedMilitaryMans {
+public class DeletedMilitaryMan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
