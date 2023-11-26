@@ -51,7 +51,7 @@ public class User {
     @Column(name = "ipn", nullable = false, length = 100)
     private String ipn;
 
-    @Column(name = "password", nullable = false, length = 100)
+    @Column(name = "password", nullable = true, length = 100)
     private String password;
 
     @OneToOne
@@ -65,6 +65,12 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "sex", nullable = false)
     private SexEnum sex;
+
+    @Column(name = "garrison", length = 100)
+    private String garrison;
+
+    @Column(name = "accounting_place", length = 100)
+    private String accountingPlace;
 
     public User(String surname, String name, LocalDateTime createDate, Set<Role> roles, String thirdname,
                 LocalDateTime update_date_time, String ipn, String password, MilitaryMan militaryMan,

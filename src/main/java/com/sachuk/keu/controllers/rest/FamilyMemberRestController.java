@@ -8,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/familyMember")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class FamilyMemberRestController {
     private final FamilyMemberService familyMemberService;
 

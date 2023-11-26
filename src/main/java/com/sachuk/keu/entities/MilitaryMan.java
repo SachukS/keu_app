@@ -95,7 +95,7 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     private boolean wantCompensation;
 
     @Column(name = "expected_compensation_value", nullable = false)
-    private double expectedCompensationValue;
+    private double expectedCompensationValue = 0.0;
 
     @Column(name = "death_date", nullable = false)
     @DateTimeFormat(pattern = "dd-mm-yyyy")

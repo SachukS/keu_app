@@ -8,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/providedFlat")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class ProvidedFlatRestController {
 
     private final ProvidedFlatService providedFlatService;

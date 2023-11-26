@@ -21,6 +21,7 @@ import java.util.List;
 @Transactional
 @AllArgsConstructor
 @RequestMapping("/api/v1/queue")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class QueueRestController {
     public MilitaryManService militaryManService;
     private QueueXlsCreateService queueXlsCreateService;
@@ -67,45 +68,45 @@ public class QueueRestController {
 
 
     //admin
-//    @PostMapping("/calculate")
-//    public void calculateQueue() {
-//        List<MilitaryMan> militaryMEN;
-//        List<MilitaryMan> customersPersho;
-//        List<MilitaryMan> customersPoza;
-//
-//        MilitaryMan militaryMan = new MilitaryMan();
-//        for (String gar : garrisons) {
-//            militaryMEN = militaryManService.findByGarrison(gar);
-//            //customers = customers.stream().filter(c -> c.getRegistrated().equals(Registrated.YES)).sorted(Comparator.comparing(Customer::getAccountingDate)).collect(Collectors.toList());
-//            militaryMEN = militaryMEN.stream().filter(c -> c.getRegistrated().equals(Registrated.YES)).sorted(Comparator.comparing(MilitaryMan::getAccountingDate).reversed()
-//                            .thenComparing(MilitaryMan::getQuotaType).reversed()
-//                            .thenComparing(c -> c.getQuotaDate() != null ? c.getQuotaDate() : c.getAccountingDate()))
-//                    .collect(Collectors.toList());
-//            for (int i = 0; i < militaryMEN.size(); i++) {
-//                militaryMEN.get(i).setZagalna(String.valueOf(i + 1));
-//            }
-//            militaryManService.saveAll(militaryMEN);
-//            customersPersho = new ArrayList<>(militaryMEN);
-//
-//            customersPoza = militaryMEN.stream()
-//                    .filter(c -> c.getQuotaType().equals("позачерговий"))
-//                    .sorted(Comparator.comparing(MilitaryMan::getQuotaDate)
-//                            .thenComparing(MilitaryMan::getAccountingDate))
-//                    .collect(Collectors.toList());
-//            for (int i = 0; i < customersPoza.size(); i++) {
-//                customersPoza.get(i).setPilgova(String.valueOf(i + 1));
-//            }
-//            militaryManService.saveAll(customersPoza);
-//
-//            customersPersho = customersPersho.stream()
-//                    .filter(c -> c.getQuotaType().equals("першочерговий"))
-//                    .sorted(Comparator.comparing(MilitaryMan::getQuotaDate)
-//                            .thenComparing(MilitaryMan::getAccountingDate))
-//                    .collect(Collectors.toList());
-//            for (int i = 0; i < customersPersho.size(); i++) {
-//                customersPersho.get(i).setPilgova(String.valueOf(i + 1));
-//            }
-//            militaryManService.saveAll(customersPersho);
-//        }
-//    }
+    @PostMapping("/calculate")
+    public void calculateQueue() {
+        List<MilitaryMan> militaryMEN;
+        List<MilitaryMan> customersPersho;
+        List<MilitaryMan> customersPoza;
+
+        MilitaryMan militaryMan = new MilitaryMan();
+        for (String gar : garrisons) {
+            militaryMEN = militaryManService.findByGarrison(gar);
+            //customers = customers.stream().filter(c -> c.getRegistrated().equals(Registrated.YES)).sorted(Comparator.comparing(Customer::getAccountingDate)).collect(Collectors.toList());
+            militaryMEN = militaryMEN.stream().filter(c -> c.getRegistrated().equals(Registrated.YES)).sorted(Comparator.comparing(MilitaryMan::getAccountingDate).reversed()
+                            .thenComparing(MilitaryMan::getQuotaType).reversed()
+                            .thenComparing(c -> c.getQuotaDate() != null ? c.getQuotaDate() : c.getAccountingDate()))
+                    .collect(Collectors.toList());
+            for (int i = 0; i < militaryMEN.size(); i++) {
+                militaryMEN.get(i).setZagalna(String.valueOf(i + 1));
+            }
+            militaryManService.saveAll(militaryMEN);
+            customersPersho = new ArrayList<>(militaryMEN);
+
+            customersPoza = militaryMEN.stream()
+                    .filter(c -> c.getQuotaType().equals("позачерговий"))
+                    .sorted(Comparator.comparing(MilitaryMan::getQuotaDate)
+                            .thenComparing(MilitaryMan::getAccountingDate))
+                    .collect(Collectors.toList());
+            for (int i = 0; i < customersPoza.size(); i++) {
+                customersPoza.get(i).setPilgova(String.valueOf(i + 1));
+            }
+            militaryManService.saveAll(customersPoza);
+
+            customersPersho = customersPersho.stream()
+                    .filter(c -> c.getQuotaType().equals("першочерговий"))
+                    .sorted(Comparator.comparing(MilitaryMan::getQuotaDate)
+                            .thenComparing(MilitaryMan::getAccountingDate))
+                    .collect(Collectors.toList());
+            for (int i = 0; i < customersPersho.size(); i++) {
+                customersPersho.get(i).setPilgova(String.valueOf(i + 1));
+            }
+            militaryManService.saveAll(customersPersho);
+        }
+    }
 }

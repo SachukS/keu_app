@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 @Transactional
 @AllArgsConstructor
 @RequestMapping("/api/v1/input")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class InputRestController {
     public MilitaryManService militaryManService;
     public RankService rankService;

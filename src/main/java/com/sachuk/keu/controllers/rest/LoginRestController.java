@@ -37,6 +37,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class LoginRestController {
     @Autowired
     AuthenticationManager authenticationManager;
@@ -91,7 +92,10 @@ public class LoginRestController {
                     Set<Role> role = new HashSet<>();
                     //check if user in military_man table
                     if(militaryManRepository.findByIpn(m.group("IPN")).isPresent()){
-                        user.setMilitaryMan(militaryManRepository.findByIpn(m.group("IPN")).get());
+                        MilitaryMan militaryMan = militaryManRepository.findByIpn(m.group("IPN")).get();
+                        user.setMilitaryMan(militaryMan);
+                        user.setGarrison(militaryMan.getWork().getGarrison());
+                        user.setAccountingPlace(militaryMan.getWork().getAccountingPlace());
                         role.add(new Role(RoleEnum.ROLE_USER));
                         user.setRoles(role);
                     } else {

@@ -16,6 +16,7 @@ import java.time.LocalDate;
 
 @Controller
 @AllArgsConstructor
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class IndexController {
 //    private static final Logger log = Logger.getLogger(IndexController.class);
 //
