@@ -27,6 +27,7 @@ public class Quota implements Serializable {
     @Column(name = "short_name", length = 100, unique = true)
     private String shortName;
 
+    @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private QuotaType type = QuotaType.NONE;
 
