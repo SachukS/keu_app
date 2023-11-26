@@ -13,7 +13,7 @@ import java.util.Date;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class Entry {
+public class Registry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,10 +31,10 @@ public class Entry {
     private double receivedMoney;
 
     @Column(name = "receive_date", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
     private Date receiveDate;
 
-    public Entry(MilitaryMan militaryMan, ProvidedFlat providedFlat, double receivedMoney, Date receiveDate) {
+    public Registry(MilitaryMan militaryMan, ProvidedFlat providedFlat, double receivedMoney, Date receiveDate) {
         this.militaryMan = militaryMan;
         this.providedFlat = providedFlat;
         this.receivedMoney = receivedMoney;

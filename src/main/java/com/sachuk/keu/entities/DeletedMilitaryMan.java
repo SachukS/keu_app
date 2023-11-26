@@ -29,6 +29,6 @@ public class DeletedMilitaryMan {
     private String protokolNumber;
 
     @Column(name = "delete_date", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
     private Date deleteDate;
 }

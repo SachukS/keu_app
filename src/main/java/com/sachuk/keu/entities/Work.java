@@ -27,9 +27,6 @@ public class Work implements Serializable {
 
     @Column(name = "garrison", length = 25, nullable = false)
     private String garrison;
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "privilegeDocument",targetEntity=Privilege.class)
-//    private List<Privilege> privileges = new ArrayList<>();
-
 
     public Work(String workPlace, String accountingPlace, String garrison) {
         this.workPlace = workPlace;
@@ -41,6 +38,5 @@ public class Work implements Serializable {
     public Work(String workPlace, String accountingPlace) {
         this.workPlace = workPlace;
         this.accountingPlace = accountingPlace;
-        //this.privileges = privileges;
     }
 }

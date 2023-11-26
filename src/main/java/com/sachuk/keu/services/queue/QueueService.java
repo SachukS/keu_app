@@ -1,8 +1,9 @@
 package com.sachuk.keu.services.queue;
 
 import com.sachuk.keu.database.service.MilitaryManService;
+import com.sachuk.keu.database.service.RegistryService;
 import com.sachuk.keu.entities.MilitaryMan;
-import com.sachuk.keu.entities.Entry;
+import com.sachuk.keu.entities.Registry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 public class QueueService {
     private static MilitaryManService militaryManService;
     private static QueueXlsCreateService queueXlsCreateService;
+    private static RegistryService registryService;
 
     @Autowired
     public void setRatingXlsCreateService(QueueXlsCreateService queueXlsCreateService) {
@@ -22,8 +24,12 @@ public class QueueService {
     }
 
     @Autowired
-    public void setCustomerService(MilitaryManService militaryManService) {
+    public void setMilitaryManService(MilitaryManService militaryManService) {
         this.militaryManService = militaryManService;
+    }
+    @Autowired
+    public void setRegistryService(RegistryService registryService) {
+        this.registryService = registryService;
     }
 
     public static List<MilitaryMan> getQueue(String garrison, String queueType) {
@@ -33,7 +39,7 @@ public class QueueService {
                 queueInGarrison = militaryManService.findByGarrison(garrison)
                         .stream().sorted(
                                 Comparator.comparing(MilitaryMan::getAccountingDate).reversed()
-                                        .thenComparing(militaryMan -> militaryMan.getQuota().getQuotaDate()).reversed())
+                                        .thenComparing(MilitaryMan::getQuotaDate).reversed())
                         .collect(Collectors.toList());
                 break;
             case "firstinpriority":
@@ -42,18 +48,31 @@ public class QueueService {
                         .stream().sorted(
                                 Comparator.comparing(MilitaryMan::getQuotaQueue))
                         .collect(Collectors.toList());
+                break;
             case "compensation":
                 queueInGarrison = militaryManService.findByGarrison(garrison)
                         .stream().filter(MilitaryMan::isWantCompensation).sorted(
                                 Comparator.comparing(MilitaryMan::getAccountingDate).reversed()
-                                        .thenComparing(militaryMan -> militaryMan.getQuota().getQuotaDate()).reversed())
+                                        .thenComparing(MilitaryMan::getQuotaDate).reversed())
                         .collect(Collectors.toList());
                 break;
         }
         return queueInGarrison;
     }
-    public static List<Entry> getReceivedQueue(String garrison, String queueType) {
-        return new ArrayList<>();
+
+    public static List<Registry> getReceivedQueue(String garrison, String queueType) {
+        List<Registry> registry = new ArrayList<>();
+        switch (queueType) {
+            case "flat":
+                registry = registryService.findByReceivedFlat(garrison).stream().sorted(Comparator.comparing(Registry::getReceiveDate))
+                    .collect(Collectors.toList());
+            break;
+            case "money":
+                registry = registryService.findByReceivedMoney(garrison).stream().sorted(Comparator.comparing(Registry::getReceiveDate))
+                        .collect(Collectors.toList());
+                break;
+        }
+        return registry;
     }
 //        if (!militaryMan.getWork().getAccountingPlace().equals("Всі")) {
 //            customersInGarrison = customersInGarrison.stream()

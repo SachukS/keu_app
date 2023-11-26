@@ -35,7 +35,9 @@ public class InputRestController {
 
     @PostMapping("/")
     public MilitaryMan saveMilitaryMan(@RequestBody MilitaryMan militaryMan) {
-        militaryMan.setUpdateDate(LocalDateTime.now());
+        if (!militaryMan.isRegistrated()){
+            // find superbabka and send notification
+        }
         return militaryManService.save(militaryMan);
     }
 

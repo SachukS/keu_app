@@ -31,18 +31,9 @@ public class Quota implements Serializable {
     @Enumerated(EnumType.STRING)
     private QuotaType type = QuotaType.NONE;
 
-    @Column(name = "quota_date", nullable = true)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date quotaDate;
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "Quota",targetEntity=Privilege.class)
-//    private List<Privilege> privileges = new ArrayList<>();
-
-
-    public Quota(String name, String shortName, QuotaType type, Date date) {
+    public Quota(String name, String shortName, QuotaType type) {
         this.name = name;
         this.shortName = shortName;
-//        this.privileges = privileges;
         this.type = type;
-        this.quotaDate = date;
     }
 }

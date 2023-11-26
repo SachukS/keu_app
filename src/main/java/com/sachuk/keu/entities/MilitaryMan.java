@@ -9,6 +9,7 @@ import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -49,12 +50,16 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     private String phoneNumber;
 
     @Column(name = "accounting_date", nullable = false, length = 6)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
     private Date accountingDate;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Quota.class)
     @JoinColumn(name = "quota_id", nullable = false)
-    private Quota quota = new Quota("Без пільг", "Без пільг", QuotaType.NONE, null);
+    private Quota quota = new Quota("Без пільг", "Без пільг", QuotaType.NONE);
+
+    @Column(name = "quota_date", nullable = true)
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
+    private Date quotaDate;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Rank.class)
     @JoinColumn(name = "rank_id", nullable = false)
@@ -93,7 +98,7 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     private double expectedCompensationValue;
 
     @Column(name = "death_date", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
     private Date deathDate;
 
     @Column(name = "ipn", nullable = false)
@@ -104,7 +109,7 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     private Provided provided = Provided.NO;
 
     @Column(name = "update_date", nullable = false)
-    @CreationTimestamp
+    @UpdateTimestamp
     private LocalDateTime updateDate;
 
     @Column(name = "room_count", nullable = false)
@@ -115,15 +120,15 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     private boolean familyWar2022;
 
     @Column(name = "service_from", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
     private Date serviceFrom;
 
     @Column(name = "service_until", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
     private Date serviceUntil;
 
     @Column(name = "apartment_file_date", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
     private Date apartmentFileDate;
 
     @Column(name = "apartment_file_number", nullable = false)

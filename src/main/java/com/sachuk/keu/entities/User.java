@@ -2,9 +2,13 @@ package com.sachuk.keu.entities;
 
 import com.sachuk.keu.entities.enums.SexEnum;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,9 +34,9 @@ public class User {
     @Column(name = "thirdname", nullable = false, length = 100)
     private String thirdname;
 
-    @Column(name = "create_date_time", length = 6, nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date createDateTime;
+    @Column(name = "create_date", nullable = false)
+    @CreationTimestamp
+    private LocalDateTime createDate;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(	name = "user_roles",
@@ -40,10 +44,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-
-    @Column(name = "update_date_time", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date update_date_time;
+    @Column(name = "update_date", nullable = false)
+    @UpdateTimestamp
+    private LocalDateTime updateDate;
 
     @Column(name = "ipn", nullable = false, length = 100)
     private String ipn;
@@ -56,22 +59,22 @@ public class User {
     private MilitaryMan militaryMan;
 
     @Column(name = "birth_date", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
     private Date birth_date;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "sex", nullable = false)
     private SexEnum sex;
 
-    public User(String surname, String name, Date createDateTime, Set<Role> roles, String thirdname,
-                Date update_date_time, String ipn, String password, MilitaryMan militaryMan,
+    public User(String surname, String name, LocalDateTime createDate, Set<Role> roles, String thirdname,
+                LocalDateTime update_date_time, String ipn, String password, MilitaryMan militaryMan,
                 Date birth_date, SexEnum sex) {
         this.surname = surname;
         this.name = name;
-        this.createDateTime = createDateTime;
+        this.createDate = createDate;
         this.roles = roles;
         this.thirdname = thirdname;
-        this.update_date_time = update_date_time;
+        this.updateDate = updateDate;
         this.ipn = ipn;
         this.password = password;
         this.militaryMan = militaryMan;

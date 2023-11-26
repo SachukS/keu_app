@@ -28,12 +28,8 @@ public class FamilyMember {
     @Column(name = "thirdName", nullable = false, length = 100)
     private String thirdName;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Quota.class)
-    @JoinColumn(name = "quota_id", nullable = false)
-    private Quota quota = new Quota("Без пільг", "Без пільг", QuotaType.NONE, null);
-
     @Column(name = "birth_date", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
     private Date birthDate;
 
 }
