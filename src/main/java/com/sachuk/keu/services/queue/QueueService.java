@@ -2,9 +2,7 @@ package com.sachuk.keu.services.queue;
 
 import com.sachuk.keu.database.service.MilitaryManService;
 import com.sachuk.keu.entities.MilitaryMan;
-import com.sachuk.keu.entities.Quota;
-import com.sachuk.keu.entities.Registry;
-import com.sachuk.keu.entities.enums.QuotaType;
+import com.sachuk.keu.entities.Entry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +44,7 @@ public class QueueService {
                         .collect(Collectors.toList());
             case "compensation":
                 queueInGarrison = militaryManService.findByGarrison(garrison)
-                        .stream().filter(MilitaryMan::isCompensation).sorted(
+                        .stream().filter(MilitaryMan::isWantCompensation).sorted(
                                 Comparator.comparing(MilitaryMan::getAccountingDate).reversed()
                                         .thenComparing(militaryMan -> militaryMan.getQuota().getQuotaDate()).reversed())
                         .collect(Collectors.toList());
@@ -54,7 +52,7 @@ public class QueueService {
         }
         return queueInGarrison;
     }
-    public static List<Registry> getReceivedQueue(String garrison, String queueType) {
+    public static List<Entry> getReceivedQueue(String garrison, String queueType) {
         return new ArrayList<>();
     }
 //        if (!militaryMan.getWork().getAccountingPlace().equals("Всі")) {

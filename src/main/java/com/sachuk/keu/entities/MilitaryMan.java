@@ -1,7 +1,7 @@
 package com.sachuk.keu.entities;
 
-import com.sachuk.keu.entities.enums.*;
-import com.sachuk.keu.utils.DateUtil;
+import com.sachuk.keu.entities.enums.Provided;
+import com.sachuk.keu.entities.enums.QuotaType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,7 +45,7 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     @Column(name = "work_experience", nullable = false)
     private int workExperience;
 
-    @Column(name = "phone_number", nullable = false, length = 15)
+    @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
     @Column(name = "accounting_date", nullable = false, length = 6)
@@ -86,12 +85,12 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     @ColumnDefault("false")
     private boolean rozshirennya;
 
-    @Column(name = "compensation", nullable = false)
+    @Column(name = "want_compensation", nullable = false)
     @ColumnDefault("false")
-    private boolean compensation;
+    private boolean wantCompensation;
 
     @Column(name = "expected_compensation_value", nullable = false)
-    private double expected_compensation_value;
+    private double expectedCompensationValue;
 
     @Column(name = "death_date", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")

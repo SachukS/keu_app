@@ -1,7 +1,7 @@
 package com.sachuk.keu.controllers.rest;
 
 import com.sachuk.keu.database.service.RegistryService;
-import com.sachuk.keu.entities.Registry;
+import com.sachuk.keu.entities.Entry;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,28 +16,28 @@ public class RegistryRestController {
     }
 
     @GetMapping("/")
-    public List<Registry> findAll() {
+    public List<Entry> findAll() {
         return registryService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Registry findById(@PathVariable Long id) {
+    public Entry findById(@PathVariable Long id) {
         return registryService.findById(id);
     }
 
     @PostMapping("/")
-    public Registry save(@RequestBody Registry registry) {
-        return registryService.save(registry);
+    public Entry save(@RequestBody Entry entry) {
+        return registryService.save(entry);
     }
 
     @PostMapping("/all")
-    public void saveAll(Iterable<Registry> registries) {
+    public void saveAll(Iterable<Entry> registries) {
         registryService.saveAll(registries);
     }
 
     @DeleteMapping("/")
-    public void delete(@RequestBody Registry registry) {
-        registryService.delete(registry);
+    public void delete(@RequestBody Entry entry) {
+        registryService.delete(entry);
     }
 
     @DeleteMapping("/{id}")

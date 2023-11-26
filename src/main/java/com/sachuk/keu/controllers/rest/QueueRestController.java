@@ -1,8 +1,8 @@
 package com.sachuk.keu.controllers.rest;
 
 import com.sachuk.keu.database.service.MilitaryManService;
+import com.sachuk.keu.entities.Entry;
 import com.sachuk.keu.entities.MilitaryMan;
-import com.sachuk.keu.entities.Registry;
 import com.sachuk.keu.services.queue.QueueService;
 import com.sachuk.keu.services.queue.QueueXlsCreateService;
 import lombok.AllArgsConstructor;
@@ -12,18 +12,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @Transactional
@@ -55,12 +47,12 @@ public class QueueRestController {
     }
 
     @GetMapping("/{garrison}/received/{receivedType}")
-    public Page<Registry> getReceivedQueue(@PathVariable String garrison,
-                                           @PathVariable String receivedType,
-                                           @RequestParam(required = false, defaultValue = "0") int page,
-                                           @RequestParam(required = false, defaultValue = "50") int size) {
+    public Page<Entry> getReceivedQueue(@PathVariable String garrison,
+                                        @PathVariable String receivedType,
+                                        @RequestParam(required = false, defaultValue = "0") int page,
+                                        @RequestParam(required = false, defaultValue = "50") int size) {
         ///TODO implement case for received type
-        List<Registry> queue = QueueService.getReceivedQueue(garrison, receivedType);
+        List<Entry> queue = QueueService.getReceivedQueue(garrison, receivedType);
         Pageable pageable;
         if (size == 0) {
             pageable = Pageable.unpaged();
@@ -70,7 +62,7 @@ public class QueueRestController {
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), queue.size());
 
-        List<Registry> pageContent = queue.subList(start, end);
+        List<Entry> pageContent = queue.subList(start, end);
         return new PageImpl<>(pageContent, pageable, queue.size());
     }
 

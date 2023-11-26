@@ -1,7 +1,7 @@
 package com.sachuk.keu.database.service;
 
 import com.sachuk.keu.database.repositories.RegistryRepository;
-import com.sachuk.keu.entities.Registry;
+import com.sachuk.keu.entities.Entry;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,21 +14,21 @@ public class RegistryService {
         this.registryRepository = registryRepository;
     }
 
-    public List<Registry> findAll() {
+    public List<Entry> findAll() {
         return registryRepository.findAll();
     }
 
-    public Registry findById(Long id) {
+    public Entry findById(Long id) {
         return registryRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("Registry with id: " + id + " is not found"));
     }
 
-    public Registry save(Registry registry) {
-        return registryRepository.save(registry);
+    public Entry save(Entry entry) {
+        return registryRepository.save(entry);
     }
 
-    public void delete(Registry registry) {
-        registryRepository.delete(registry);
+    public void delete(Entry entry) {
+        registryRepository.delete(entry);
     }
 
     public boolean existsById(Long id) {
@@ -39,15 +39,15 @@ public class RegistryService {
         registryRepository.deleteById(id);
     }
 
-    public Registry saveAndFlush(Registry registry) {
-        return registryRepository.saveAndFlush(registry);
+    public Entry saveAndFlush(Entry entry) {
+        return registryRepository.saveAndFlush(entry);
     }
 
     public void flush() {
         registryRepository.flush();
     }
 
-    public void saveAll(Iterable<Registry> registries) {
+    public void saveAll(Iterable<Entry> registries) {
         registryRepository.saveAll(registries);
     }
 
