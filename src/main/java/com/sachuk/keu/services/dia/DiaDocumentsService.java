@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Random;
 
 @Service
-public class DiaAuthorizationService {
+public class DiaDocumentsService {
     private final String DIA_API_URL = "http://localhost:8081/dia/test-api"; //https://api2s.diia.gov.ua/api
 
     public String getCreateSessionAndGetToken(String acquirer_token) throws IOException {
@@ -99,8 +99,7 @@ public class DiaAuthorizationService {
         byte[] array = new byte[32]; // mb 44 due to documentation
         new Random().nextBytes(array);
         EndUser user = new EndUser();
-        String hash = user.Hash(array);
-        return user.BASE64Encode(hash.getBytes());
+        return user.BASE64Encode(array);
     }
 
 }

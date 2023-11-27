@@ -1,23 +1,21 @@
 package com.sachuk.keu.controllers.rest.dia;
 
-import com.sachuk.keu.services.dia.DiaAuthorizationService;
+import com.sachuk.keu.services.dia.DiaDocumentsService;
 import lombok.Data;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.io.IOException;
-
 @Controller
 @RequestMapping("/api/v1/auth")
 @Data
 public class DiaDocumentsController {
-    private final DiaAuthorizationService service;
+    private final DiaDocumentsService service;
     private final String ACQUIRER_TOKEN = "some_really_cool_dia_token"; // TODO
     private final long TIMEOUT_MILLIS = 500;
     private final String returnLink = "where"; // TODO
 
-    public DiaDocumentsController(DiaAuthorizationService service) {
+    public DiaDocumentsController(DiaDocumentsService service) {
         this.service = service;
     }
 
