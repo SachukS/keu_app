@@ -1,10 +1,12 @@
 package com.sachuk.keu.entities;
 
 import com.sachuk.keu.entities.enums.QuotaType;
+import com.sachuk.keu.entities.enums.SexEnum;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -30,6 +32,9 @@ public class FamilyMember {
 
     @Column(name = "birth_date", nullable = false)
     @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private Date birthDate;
+    private LocalDate birthDate;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sex", nullable = false)
+    private SexEnum sex;
 }

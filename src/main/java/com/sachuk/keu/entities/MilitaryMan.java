@@ -7,16 +7,15 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -48,7 +47,7 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
 
     @Column(name = "accounting_date", nullable = false, length = 6)
     @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private Date accountingDate;
+    private LocalDate accountingDate;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Quota.class)
     @JoinColumn(name = "quota_id", nullable = false)
@@ -56,7 +55,7 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
 
     @Column(name = "quota_date", nullable = true)
     @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private Date quotaDate;
+    private LocalDate quotaDate;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Rank.class)
     @JoinColumn(name = "rank_id", nullable = false)
@@ -94,7 +93,7 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
 
     @Column(name = "death_date")
     @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private Date deathDate;
+    private LocalDate deathDate;
 
     @Column(name = "ipn", nullable = false)
     private String ipn;
@@ -116,15 +115,15 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
 
     @Column(name = "service_from", nullable = false)
     @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private Date serviceFrom;
+    private LocalDate serviceFrom;
 
     @Column(name = "service_until")
     @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private Date serviceUntil;
+    private LocalDate serviceUntil;
 
     @Column(name = "apartment_file_date")
     @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private Date apartmentFileDate;
+    private LocalDate apartmentFileDate;
 
     @Column(name = "apartment_file_number")
     private String apartmentFileNumber;

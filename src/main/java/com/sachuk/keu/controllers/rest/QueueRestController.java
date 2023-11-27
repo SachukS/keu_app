@@ -107,6 +107,5 @@ public class QueueRestController {
             customersPersho.get(i).setQuotaQueue((i + 1));
         }
         militaryManService.saveAll(customersPersho);
-
     }
 }

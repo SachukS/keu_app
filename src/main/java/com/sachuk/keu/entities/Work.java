@@ -25,10 +25,11 @@ public class Work implements Serializable {
     @Column(name = "accounting_place", length = 25, nullable = false)
     private String accountingPlace;
 
-    @Column(name = "garrison", length = 25, nullable = false)
-    private String garrison;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "garrison_id", nullable = false)
+    private Garrison garrison;
 
-    public Work(String workPlace, String accountingPlace, String garrison) {
+    public Work(String workPlace, String accountingPlace, Garrison garrison) {
         this.workPlace = workPlace;
         this.accountingPlace = accountingPlace;
         this.garrison = garrison;
@@ -39,4 +40,5 @@ public class Work implements Serializable {
         this.workPlace = workPlace;
         this.accountingPlace = accountingPlace;
     }
+
 }

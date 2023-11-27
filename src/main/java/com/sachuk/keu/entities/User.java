@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
@@ -54,27 +55,28 @@ public class User {
     @Column(name = "password", nullable = true, length = 100)
     private String password;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "military_man_id", nullable = false)
     private MilitaryMan militaryMan;
 
     @Column(name = "birth_date", nullable = false)
     @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private Date birthDate;
+    private LocalDate birthDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "sex", nullable = false)
     private SexEnum sex;
 
-    @Column(name = "garrison", length = 100)
-    private String garrison;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "garrison_id", nullable = false)
+    private Garrison garrison;
 
     @Column(name = "accounting_place", length = 100)
     private String accountingPlace;
 
     public User(String surname, String name, LocalDateTime createDate, Set<Role> roles, String thirdname,
                 LocalDateTime update_date_time, String ipn, String password, MilitaryMan militaryMan,
-                Date birth_date, SexEnum sex) {
+                LocalDate birth_date, SexEnum sex) {
         this.surname = surname;
         this.name = name;
         this.createDate = createDate;
