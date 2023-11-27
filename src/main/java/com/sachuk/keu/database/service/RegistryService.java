@@ -28,15 +28,21 @@ public class RegistryService {
     public Registry save(Registry registry) {
         return registryRepository.save(registry);
     }
+
+    public List<Registry> findAllByGarrison(String garrison) {
+        return registryRepository.findAll().stream()
+                .filter(r -> r.getMilitaryMan().getWork().getGarrison().getName().equals(garrison))
+                .collect(Collectors.toList());
+    }
     public List<Registry> findByReceivedFlat(String garrison) {
         return registryRepository.findByReceivedFlat(garrison).stream()
-                .filter(r -> r.getMilitaryMan().getWork().getGarrison().equals(garrison))
+                .filter(r -> r.getMilitaryMan().getWork().getGarrison().getName().equals(garrison))
                 .collect(Collectors.toList());
     }
 
     public List<Registry> findByReceivedMoney(String garrison) {
         return registryRepository.findByReceivedMoney(garrison).stream()
-                .filter(r -> r.getMilitaryMan().getWork().getGarrison().equals(garrison))
+                .filter(r -> r.getMilitaryMan().getWork().getGarrison().getName().equals(garrison))
                 .collect(Collectors.toList());
     }
 

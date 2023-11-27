@@ -70,10 +70,10 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     @Type(type = "org.hibernate.type.TextType")
     private String info;
 
-    @Column(name = "general_queue")
+    @Column(name = "general_queue", nullable = false)
     private int generalQueue = 0;
 
-    @Column(name = "quota_queue")
+    @Column(name = "quota_queue", nullable = false)
     private int quotaQueue = 0;
 
     @Column(name = "registrated", nullable = false)

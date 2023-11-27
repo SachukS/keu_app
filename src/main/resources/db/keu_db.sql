@@ -70,7 +70,7 @@ CREATE TABLE `garrisons`
   COLLATE = utf8mb4_unicode_ci;
 
 INSERT INTO `garrisons` (`id`, `name`, `region`, `price_per_meter`)
-VALUES (1, 'Київ', 'Київ', 20870),
+VALUES (1, 'м.Київ', 'Київ', 20870),
        (2, 'Василькiв', 'Київська обл.', 19570),
        (3, 'Гостомель', 'Київська обл.', 19750),
        (4, 'Переяславський', 'Київська обл.', 18450),
@@ -98,14 +98,14 @@ CREATE TABLE `military_man`
     `death_date`                  datetime                                         DEFAULT NULL,
     `expected_compensation_value` double                                  NOT NULL,
     `family_war_2022`             bit(1)                                  NOT NULL DEFAULT b'0',
-    `general_queue`               int(11)                                          DEFAULT NULL,
+    `general_queue`               int(11)                                 NOT NULL,
     `info`                        longtext COLLATE utf8mb4_unicode_ci,
     `ipn`                         varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
     `name`                        varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
     `phone_number`                varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
     `provided`                    varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
     `quota_date`                  datetime                                         DEFAULT NULL,
-    `quota_queue`                 int(11)                                          DEFAULT NULL,
+    `quota_queue`                 int(11)                                 NOT NULL,
     `registrated`                 bit(1)                                  NOT NULL DEFAULT b'0',
     `room_count`                  int(11)                                 NOT NULL,
     `rozshirennya`                bit(1)                                  NOT NULL DEFAULT b'0',
@@ -132,12 +132,12 @@ INSERT INTO `military_man` (`id`, `accounting_date`, `address`, `apartment_file_
                             `room_count`, `rozshirennya`, `service_from`, `service_until`, `surname`, `third_name`,
                             `update_date`, `want_compensation`, `quota_id`, `rank_id`, `work_id`)
 VALUES (1, '1992-10-01 00:00:00', 'м. Київ, вул. Київська 1, кв. 1 ', '1992-09-01 00:00:00', '11',
-        '2012-10-01 00:00:00', 0, CONV('0', 2, 10) + 0, NULL, NULL, '1234567890', 'Борис', '1234567890', 'POST',
-        '1992-10-01 00:00:00', NULL, CONV('1', 2, 10) + 0, 0, CONV('0', 2, 10) + 0, '1982-10-01 00:00:00',
+        '2012-10-01 00:00:00', 0, CONV('0', 2, 10) + 0, 0, NULL, '1234567890', 'Борис', '1234567890', 'POST',
+        '1992-10-01 00:00:00', 0, CONV('1', 2, 10) + 0, 0, CONV('0', 2, 10) + 0, '1982-10-01 00:00:00',
         '2023-10-01 00:00:00', 'Назаренко', 'Борисович', '2022-07-21 15:45:16', CONV('0', 2, 10) + 0, 1, 1, 1),
        (2, '1992-10-01 00:00:00', 'м. Київ, вул. Київська 1, кв. 1 ', '1992-09-01 00:00:00', '12',
-        '2012-10-01 00:00:00', 0, CONV('1', 2, 10) + 0, NULL, NULL, '1234567899', 'Артем', '1234567845', 'COMP',
-        '1992-10-01 00:00:00', NULL, CONV('1', 2, 10) + 0, 0, CONV('0', 2, 10) + 0, '1982-10-01 00:00:00',
+        '2012-10-01 00:00:00', 0, CONV('1', 2, 10) + 0, 0, NULL, '1234567899', 'Артем', '1234567845', 'COMP',
+        '1992-10-01 00:00:00', 0, CONV('1', 2, 10) + 0, 0, CONV('0', 2, 10) + 0, '1982-10-01 00:00:00',
         '2023-10-01 00:00:00', 'Клопотенко', 'Кирилович', '2022-07-21 15:45:16', CONV('0', 2, 10) + 0, 2, 3, 1),
        (3, '1992-10-01 00:00:00', 'м. Київ, вул. Київська 1, кв. 1 ', '1992-09-01 00:00:00', '13', NULL, 0,
         CONV('1', 2, 10) + 0, 1, NULL, '1234567899', 'Артур', '1234567845', 'NO', '1992-10-01 00:00:00', 1,
@@ -148,7 +148,7 @@ VALUES (1, '1992-10-01 00:00:00', 'м. Київ, вул. Київська 1, к�
         CONV('1', 2, 10) + 0, 3, CONV('0', 2, 10) + 0, '1982-10-01 00:00:00', '2023-10-01 00:00:00', 'Петренко',
         'Артурович ', '2022-07-21 15:45:16', CONV('1', 2, 10) + 0, 7, 3, 1),
        (5, '1992-10-01 00:00:00', 'м. Київ, вул. Київська 1, кв. 1 ', '1992-09-01 00:00:00', '15', NULL, 2000000,
-        CONV('1', 2, 10) + 0, 3, NULL, '1234567831', 'Артем', '1234567845', 'NO', NULL, NULL, CONV('1', 2, 10) + 0, 0,
+        CONV('1', 2, 10) + 0, 3, NULL, '1234567831', 'Артем', '1234567845', 'NO', NULL, 0, CONV('1', 2, 10) + 0, 0,
         CONV('0', 2, 10) + 0, '1982-10-01 00:00:00', NULL, 'Назаренко', 'Кирилович', '2022-07-21 15:45:16',
         CONV('1', 2, 10) + 0, NULL, 4, 4),
        (6, '1992-10-01 00:00:00', 'м. Київ, вул. Київська 1, кв. 1 ', '1992-09-01 00:00:00', '16',
@@ -320,7 +320,7 @@ CREATE TABLE `registry`
   COLLATE = utf8mb4_unicode_ci;
 
 INSERT INTO `registry` (`id`, `receive_date`, `received_money`, `military_man_id`, `provided_flat_id`)
-VALUES (1, '2022-09-20 00:00:00', NULL, 1, 1),
+VALUES (1, '2022-09-20 00:00:00', 0.0, 1, 1),
        (2, '2021-09-23 00:00:00', 20000, 2, NULL);
 
 DROP TABLE IF EXISTS `roles`;

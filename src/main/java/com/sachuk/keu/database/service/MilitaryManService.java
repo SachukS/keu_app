@@ -66,13 +66,15 @@ public class MilitaryManService {
 
     public MilitaryMan save(MilitaryMan militaryMan) {
         calculateRoomCount(militaryMan);
-        calculateCompensation(militaryMan);
+        if (militaryMan.isWantCompensation())
+            calculateCompensation(militaryMan);
         return militaryManRepository.save(militaryMan);
     }
 
     public MilitaryMan saveAndFlush(MilitaryMan militaryMan) {
         calculateRoomCount(militaryMan);
-        calculateCompensation(militaryMan);
+        if (militaryMan.isWantCompensation())
+            calculateCompensation(militaryMan);
         return militaryManRepository.saveAndFlush(militaryMan);
     }
 

@@ -49,14 +49,14 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updateDate;
 
-    @Column(name = "ipn", nullable = false, length = 100)
+    @Column(name = "ipn", nullable = true, length = 100)
     private String ipn;
 
     @Column(name = "password", nullable = true, length = 100)
     private String password;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "military_man_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "military_man_id")
     private MilitaryMan militaryMan;
 
     @Column(name = "birth_date", nullable = false)

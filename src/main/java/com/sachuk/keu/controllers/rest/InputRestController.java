@@ -2,9 +2,11 @@ package com.sachuk.keu.controllers.rest;
 
 import com.sachuk.keu.database.service.MilitaryManService;
 import com.sachuk.keu.database.service.RankService;
+import com.sachuk.keu.database.service.UserService;
 import com.sachuk.keu.database.service.WorkService;
 import com.sachuk.keu.entities.MilitaryMan;
 import com.sachuk.keu.entities.Rank;
+import com.sachuk.keu.entities.User;
 import com.sachuk.keu.entities.Work;
 import com.sachuk.keu.entities.enums.Provided;
 import lombok.AllArgsConstructor;
@@ -26,10 +28,11 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class InputRestController {
     public MilitaryManService militaryManService;
+    public UserService userService;
     public RankService rankService;
     public WorkService workService;
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/{id}")
     public MilitaryMan edit(@PathVariable("id") String id) {
         return militaryManService.findById(Long.parseLong(id)).orElseThrow(
                 () -> new IllegalArgumentException("military man with id: " + id + " is not found"));
@@ -40,6 +43,11 @@ public class InputRestController {
         if (!militaryMan.isRegistrated()){
             // find superbabka and send notification
         }
+        return militaryManService.save(militaryMan);
+    }
+
+    @PutMapping("/{id}")
+    public MilitaryMan editMilitaryMan(@RequestBody MilitaryMan militaryMan, @PathVariable("id") Long id) {
         return militaryManService.save(militaryMan);
     }
 

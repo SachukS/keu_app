@@ -2,6 +2,11 @@ package com.sachuk.keu.controllers.rest;
 
 import com.sachuk.keu.database.service.RegistryService;
 import com.sachuk.keu.entities.Registry;
+import com.sachuk.keu.services.queue.QueueService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +24,25 @@ public class RegistryRestController {
     @GetMapping("/")
     public List<Registry> findAll() {
         return registryService.findAll();
+    }
+
+    @GetMapping("/{garrison}/received/{receivedType}")
+    public Page<Registry> getReceivedQueue(@PathVariable String garrison,
+                                           @PathVariable String receivedType,
+                                           @RequestParam(required = false, defaultValue = "0") int page,
+                                           @RequestParam(required = false, defaultValue = "50") int size) {
+        List<Registry> queue = QueueService.getReceivedQueue(garrison, receivedType);
+        Pageable pageable;
+        if (size == 0) {
+            pageable = Pageable.unpaged();
+        } else {
+            pageable = PageRequest.of(page, size);
+        }
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), queue.size());
+
+        List<Registry> pageContent = queue.subList(start, end);
+        return new PageImpl<>(pageContent, pageable, queue.size());
     }
 
     @GetMapping("/{id}")

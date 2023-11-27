@@ -50,26 +50,6 @@ public class QueueRestController {
         return new PageImpl<>(pageContent, pageable, staticMilitaryMEN.size());
     }
 
-    @GetMapping("/{garrison}/received/{receivedType}")
-    public Page<Registry> getReceivedQueue(@PathVariable String garrison,
-                                           @PathVariable String receivedType,
-                                           @RequestParam(required = false, defaultValue = "0") int page,
-                                           @RequestParam(required = false, defaultValue = "50") int size) {
-        List<Registry> queue = QueueService.getReceivedQueue(garrison, receivedType);
-        Pageable pageable;
-        if (size == 0) {
-            pageable = Pageable.unpaged();
-        } else {
-            pageable = PageRequest.of(page, size);
-        }
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), queue.size());
-
-        List<Registry> pageContent = queue.subList(start, end);
-        return new PageImpl<>(pageContent, pageable, queue.size());
-    }
-
-
     //admin
     @PostMapping("/calculate/{garrison}")
     public void calculateQueue(@PathVariable String garrison) {

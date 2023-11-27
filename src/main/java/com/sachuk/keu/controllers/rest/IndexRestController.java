@@ -2,10 +2,7 @@ package com.sachuk.keu.controllers.rest;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 
@@ -15,6 +12,30 @@ import javax.transaction.Transactional;
 public class IndexRestController {
     @GetMapping("/")
     public ResponseEntity<?> hello(){
+        class Test{
+            public boolean success = true;
+        }
+        return ResponseEntity.ok(new Test());
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<?> fromDiiaSign() {
+        class Test{
+            public boolean success = true;
+        }
+        return ResponseEntity.ok(new Test());
+    }
+
+    @GetMapping("/diia/documents")
+    public ResponseEntity<?> docs(){
+        class Test{
+            public boolean success = true;
+        }
+        return ResponseEntity.ok(new Test());
+    }
+
+    @PostMapping("/diia/documents")
+    public ResponseEntity<?> fromDiiaDocs() {
         class Test{
             public boolean success = true;
         }
