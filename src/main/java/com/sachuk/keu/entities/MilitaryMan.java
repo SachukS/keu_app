@@ -100,7 +100,7 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     @Column(name = "provided", nullable = false)
     private Provided provided = Provided.NO;
 
-    @Column(name = "update_date", nullable = false)
+    @Column(name = "create_date", nullable = false)
     @UpdateTimestamp
     private LocalDateTime createDate;
 
