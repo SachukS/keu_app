@@ -1,9 +1,9 @@
 package com.sachuk.keu.controllers.rest;
 
 import com.sachuk.keu.configurations.jwt.JwtUtils;
-import com.sachuk.keu.database.repositories.MilitaryManRepository;
 import com.sachuk.keu.database.repositories.RoleRepository;
-import com.sachuk.keu.database.repositories.UserRepository;
+import com.sachuk.keu.database.service.MilitaryManService;
+import com.sachuk.keu.database.service.UserService;
 import com.sachuk.keu.entities.MilitaryMan;
 import com.sachuk.keu.entities.Role;
 import com.sachuk.keu.entities.User;
@@ -12,7 +12,7 @@ import com.sachuk.keu.entities.enums.SexEnum;
 import com.sachuk.keu.entities.security.JwtResponse;
 import com.sachuk.keu.entities.security.LoginRequest;
 import com.sachuk.keu.services.security.UserDetailsImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,24 +39,20 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1")
 @CrossOrigin(origins = "*", maxAge = 3600)
+@AllArgsConstructor
 public class LoginRestController {
-    @Autowired
     AuthenticationManager authenticationManager;
 
-    @Autowired
     RoleRepository roleRepository;
 
-    @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
-    @Autowired
-    MilitaryManRepository militaryManRepository;
+    MilitaryManService militaryManService;
 
-    @Autowired
     PasswordEncoder encoder;
 
-    @Autowired
     JwtUtils jwtUtils;
+
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         MultipartFile ecp = loginRequest.getEcp();
@@ -78,9 +74,9 @@ public class LoginRestController {
             Pattern p = Pattern.compile("pb_sign_(?<IPN>\\d{10}).+?ФІЗИЧНА ОСОБА\\d.\\d.+?\\w.+?\\d(?=(?<FULLNAME>.*?)\\d)");
             Matcher m = p.matcher(jksContent);
 
-            if (m.find()){
+            if (m.find()) {
                 //check if user in user table by ipn, if not - parse ecp, create and save user
-                if (!userRepository.findByIpn(m.group("IPN")).isPresent()){
+                if (!userService.findByIpn(m.group("IPN")).isPresent()) {
                     String[] splitFullName = m.group("FULLNAME").split(" ");
 
                     user.setIpn(m.group("IPN"));
@@ -92,8 +88,8 @@ public class LoginRestController {
 
                     Set<Role> role = new HashSet<>();
                     //check if user in military_man table
-                    if(militaryManRepository.findByIpn(m.group("IPN")).isPresent()){
-                        MilitaryMan militaryMan = militaryManRepository.findByIpn(m.group("IPN")).get();
+                    MilitaryMan militaryMan = militaryManService.findByIpn(m.group("IPN"));
+                    if (militaryMan != null) {
                         user.setMilitaryMan(militaryMan);
                         user.setGarrison(militaryMan.getWork().getGarrison());
                         user.setAccountingPlace(militaryMan.getWork().getAccountingPlace());
@@ -104,9 +100,9 @@ public class LoginRestController {
                         user.setRoles(role);
                     }
 
-                    userRepository.save(user);
+                    userService.save(user);
                 } else {
-                    user = userRepository.findByIpn(m.group("IPN")).get();
+                    user = userService.findByIpn(m.group("IPN")).get();
                 }
             }
         } catch (IOException e) {
