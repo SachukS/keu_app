@@ -3,7 +3,6 @@ package com.sachuk.keu.database.service;
 import com.sachuk.keu.database.repositories.UserRepository;
 import com.sachuk.keu.entities.User;
 import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,6 +60,10 @@ public class UserService {
 
     public void deleteAll() {
         userRepository.deleteAll();
+    }
+
+    public Optional<User> findByIpn(String ipn) {
+        return  userRepository.findByIpn(ipn);
     }
 
 //

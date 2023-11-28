@@ -11,9 +11,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -65,22 +66,31 @@ public class MilitaryManService {
     }
 
     public MilitaryMan save(MilitaryMan militaryMan) {
+        addPreviewId(militaryMan);
         calculateRoomCount(militaryMan);
-        if (militaryMan.isWantCompensation())
+        if (militaryMan.isWantCompensation()) {
             calculateCompensation(militaryMan);
+        }
         return militaryManRepository.save(militaryMan);
     }
 
     public MilitaryMan saveAndFlush(MilitaryMan militaryMan) {
+        addPreviewId(militaryMan);
         calculateRoomCount(militaryMan);
-        if (militaryMan.isWantCompensation())
+        if (militaryMan.isWantCompensation()) {
             calculateCompensation(militaryMan);
+        }
         return militaryManRepository.saveAndFlush(militaryMan);
     }
 
     public void saveAll(Iterable<MilitaryMan> militaryMen) {
-        militaryMen.forEach(this::calculateRoomCount);
-        militaryMen.forEach(this::calculateCompensation);
+        for (MilitaryMan militaryMan : militaryMen) {
+            addPreviewId(militaryMan);
+            calculateRoomCount(militaryMan);
+            if (militaryMan.isWantCompensation()) {
+                calculateCompensation(militaryMan);
+            }
+        }
         militaryManRepository.saveAll(militaryMen);
     }
 
@@ -105,11 +115,11 @@ public class MilitaryManService {
     }
 
     public long countAllAfterDate(LocalDateTime afterDate) {
-        return militaryManRepository.countByUpdateDateAfter(afterDate);
+        return militaryManRepository.countByCreateDateAfter(afterDate);
     }
 
     public Page<MilitaryMan> getAllToday(Pageable pageable) {
-        return militaryManRepository.findAllByUpdateDateAfter(LocalDate.now().atStartOfDay(), pageable);
+        return militaryManRepository.findAllByCreateDateAfter(LocalDate.now().atStartOfDay(), pageable);
     }
 
 
@@ -136,6 +146,19 @@ public class MilitaryManService {
             militaryManRoomCount++;
         }
         militaryMan.setRoomCount(militaryManRoomCount);
+    }
+    public void addPreviewId(MilitaryMan militaryMan){
+        MilitaryMan militaryManInDB = findByIpn(militaryMan.getIpn());
+        if (militaryManInDB.equals(militaryMan)) {
+            throw new EntityExistsException("Об'єкт вже існує");
+        }
+        militaryMan.setPreview_id(militaryMan.getId());
+    }
+    public MilitaryMan findByIpn(String ipn) {
+        return militaryManRepository.findAllByIpn(ipn).stream()
+                .sorted(Comparator.comparing(MilitaryMan::getCreateDate).reversed())
+                .collect(Collectors.toList())
+                .get(0);
     }
 
     public void calculateCompensation(MilitaryMan militaryMan) {

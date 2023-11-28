@@ -118,6 +118,7 @@ CREATE TABLE `military_man`
     `quota_id`                    bigint(20)                                       DEFAULT NULL,
     `rank_id`                     bigint(20)                              NOT NULL,
     `work_id`                     bigint(20)                              NOT NULL,
+    `preview_id`                  bigint(20)                              NOT NULL DEFAULT '-1',
     PRIMARY KEY (`id`),
     KEY `FK75ngois8jah3gvplbeo5t5urk` (`quota_id`),
     KEY `FK6lhun1i5dt8l6egcbom8y97tr` (`rank_id`),
