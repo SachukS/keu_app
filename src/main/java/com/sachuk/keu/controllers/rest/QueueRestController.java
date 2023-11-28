@@ -27,10 +27,7 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class QueueRestController {
     public MilitaryManService militaryManService;
-    private QueueXlsCreateService queueXlsCreateService;
     private static List<MilitaryMan> staticMilitaryMEN = new ArrayList<>();
-    public static List<String> garrisons = Arrays.asList("м.Київ", "Бориспiль", "Семиполки", "Переяславський", "Бровари", "Гостомель", "Василькiв");
-
     @GetMapping("/{garrison}/{queueType}")
     public Page<MilitaryMan> getQueue(@PathVariable String garrison,
                                       @PathVariable String queueType,
@@ -87,5 +84,11 @@ public class QueueRestController {
             customersPersho.get(i).setQuotaQueue((i + 1));
         }
         militaryManService.saveAll(customersPersho);
+    }
+
+    @GetMapping("/{militaryManId}")
+    public double calculateHousingRentCompensation(@PathVariable Long militaryManId){
+        return militaryManService.calculateHousingRentCompensation(
+                militaryManService.findById(militaryManId).orElseThrow(IllegalArgumentException::new));
     }
 }

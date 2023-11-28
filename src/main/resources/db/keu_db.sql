@@ -60,17 +60,18 @@ VALUES (1, 'UAH', 'Державний бюджет', 1000000000);
 DROP TABLE IF EXISTS `garrisons`;
 CREATE TABLE `garrisons`
 (
-    `id`              bigint(20)                              NOT NULL AUTO_INCREMENT,
-    `name`            varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `region`          varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `price_per_meter` double                                  NOT NULL,
+    `id`                        bigint(20)                              NOT NULL AUTO_INCREMENT,
+    `name`                      varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `region`                    varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `price_per_meter`           double                                  NOT NULL,
+    `housing_rent_compensation` double                                  NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = MyISAM
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;
 
 INSERT INTO `garrisons` (`id`, `name`, `region`, `price_per_meter`)
-VALUES (1, 'м.Київ', 'Київ', 20870),
+VALUES (1, 'Київ', 'Київ', 20870),
        (2, 'Василькiв', 'Київська обл.', 19570),
        (3, 'Гостомель', 'Київська обл.', 19750),
        (4, 'Переяславський', 'Київська обл.', 18450),
@@ -517,3 +518,25 @@ VALUES (1, 'ЖК КСВ', '1', 'КСВ'),
        (282, 'А2399', '4', 'А2399');
 
 -- 2023-11-26 21:39:36
+
+-- GRANTES
+
+CREATE USER 'keuDbUser'@'%' IDENTIFIED BY 'keuDbUser';
+SET PASSWORD FOR 'keuDbUser'@'%' = PASSWORD ('fgjrfksgcbc');
+GRANT SELECT, INSERT ON keu_db.deleted_militery_men TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT ON keu_db.family_members TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT ON keu_db.military_man TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT ON keu_db.provided_flats TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT ON keu_db.registry TO 'keuDbUser'@'%';
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.finance_sources TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.garrisons TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.works TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.quotas TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.ranks TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.roles TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.user_roles TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.users TO 'keuDbUser'@'%';
+
+
+FLUSH PRIVILEGES;
