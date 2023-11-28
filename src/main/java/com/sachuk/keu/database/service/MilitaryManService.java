@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityExistsException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -183,17 +184,17 @@ public class MilitaryManService {
         return  familyMemberService.findAll().stream()
                 .filter((x) -> x.getId().equals(militaryMan.getId())).count() + 1;
     }
-//    public String[] getExhaustInfo(MilitaryMan militaryMan) {
-//        DateTimeFormatter pattern = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//        return new String[]{LocalDate.now().format(pattern), militaryMan.getRank().toString(), militaryMan.getSurname(),
-//                militaryMan.getName(), militaryMan.getThirdName(), militaryMan.getWork().getGarrison().getName(),
-//                militaryMan.getApartmentFileDate().format(pattern), String.valueOf(familyCount(militaryMan)),
-//                militaryMan.getWork().getWorkPlace(),
-//                militaryMan.getFamily().stream().map(f -> f.getSurname() + " " + f.getName() + " " + f.getThirdName() + "\n").toString(),
-//                militaryMan.getWork().getAccountingPlace(), militaryMan.getQuota().getName(),
-//                militaryMan.getQuotaDate().format(pattern), militaryMan.getQuota().getType().getName(),
-//                String.valueOf(militaryMan.getGeneralQueue()), String.valueOf(militaryMan.getQuotaQueue()),
-//                String.valueOf(militaryMan.hashCode())};
-//    }
+    public String[] getExhaustInfo(MilitaryMan militaryMan) {
+        DateTimeFormatter pattern = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return new String[]{LocalDate.now().format(pattern), militaryMan.getRank().toString(), militaryMan.getSurname(),
+                militaryMan.getName(), militaryMan.getThirdName(), militaryMan.getWork().getGarrison().getName(),
+                militaryMan.getApartmentFileDate().format(pattern), String.valueOf(familyCount(militaryMan)),
+                militaryMan.getWork().getWorkPlace(),
+                militaryMan.getFamily().stream().map(f -> f.getSurname() + " " + f.getName() + " " + f.getThirdName() + "\n").toString(),
+                militaryMan.getWork().getAccountingPlace(), militaryMan.getQuota().getName(),
+                militaryMan.getQuotaDate().format(pattern), militaryMan.getQuota().getType().getName(),
+                String.valueOf(militaryMan.getGeneralQueue()), String.valueOf(militaryMan.getQuotaQueue()),
+                String.valueOf(militaryMan.hashCode())};
+    }
 
 }
