@@ -1,10 +1,12 @@
 package com.sachuk.keu.entities;
 
 import com.sachuk.keu.entities.enums.QuotaType;
+import com.sachuk.keu.entities.enums.SexEnum;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -28,12 +30,11 @@ public class FamilyMember {
     @Column(name = "thirdName", nullable = false, length = 100)
     private String thirdName;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Quota.class)
-    @JoinColumn(name = "quota_id", nullable = false)
-    private Quota quota = new Quota("Без пільг", "Без пільг", QuotaType.NONE, null);
-
     @Column(name = "birth_date", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date birthDate;
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
+    private LocalDate birthDate;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sex", nullable = false)
+    private SexEnum sex;
 }

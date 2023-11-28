@@ -22,12 +22,12 @@ public class WorkService {
         return workRepository.getOne(id);
     }
 
-    public Work save(Work quota) {
-        return workRepository.save(quota);
+    public Work save(Work work) {
+        return workRepository.save(work);
     }
 
-    public void delete(Work quota) {
-        workRepository.delete(quota);
+    public void delete(Work work) {
+        workRepository.delete(work);
     }
 
     public boolean existsById(Long id) {
@@ -38,16 +38,16 @@ public class WorkService {
         workRepository.deleteById(id);
     }
 
-    public Work saveAndFlush(Work quota) {
-        return workRepository.saveAndFlush(quota);
+    public Work saveAndFlush(Work work) {
+        return workRepository.saveAndFlush(work);
     }
 
     public void flush() {
         workRepository.flush();
     }
 
-    public void saveAll(Iterable<Work> quota) {
-        workRepository.saveAll(quota);
+    public void saveAll(Iterable<Work> works) {
+        workRepository.saveAll(works);
     }
 
     public long count() {

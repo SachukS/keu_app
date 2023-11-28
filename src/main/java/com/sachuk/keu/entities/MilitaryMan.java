@@ -1,22 +1,21 @@
 package com.sachuk.keu.entities;
 
-import com.sachuk.keu.entities.enums.*;
-import com.sachuk.keu.utils.DateUtil;
+import com.sachuk.keu.entities.enums.Provided;
+import com.sachuk.keu.entities.enums.QuotaType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -43,19 +42,20 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "work_experience", nullable = false)
-    private int workExperience;
-
-    @Column(name = "phone_number", nullable = false, length = 15)
+    @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
     @Column(name = "accounting_date", nullable = false, length = 6)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date accountingDate;
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
+    private LocalDate accountingDate;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Quota.class)
     @JoinColumn(name = "quota_id", nullable = false)
-    private Quota quota = new Quota("Без пільг", "Без пільг", QuotaType.NONE, null);
+    private Quota quota = new Quota("Без пільг", "Без пільг", QuotaType.NONE);
+
+    @Column(name = "quota_date", nullable = true)
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
+    private LocalDate quotaDate;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Rank.class)
     @JoinColumn(name = "rank_id", nullable = false)
@@ -70,13 +70,11 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     @Type(type = "org.hibernate.type.TextType")
     private String info;
 
-    @Column(name = "general_queue")
-    @ColumnDefault("0")
-    private String generalQueue;
+    @Column(name = "general_queue", nullable = false)
+    private int generalQueue = 0;
 
-    @Column(name = "quota_queue")
-    @ColumnDefault("0")
-    private String quotaQueue;
+    @Column(name = "quota_queue", nullable = false)
+    private int quotaQueue = 0;
 
     @Column(name = "registrated", nullable = false)
     @ColumnDefault("false")
@@ -86,27 +84,27 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     @ColumnDefault("false")
     private boolean rozshirennya;
 
-    @Column(name = "compensation", nullable = false)
+    @Column(name = "want_compensation", nullable = false)
     @ColumnDefault("false")
-    private boolean compensation;
+    private boolean wantCompensation;
 
     @Column(name = "expected_compensation_value", nullable = false)
-    private double expected_compensation_value;
+    private double expectedCompensationValue = 0.0;
 
-    @Column(name = "death_date", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date deathDate;
+    @Column(name = "death_date")
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
+    private LocalDate deathDate;
 
     @Column(name = "ipn", nullable = false)
     private String ipn;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Column(name = "provided", nullable = false)
     private Provided provided = Provided.NO;
 
     @Column(name = "update_date", nullable = false)
-    @CreationTimestamp
-    private LocalDateTime updateDate;
+    @UpdateTimestamp
+    private LocalDateTime createDate;
 
     @Column(name = "room_count", nullable = false)
     private int roomCount;
@@ -116,18 +114,18 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     private boolean familyWar2022;
 
     @Column(name = "service_from", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date serviceFrom;
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
+    private LocalDate serviceFrom;
 
-    @Column(name = "service_until", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date serviceUntil;
+    @Column(name = "service_until")
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
+    private LocalDate serviceUntil;
 
-    @Column(name = "apartment_file_date", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date apartmentFileDate;
+    @Column(name = "apartment_file_date")
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
+    private LocalDate apartmentFileDate;
 
-    @Column(name = "apartment_file_number", nullable = false)
+    @Column(name = "apartment_file_number")
     private String apartmentFileNumber;
 
     @OneToMany

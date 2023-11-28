@@ -5,6 +5,7 @@ import com.sachuk.keu.entities.Registry;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RegistryService {
@@ -23,9 +24,28 @@ public class RegistryService {
                 () -> new IllegalArgumentException("Registry with id: " + id + " is not found"));
     }
 
+
     public Registry save(Registry registry) {
         return registryRepository.save(registry);
     }
+
+    public List<Registry> findAllByGarrison(String garrison) {
+        return registryRepository.findAll().stream()
+                .filter(r -> r.getMilitaryMan().getWork().getGarrison().getName().equals(garrison))
+                .collect(Collectors.toList());
+    }
+    public List<Registry> findByReceivedFlat(String garrison) {
+        return registryRepository.findByReceivedFlat(garrison).stream()
+                .filter(r -> r.getMilitaryMan().getWork().getGarrison().getName().equals(garrison))
+                .collect(Collectors.toList());
+    }
+
+    public List<Registry> findByReceivedMoney(String garrison) {
+        return registryRepository.findByReceivedMoney(garrison).stream()
+                .filter(r -> r.getMilitaryMan().getWork().getGarrison().getName().equals(garrison))
+                .collect(Collectors.toList());
+    }
+
 
     public void delete(Registry registry) {
         registryRepository.delete(registry);
@@ -47,7 +67,7 @@ public class RegistryService {
         registryRepository.flush();
     }
 
-    public void saveAll(Iterable<Registry> registries) {
+    public void saveAll(Iterable< Registry > registries) {
         registryRepository.saveAll(registries);
     }
 

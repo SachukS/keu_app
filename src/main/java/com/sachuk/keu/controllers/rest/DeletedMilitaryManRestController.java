@@ -8,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/deletedMilitaryMen")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class DeletedMilitaryManRestController {
 
     private final DeletedMilitaryManService deletedMilitaryManService;

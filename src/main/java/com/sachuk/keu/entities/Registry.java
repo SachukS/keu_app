@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -24,19 +25,19 @@ public class Registry {
     private MilitaryMan militaryMan;
 
     @OneToOne(fetch = FetchType.EAGER, targetEntity = ProvidedFlat.class)
-    @JoinColumn(name = "provided_flat_id", nullable = true)
-    private ProvidedFlat ProvidedFlat;
+    @JoinColumn(name = "provided_flat_id")
+    private ProvidedFlat providedFlat;
 
-    @Column(name = "received_money", nullable = true)
-    private double receivedMoney;
+    @Column(name = "received_money")
+    private double receivedMoney = 0.0;
 
     @Column(name = "receive_date", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date receiveDate;
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
+    private LocalDate receiveDate;
 
-    public Registry(MilitaryMan militaryMan, ProvidedFlat providedFlat, double receivedMoney, Date receiveDate) {
+    public Registry(MilitaryMan militaryMan, ProvidedFlat providedFlat, double receivedMoney, LocalDate receiveDate) {
         this.militaryMan = militaryMan;
-        ProvidedFlat = providedFlat;
+        this.providedFlat = providedFlat;
         this.receivedMoney = receivedMoney;
         this.receiveDate = receiveDate;
     }

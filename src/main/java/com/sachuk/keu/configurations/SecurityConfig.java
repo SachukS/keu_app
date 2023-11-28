@@ -18,8 +18,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @EnableWebSecurity
+@EnableWebMvc
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
@@ -49,15 +51,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    private static final String[] SWAGGER_WHITELIST = {
+            "/authenticate",
+            "/swagger-resources/**",
+            "/swagger-ui/**",
+            "/v3/api-docs",
+            "/webjars/**"
+    };
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-            http.cors().and().csrf().disable()
+        http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/v1/user/login", "/api/v1/user/register", "/ws", "/api/v1/**", "/api/v1/login/dia/auth").permitAll()
-                .antMatchers("/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**")
-                .permitAll()
-                .antMatchers("/swagger-ui")
+                .authorizeRequests().antMatchers("/api/v1/user/login", "/api/v1/user/register", "/ws", "/api/v1/**").permitAll()
+                .antMatchers(SWAGGER_WHITELIST)
                 .permitAll()
                 .anyRequest().authenticated();
 

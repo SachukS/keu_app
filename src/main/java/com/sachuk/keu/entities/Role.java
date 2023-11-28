@@ -5,7 +5,7 @@ import com.sachuk.keu.entities.enums.RoleEnum;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "role")
+@Table(name = "roles")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

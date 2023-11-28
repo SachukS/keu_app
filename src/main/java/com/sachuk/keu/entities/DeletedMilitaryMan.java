@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -29,6 +30,6 @@ public class DeletedMilitaryMan {
     private String protokolNumber;
 
     @Column(name = "delete_date", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date deleteDate;
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
+    private LocalDate deleteDate;
 }

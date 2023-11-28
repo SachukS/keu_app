@@ -7,9 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -18,10 +16,11 @@ import java.util.List;
 @Transactional
 @AllArgsConstructor
 @RequestMapping("/api/v1/find")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class FindRestController {
     private MilitaryManService militaryManService;
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public Page<MilitaryMan> findMilitaryMan(@RequestParam(defaultValue = "0") int page,
                                              @RequestParam(defaultValue = "50") int size,
                                              @RequestParam(required = false) SearchQuery searchQuery) {
@@ -34,7 +33,7 @@ public class FindRestController {
         return militaryManService.freeFind(searchQuery.getQuery(), pageable);
     }
 
-    @RequestMapping("/findToday")
+    @GetMapping("/findToday")
     public Page<MilitaryMan> findToday(@RequestParam(defaultValue = "0") int page,
                                        @RequestParam(defaultValue = "50") int size) {
         Pageable pageable;

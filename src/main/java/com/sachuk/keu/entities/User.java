@@ -1,13 +1,15 @@
 package com.sachuk.keu.entities;
 
 import com.sachuk.keu.entities.enums.SexEnum;
-import com.sachuk.keu.entities.enums.RoleEnum;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,9 +32,12 @@ public class User {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
-    @Column(name = "create_date_time", length = 6, nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date createDateTime;
+    @Column(name = "thirdname", nullable = false, length = 100)
+    private String thirdname;
+
+    @Column(name = "create_date", nullable = false)
+    @CreationTimestamp
+    private LocalDateTime createDate;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(	name = "user_roles",
@@ -40,28 +45,48 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @Column(name = "thirdname", nullable = false, length = 100)
-    private String thirdname;
+    @Column(name = "update_date", nullable = false)
+    @UpdateTimestamp
+    private LocalDateTime updateDate;
 
-    @Column(name = "update_date_time", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date update_date_time;
-
-    @Column(name = "ipn", nullable = false, length = 100)
+    @Column(name = "ipn", nullable = true, length = 100)
     private String ipn;
 
-    @Column(name = "password", nullable = false, length = 100)
+    @Column(name = "password", nullable = true, length = 100)
     private String password;
 
     @OneToOne
-    @JoinColumn(name = "military_man_id", nullable = false)
+    @JoinColumn(name = "military_man_id")
     private MilitaryMan militaryMan;
 
     @Column(name = "birth_date", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date birth_date;
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
+    private LocalDate birthDate;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Column(name = "sex", nullable = false)
     private SexEnum sex;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "garrison_id", nullable = false)
+    private Garrison garrison;
+
+    @Column(name = "accounting_place", length = 100)
+    private String accountingPlace;
+
+    public User(String surname, String name, LocalDateTime createDate, Set<Role> roles, String thirdname,
+                LocalDateTime update_date_time, String ipn, String password, MilitaryMan militaryMan,
+                LocalDate birth_date, SexEnum sex) {
+        this.surname = surname;
+        this.name = name;
+        this.createDate = createDate;
+        this.roles = roles;
+        this.thirdname = thirdname;
+        this.updateDate = updateDate;
+        this.ipn = ipn;
+        this.password = password;
+        this.militaryMan = militaryMan;
+        this.birthDate = birth_date;
+        this.sex = sex;
+    }
 }

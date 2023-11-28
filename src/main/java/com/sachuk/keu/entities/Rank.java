@@ -28,8 +28,6 @@ public class Rank implements Serializable {
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     private RankType type = RankType.PRESENTMILITARY;
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "privilegeDocument",targetEntity=Privilege.class)
-//    private List<Privilege> privileges = new ArrayList<>();
 
 
     public Rank(String name, String shortName, RankType type) {
