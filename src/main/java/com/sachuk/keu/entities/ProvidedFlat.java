@@ -1,6 +1,7 @@
 package com.sachuk.keu.entities;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -24,6 +25,10 @@ public class ProvidedFlat {
 
     @Column(name = "room_count", nullable = false)
     private int roomCount;
+
+    @Column(name = "unserviced_apartment", nullable = false, length = 100)
+    @ColumnDefault("false")
+    private boolean unservicedApartment;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = FinanceSource.class)
     @JoinColumn(name = "finance_source_id", nullable = false)

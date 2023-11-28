@@ -159,11 +159,12 @@ VALUES (1, '1992-10-01 00:00:00', 'м. Київ, вул. Київська 1, к�
 DROP TABLE IF EXISTS `provided_flats`;
 CREATE TABLE `provided_flats`
 (
-    `id`                bigint(20) NOT NULL AUTO_INCREMENT,
-    `cost`              double     NOT NULL,
-    `room_count`        int(11)    NOT NULL,
-    `square`            double     NOT NULL,
-    `finance_source_id` bigint(20) NOT NULL,
+    `id`                   bigint(20) NOT NULL AUTO_INCREMENT,
+    `cost`                 double     NOT NULL,
+    `room_count`           int(11)    NOT NULL,
+    `square`               double     NOT NULL,
+    `unserviced_apartment` bit(1)     NOT NULL DEFAULT b'0',
+    `finance_source_id`    bigint(20) NOT NULL,
     PRIMARY KEY (`id`),
     KEY `FK570s3g0lhcd3j59dymfbu312h` (`finance_source_id`)
 ) ENGINE = MyISAM
