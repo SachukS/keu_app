@@ -127,26 +127,6 @@ public class MilitaryManService {
         return militaryManRepository.existsById(id);
     }
 
-    public void calculateRoomCount(MilitaryMan militaryMan) {
-        int militaryManRoomCount = militaryMan.getRoomCount();
-        List<FamilyMember> familyMembers = familyMemberService.findAll().stream()
-                .filter((x) -> x.getId().equals(militaryMan.getId())).collect(Collectors.toList());
-        boolean isHaveYoungBoy = familyMembers.stream().anyMatch(x -> x.getSex().equals(SexEnum.MALE) &&
-                x.getBirthDate().isBefore(x.getBirthDate().withYear(LocalDate.now().getYear())));
-        boolean isHaveYoungGirl = familyMembers.stream().anyMatch(x -> x.getSex().equals(SexEnum.FEMALE) &&
-                x.getBirthDate().isBefore(x.getBirthDate().withYear(LocalDate.now().getYear())));
-        if (isHaveYoungBoy && isHaveYoungGirl) {
-            militaryManRoomCount++;
-        }
-
-        boolean isColonel = rankService.findAll().stream().anyMatch(x -> x.getShortName().startsWith("п-к"));
-        boolean isGeneral = rankService.findAll().stream().anyMatch(x -> x.getShortName().startsWith("г-л"));
-        boolean isGeneralOfArmy = rankService.findAll().stream().anyMatch(x -> x.getShortName().startsWith("ГЕНЕРАЛ"));
-        if (isColonel || isGeneral || isGeneralOfArmy) {
-            militaryManRoomCount++;
-        }
-        militaryMan.setRoomCount(militaryManRoomCount);
-    }
     public void addPreviewId(MilitaryMan militaryMan){
         MilitaryMan militaryManInDB = findByIpn(militaryMan.getIpn());
         if (militaryManInDB.equals(militaryMan)) {
@@ -161,13 +141,34 @@ public class MilitaryManService {
                 .get(0);
     }
 
+    public void calculateRoomCount(MilitaryMan militaryMan) {
+        int militaryManRoomCount = militaryMan.getRoomCount();
+        List<FamilyMember> familyMembers = familyMemberService.findAll().stream()
+                .filter((x) -> x.getId().equals(militaryMan.getId())).collect(Collectors.toList());
+        boolean isHaveYoungBoy = familyMembers.stream().anyMatch(x -> x.getSex().equals(SexEnum.MALE) &&
+                x.getBirthDate().isBefore(x.getBirthDate().withYear(LocalDate.now().getYear())));
+        boolean isHaveYoungGirl = familyMembers.stream().anyMatch(x -> x.getSex().equals(SexEnum.FEMALE) &&
+                x.getBirthDate().isBefore(x.getBirthDate().withYear(LocalDate.now().getYear())));
+        if (isHaveYoungBoy && isHaveYoungGirl) {
+            militaryManRoomCount += 2;
+        } else if (isHaveYoungBoy || isHaveYoungGirl){
+            militaryManRoomCount++;
+        }
+
+        boolean isColonel = rankService.findAll().stream().anyMatch(x -> x.getShortName().startsWith("п-к"));
+        boolean isGeneral = rankService.findAll().stream().anyMatch(x -> x.getShortName().startsWith("г-л"));
+        boolean isGeneralOfArmy = rankService.findAll().stream().anyMatch(x -> x.getShortName().startsWith("ГЕНЕРАЛ"));
+        if (isColonel || isGeneral || isGeneralOfArmy) {
+            militaryManRoomCount++;
+        }
+        militaryMan.setRoomCount(militaryManRoomCount);
+    }
+
     public void calculateCompensation(MilitaryMan militaryMan) {
         if (militaryMan.getRoomCount() == 1) {
             militaryMan.setExpectedCompensationValue(militaryMan.getWork().getGarrison().getPricePerMeter() *
                     militaryMan.getWork().getGarrison().getPricePerMeter());
         }
-        long familyCount = familyMemberService.findAll().stream()
-                .filter((x) -> x.getId().equals(militaryMan.getId())).count() + 1; // count of family members in personal data + mp.
         Quota militaryManQuota = militaryMan.getQuota();
         int dPl = 0;
         if (militaryManQuota.getType().equals(QuotaType.OUTOFQUEUE) && !militaryManQuota.getName().equals("суддя")) {
@@ -175,7 +176,24 @@ public class MilitaryManService {
         }
         double KyivCityCoefficient = 1.75;
         double b0 = militaryMan.getWork().getGarrison().getPricePerMeter() * KyivCityCoefficient;// static cost of 1 square of flat in hryvna * koef of city
-        militaryMan.setExpectedCompensationValue((13.65 * familyCount + 17 + dPl) * b0);
+        militaryMan.setExpectedCompensationValue((13.65 * familyCount(militaryMan) + 17 + dPl) * b0);
     }
+
+    public long familyCount(MilitaryMan militaryMan){
+        return  familyMemberService.findAll().stream()
+                .filter((x) -> x.getId().equals(militaryMan.getId())).count() + 1;
+    }
+//    public String[] getExhaustInfo(MilitaryMan militaryMan) {
+//        DateTimeFormatter pattern = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//        return new String[]{LocalDate.now().format(pattern), militaryMan.getRank().toString(), militaryMan.getSurname(),
+//                militaryMan.getName(), militaryMan.getThirdName(), militaryMan.getWork().getGarrison().getName(),
+//                militaryMan.getApartmentFileDate().format(pattern), String.valueOf(familyCount(militaryMan)),
+//                militaryMan.getWork().getWorkPlace(),
+//                militaryMan.getFamily().stream().map(f -> f.getSurname() + " " + f.getName() + " " + f.getThirdName() + "\n").toString(),
+//                militaryMan.getWork().getAccountingPlace(), militaryMan.getQuota().getName(),
+//                militaryMan.getQuotaDate().format(pattern), militaryMan.getQuota().getType().getName(),
+//                String.valueOf(militaryMan.getGeneralQueue()), String.valueOf(militaryMan.getQuotaQueue()),
+//                String.valueOf(militaryMan.hashCode())};
+//    }
 
 }
