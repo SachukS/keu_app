@@ -517,3 +517,25 @@ VALUES (1, 'ЖК КСВ', '1', 'КСВ'),
        (282, 'А2399', '4', 'А2399');
 
 -- 2023-11-26 21:39:36
+
+-- GRANTES
+
+CREATE USER 'keuDbUser'@'%' IDENTIFIED BY 'keuDbUser';
+SET PASSWORD FOR 'keuDbUser'@'%' = PASSWORD('fgjrfksgcbc');
+GRANT SELECT, INSERT ON keu_db.deleted_militery_men TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT ON keu_db.family_members TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT ON keu_db.military_man TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT ON keu_db.provided_flats TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT ON keu_db.registry TO 'keuDbUser'@'%';
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.finance_sources TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.garrisons TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.works TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.quotas TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.ranks TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.roles TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.user_roles TO 'keuDbUser'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.users TO 'keuDbUser'@'%';
+
+
+FLUSH PRIVILEGES;
