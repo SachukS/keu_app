@@ -1,5 +1,8 @@
 package com.sachuk.keu.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.sachuk.keu.entities.enums.Provided;
 import com.sachuk.keu.entities.enums.QuotaType;
 import lombok.Getter;
@@ -12,7 +15,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,9 +45,9 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @Column(name = "accounting_date", nullable = false, length = 6)
+    @Column(name = "accounting_date", nullable = false)
     @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private LocalDate accountingDate;
+    private LocalDateTime accountingDate;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Quota.class)
     @JoinColumn(name = "quota_id", nullable = false)
@@ -53,7 +55,7 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
 
     @Column(name = "quota_date", nullable = true)
     @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private LocalDate quotaDate;
+    private LocalDateTime quotaDate;
 
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Rank.class)
     @JoinColumn(name = "rank_id", nullable = false)
@@ -91,7 +93,7 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
 
     @Column(name = "death_date")
     @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private LocalDate deathDate;
+    private LocalDateTime deathDate;
 
     @Column(name = "ipn", nullable = false)
     private String ipn;
@@ -113,15 +115,15 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
 
     @Column(name = "service_from", nullable = false)
     @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private LocalDate serviceFrom;
+    private LocalDateTime serviceFrom;
 
     @Column(name = "service_until")
     @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private LocalDate serviceUntil;
+    private LocalDateTime serviceUntil;
 
     @Column(name = "apartment_file_date")
     @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private LocalDate apartmentFileDate;
+    private LocalDateTime apartmentFileDate;
 
     @Column(name = "apartment_file_number")
     private String apartmentFileNumber;

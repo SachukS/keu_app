@@ -44,7 +44,6 @@ keu:
   app:
     jwtExpirationMs: '7200000'
     jwtSecret: fgjrfksgcbc
-
 ---
 
 spring:

@@ -30,6 +30,7 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -173,7 +174,7 @@ public class LoginRestController {
             month++;
         }
 
-        user.setBirthDate(LocalDate.of(year, month, days));
+        user.setBirthDate(LocalDateTime.of(year, month, days, 0, 0));
         user.setSex(maleNumber % 2 == 0 ? SexEnum.FEMALE : SexEnum.MALE);
     }
 }
