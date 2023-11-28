@@ -60,17 +60,18 @@ VALUES (1, 'UAH', 'Державний бюджет', 1000000000);
 DROP TABLE IF EXISTS `garrisons`;
 CREATE TABLE `garrisons`
 (
-    `id`              bigint(20)                              NOT NULL AUTO_INCREMENT,
-    `name`            varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `region`          varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `price_per_meter` double                                  NOT NULL,
+    `id`                        bigint(20)                              NOT NULL AUTO_INCREMENT,
+    `name`                      varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `region`                    varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `price_per_meter`           double                                  NOT NULL,
+    `housing_rent_compensation` double                                  NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = MyISAM
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;
 
 INSERT INTO `garrisons` (`id`, `name`, `region`, `price_per_meter`)
-VALUES (1, 'м.Київ', 'Київ', 20870),
+VALUES (1, 'Київ', 'Київ', 20870),
        (2, 'Василькiв', 'Київська обл.', 19570),
        (3, 'Гостомель', 'Київська обл.', 19750),
        (4, 'Переяславський', 'Київська обл.', 18450),

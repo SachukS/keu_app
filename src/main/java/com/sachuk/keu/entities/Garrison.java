@@ -25,6 +25,9 @@ public class Garrison {
     @Column(name = "region", nullable = false, length = 100)
     private String region;
 
+    @Column(name = "housing_rent_compensation", nullable = false)
+    private double housingRentCompensation;
+
     public Garrison(String name, double pricePerMeter, String region) {
         this.name = name;
         this.pricePerMeter = pricePerMeter;
