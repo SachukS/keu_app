@@ -113,7 +113,7 @@ CREATE TABLE `military_man`
     `service_until`               datetime                                         DEFAULT NULL,
     `surname`                     varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
     `third_name`                  varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `update_date`                 datetime                                NOT NULL,
+    `create_date`                 datetime                                NOT NULL,
     `want_compensation`           bit(1)                                  NOT NULL DEFAULT b'0',
     `quota_id`                    bigint(20)                                       DEFAULT NULL,
     `rank_id`                     bigint(20)                              NOT NULL,
@@ -130,7 +130,7 @@ INSERT INTO `military_man` (`id`, `accounting_date`, `address`, `apartment_file_
                             `death_date`, `expected_compensation_value`, `family_war_2022`, `general_queue`, `info`,
                             `ipn`, `name`, `phone_number`, `provided`, `quota_date`, `quota_queue`, `registrated`,
                             `room_count`, `rozshirennya`, `service_from`, `service_until`, `surname`, `third_name`,
-                            `update_date`, `want_compensation`, `quota_id`, `rank_id`, `work_id`)
+                            `create_date`, `want_compensation`, `quota_id`, `rank_id`, `work_id`)
 VALUES (1, '1992-10-01 00:00:00', 'м. Київ, вул. Київська 1, кв. 1 ', '1992-09-01 00:00:00', '11',
         '2012-10-01 00:00:00', 0, CONV('0', 2, 10) + 0, 0, NULL, '1234567890', 'Борис', '1234567890', 'POST',
         '1992-10-01 00:00:00', 0, CONV('1', 2, 10) + 0, 0, CONV('0', 2, 10) + 0, '1982-10-01 00:00:00',
@@ -171,8 +171,8 @@ CREATE TABLE `provided_flats`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;
 
-INSERT INTO `provided_flats` (`id`, `cost`, `room_count`, `square`, `finance_source_id`)
-VALUES (1, 200000, 2, 54, 1);
+INSERT INTO `provided_flats` (`id`, `cost`, `room_count`, `square`, `unserviced_apartment`, `finance_source_id`)
+VALUES (1, 200000, 2, 54, 0, 1);
 
 DROP TABLE IF EXISTS `quotas`;
 CREATE TABLE `quotas`

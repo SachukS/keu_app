@@ -104,7 +104,7 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
 
     @Column(name = "update_date", nullable = false)
     @UpdateTimestamp
-    private LocalDateTime updateDate;
+    private LocalDateTime createDate;
 
     @Column(name = "room_count", nullable = false)
     private int roomCount;
