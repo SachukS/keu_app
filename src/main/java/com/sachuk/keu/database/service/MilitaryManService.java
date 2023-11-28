@@ -181,20 +181,19 @@ public class MilitaryManService {
     }
 
     public long familyCount(MilitaryMan militaryMan){
-        return  familyMemberService.findAll().stream()
-                .filter((x) -> x.getId().equals(militaryMan.getId())).count() + 1;
+        return  militaryMan.getFamily().size() + 1;
     }
     public String[] getExhaustInfo(MilitaryMan militaryMan) {
-        DateTimeFormatter pattern = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return new String[]{LocalDate.now().format(pattern), militaryMan.getRank().toString(), militaryMan.getSurname(),
+        DateTimeFormatter pattern = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        return new String[]{LocalDate.now().format(pattern), militaryMan.getRank().getName(), militaryMan.getSurname(),
                 militaryMan.getName(), militaryMan.getThirdName(), militaryMan.getWork().getGarrison().getName(),
                 militaryMan.getApartmentFileDate().format(pattern), String.valueOf(familyCount(militaryMan)),
                 militaryMan.getWork().getWorkPlace(),
-                militaryMan.getFamily().stream().map(f -> f.getSurname() + " " + f.getName() + " " + f.getThirdName() + "\n").toString(),
+                militaryMan.getFamily().stream().map(f -> f.getSurname() + " " + f.getName() + " " + f.getThirdName() + "\n").collect(Collectors.joining()),
                 militaryMan.getWork().getAccountingPlace(), militaryMan.getQuota().getName(),
                 militaryMan.getQuotaDate().format(pattern), militaryMan.getQuota().getType().getName(),
                 String.valueOf(militaryMan.getGeneralQueue()), String.valueOf(militaryMan.getQuotaQueue()),
-                String.valueOf(militaryMan.hashCode())};
+                String.valueOf(militaryMan.getSurname().hashCode())};
     }
 
 }

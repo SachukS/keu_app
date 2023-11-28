@@ -8,10 +8,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +25,7 @@ public class DocumentsGeneratorRestController {
 
     public final DocumentGeneratorService generatorService;
 
-    @RequestMapping(path = "/downloadExhaustFromKEU/{id}", method = RequestMethod.GET)
+    @GetMapping("/downloadExhaustFromKEU/{id}")
     public ResponseEntity<ByteArrayResource> download(@PathVariable("id") Long milManId){
         MilitaryMan militaryMan;
         if (militaryManService.findById(milManId).isPresent()) {
