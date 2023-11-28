@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -31,5 +32,5 @@ public class DeletedMilitaryMan {
 
     @Column(name = "delete_date", nullable = false)
     @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private LocalDate deleteDate;
+    private LocalDateTime deleteDate;
 }

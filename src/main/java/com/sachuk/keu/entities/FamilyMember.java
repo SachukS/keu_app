@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -32,7 +33,7 @@ public class FamilyMember {
 
     @Column(name = "birth_date", nullable = false)
     @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private LocalDate birthDate;
+    private LocalDateTime birthDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "sex", nullable = false)

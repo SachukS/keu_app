@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -33,9 +34,9 @@ public class Registry {
 
     @Column(name = "receive_date", nullable = false)
     @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private LocalDate receiveDate;
+    private LocalDateTime receiveDate;
 
-    public Registry(MilitaryMan militaryMan, ProvidedFlat providedFlat, double receivedMoney, LocalDate receiveDate) {
+    public Registry(MilitaryMan militaryMan, ProvidedFlat providedFlat, double receivedMoney, LocalDateTime receiveDate) {
         this.militaryMan = militaryMan;
         this.providedFlat = providedFlat;
         this.receivedMoney = receivedMoney;

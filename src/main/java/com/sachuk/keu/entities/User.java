@@ -61,7 +61,7 @@ public class User {
 
     @Column(name = "birth_date", nullable = false)
     @DateTimeFormat(pattern = "dd-mm-yyyy")
-    private LocalDate birthDate;
+    private LocalDateTime birthDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "sex", nullable = false)
@@ -76,7 +76,7 @@ public class User {
 
     public User(String surname, String name, LocalDateTime createDate, Set<Role> roles, String thirdname,
                 LocalDateTime update_date_time, String ipn, String password, MilitaryMan militaryMan,
-                LocalDate birth_date, SexEnum sex) {
+                LocalDateTime birth_date, SexEnum sex) {
         this.surname = surname;
         this.name = name;
         this.createDate = createDate;
