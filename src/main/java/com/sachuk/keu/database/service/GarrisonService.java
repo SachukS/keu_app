@@ -27,9 +27,9 @@ public class GarrisonService {
     }
 
     public Garrison save(Garrison garrison) {
-        militaryManService.findAll().stream()
-                .filter(x -> x.getWork().getGarrison().equals(garrison))
-                .forEach(militaryManService::calculateCompensation);
+//        militaryManService.findAll().stream()
+//                .filter(x -> x.getWork().getGarrison().equals(garrison))
+//                .forEach(militaryManService::calculateCompensation);
         return garrisonRepository.save(garrison);
     }
 
@@ -46,9 +46,9 @@ public class GarrisonService {
     }
 
     public Garrison saveAndFlush(Garrison garrison) {
-        militaryManService.findAll().stream()
-                .filter(x -> x.getWork().getGarrison().equals(garrison))
-                .forEach(militaryManService::calculateCompensation);
+//        militaryManService.findAll().stream()
+//                .filter(x -> x.getWork().getGarrison().equals(garrison))
+//                .forEach(militaryManService::calculateCompensation);
         return garrisonRepository.saveAndFlush(garrison);
     }
 

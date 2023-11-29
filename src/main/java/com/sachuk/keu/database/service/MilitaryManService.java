@@ -127,14 +127,13 @@ public class MilitaryManService {
         return militaryManRepository.existsById(id);
     }
 
-    public void addPreviewId(MilitaryMan militaryMan) {
+    public void addPreviewId(MilitaryMan militaryMan){
         MilitaryMan militaryManInDB = findByIpn(militaryMan.getIpn());
         if (militaryManInDB.equals(militaryMan)) {
             throw new EntityExistsException("Об'єкт вже існує");
         }
         militaryMan.setPreview_id(militaryMan.getId());
     }
-
     public MilitaryMan findByIpn(String ipn) {
         return militaryManRepository.findAllByIpn(ipn).stream()
                 .sorted(Comparator.comparing(MilitaryMan::getCreateDate).reversed())
@@ -142,21 +141,16 @@ public class MilitaryManService {
                 .get(0);
     }
 
-    public long familyCount(MilitaryMan militaryMan) {
-        return militaryMan.getFamily().size() + 1;
-    }
-
-    public void calculateRoomCount(MilitaryMan militaryMan) {
+    public int calculateRoomCount(MilitaryMan militaryMan) {
         int militaryManRoomCount = militaryMan.getRoomCount();
-        List<FamilyMember> familyMembers = familyMemberService.findAll().stream()
-                .filter((x) -> x.getId().equals(militaryMan.getId())).collect(Collectors.toList());
+        List<FamilyMember> familyMembers = militaryMan.getFamilyMembers();
         boolean isHaveYoungBoy = familyMembers.stream().anyMatch(x -> x.getSex().equals(SexEnum.MALE) &&
                 x.getBirthDate().isBefore(x.getBirthDate().withYear(LocalDate.now().getYear())));
         boolean isHaveYoungGirl = familyMembers.stream().anyMatch(x -> x.getSex().equals(SexEnum.FEMALE) &&
                 x.getBirthDate().isBefore(x.getBirthDate().withYear(LocalDate.now().getYear())));
         if (isHaveYoungBoy && isHaveYoungGirl) {
             militaryManRoomCount += 2;
-        } else if (isHaveYoungBoy || isHaveYoungGirl) {
+        } else if (isHaveYoungBoy || isHaveYoungGirl){
             militaryManRoomCount++;
         }
 
@@ -166,13 +160,14 @@ public class MilitaryManService {
         if (isColonel || isGeneral || isGeneralOfArmy) {
             militaryManRoomCount++;
         }
-        militaryMan.setRoomCount(militaryManRoomCount);
+        return militaryManRoomCount;
     }
 
-    public void calculateCompensation(MilitaryMan militaryMan) {
+    public double calculateCompensation(MilitaryMan militaryMan) {
+        double pricePerMeter = militaryMan.getWork().getGarrison().getPricePerMeter();
         if (militaryMan.getRoomCount() == 1) {
-            militaryMan.setExpectedCompensationValue(militaryMan.getWork().getGarrison().getPricePerMeter() *
-                    militaryMan.getWork().getGarrison().getPricePerMeter());
+            militaryMan.setExpectedCompensationValue(40 *
+                    pricePerMeter);
         }
         Quota militaryManQuota = militaryMan.getQuota();
         int dPl = 0;
@@ -180,13 +175,17 @@ public class MilitaryManService {
             dPl = 10;
         }
         double KyivCityCoefficient = 1.75;
-        double b0 = militaryMan.getWork().getGarrison().getPricePerMeter() * KyivCityCoefficient;// static cost of 1 square of flat in hryvna * koef of city
-        militaryMan.setExpectedCompensationValue((13.65 * familyCount(militaryMan) + 17 + dPl) * b0);
+        double b0 = pricePerMeter * KyivCityCoefficient;// static cost of 1 square of flat in hryvna * koef of city
+        return (13.65 * familyCount(militaryMan) + 17 + dPl) * b0;
+    }
+
+    public long familyCount(MilitaryMan militaryMan){
+        return  militaryMan.getFamilyMembers().size() + 1;
     }
 
     public double calculateHousingRentCompensation(MilitaryMan militaryMan) {
         double rentCompensation = militaryMan.getWork().getGarrison().getHousingRentCompensation();
-        if (militaryMan.getFamily().size() > 2) {
+        if (militaryMan.getFamilyMembers().size() > 2) {
             return rentCompensation * 1.5;
         }
         return rentCompensation;
