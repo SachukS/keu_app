@@ -247,6 +247,13 @@
 			<version>11.10.3</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.ibm.icu</groupId>
+			<artifactId>icu4j</artifactId>
+			<version>69.1</version> <!-- Проверьте актуальную версию на момент использования -->
+		</dependency>
+
+
 	</dependencies>
 
 	<repositories>

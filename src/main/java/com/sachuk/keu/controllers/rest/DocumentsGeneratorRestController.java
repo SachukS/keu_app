@@ -38,12 +38,12 @@ public class DocumentsGeneratorRestController {
             File file = new File(pathToGeneratedFile);
 
             HttpHeaders header = new HttpHeaders();
-            header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Dovidka.docx");
+            header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getName());
 
-            Path path = Paths.get(file.getAbsolutePath());
             InputStreamResource resource = null;
             try {
                 resource = new InputStreamResource(Files.newInputStream(file.toPath()));
+
             } catch (IOException e) {
                 return ResponseEntity.badRequest().body(null);
             }

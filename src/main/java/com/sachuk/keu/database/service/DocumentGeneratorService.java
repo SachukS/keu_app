@@ -1,10 +1,13 @@
 package com.sachuk.keu.database.service;
 
+import com.ibm.icu.text.Transliterator;
 import com.spire.doc.Document;
 import com.spire.doc.FileFormat;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,8 +32,14 @@ public class DocumentGeneratorService {
             document.replace("{" + entry.getKey() + "}", entry.getValue(), true, true);
         }
 
-        String savePath = SAVED_FILE_DIRECTORY_PATH + "Dovidka.docx";
+        Transliterator transliterator = Transliterator.getInstance("Cyrillic-Latin");
+
+        String transliteratedSurname = transliterator.transliterate(fileName);
+
+        DateTimeFormatter pattern = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        String savePath = SAVED_FILE_DIRECTORY_PATH + "Dovidka_" + LocalDate.now().format(pattern) + "_" + transliteratedSurname + ".docx";
         document.saveToFile(savePath, FileFormat.Docx_2013);
+
         return savePath;
     }
 }
