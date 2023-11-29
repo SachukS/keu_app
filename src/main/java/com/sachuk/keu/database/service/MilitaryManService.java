@@ -127,26 +127,6 @@ public class MilitaryManService {
         return militaryManRepository.existsById(id);
     }
 
-    public void calculateRoomCount(MilitaryMan militaryMan) {
-        int militaryManRoomCount = militaryMan.getRoomCount();
-        List<FamilyMember> familyMembers = familyMemberService.findAll().stream()
-                .filter((x) -> x.getId().equals(militaryMan.getId())).collect(Collectors.toList());
-        boolean isHaveYoungBoy = familyMembers.stream().anyMatch(x -> x.getSex().equals(SexEnum.MALE) &&
-                x.getBirthDate().isBefore(x.getBirthDate().withYear(LocalDate.now().getYear())));
-        boolean isHaveYoungGirl = familyMembers.stream().anyMatch(x -> x.getSex().equals(SexEnum.FEMALE) &&
-                x.getBirthDate().isBefore(x.getBirthDate().withYear(LocalDate.now().getYear())));
-        if (isHaveYoungBoy && isHaveYoungGirl) {
-            militaryManRoomCount++;
-        }
-
-        boolean isColonel = rankService.findAll().stream().anyMatch(x -> x.getShortName().startsWith("п-к"));
-        boolean isGeneral = rankService.findAll().stream().anyMatch(x -> x.getShortName().startsWith("г-л"));
-        boolean isGeneralOfArmy = rankService.findAll().stream().anyMatch(x -> x.getShortName().startsWith("ГЕНЕРАЛ"));
-        if (isColonel || isGeneral || isGeneralOfArmy) {
-            militaryManRoomCount++;
-        }
-        militaryMan.setRoomCount(militaryManRoomCount);
-    }
     public void addPreviewId(MilitaryMan militaryMan){
         MilitaryMan militaryManInDB = findByIpn(militaryMan.getIpn());
         if (militaryManInDB.equals(militaryMan)) {
@@ -161,21 +141,53 @@ public class MilitaryManService {
                 .get(0);
     }
 
-    public void calculateCompensation(MilitaryMan militaryMan) {
-        if (militaryMan.getRoomCount() == 1) {
-            militaryMan.setExpectedCompensationValue(militaryMan.getWork().getGarrison().getPricePerMeter() *
-                    militaryMan.getWork().getGarrison().getPricePerMeter());
+    public int calculateRoomCount(MilitaryMan militaryMan) {
+        int militaryManRoomCount = militaryMan.getRoomCount();
+        List<FamilyMember> familyMembers = militaryMan.getFamilyMembers();
+        boolean isHaveYoungBoy = familyMembers.stream().anyMatch(x -> x.getSex().equals(SexEnum.MALE) &&
+                x.getBirthDate().isBefore(x.getBirthDate().withYear(LocalDate.now().getYear())));
+        boolean isHaveYoungGirl = familyMembers.stream().anyMatch(x -> x.getSex().equals(SexEnum.FEMALE) &&
+                x.getBirthDate().isBefore(x.getBirthDate().withYear(LocalDate.now().getYear())));
+        if (isHaveYoungBoy && isHaveYoungGirl) {
+            militaryManRoomCount += 2;
+        } else if (isHaveYoungBoy || isHaveYoungGirl){
+            militaryManRoomCount++;
         }
-        long familyCount = familyMemberService.findAll().stream()
-                .filter((x) -> x.getId().equals(militaryMan.getId())).count() + 1; // count of family members in personal data + mp.
+
+        boolean isColonel = rankService.findAll().stream().anyMatch(x -> x.getShortName().startsWith("п-к"));
+        boolean isGeneral = rankService.findAll().stream().anyMatch(x -> x.getShortName().startsWith("г-л"));
+        boolean isGeneralOfArmy = rankService.findAll().stream().anyMatch(x -> x.getShortName().startsWith("ГЕНЕРАЛ"));
+        if (isColonel || isGeneral || isGeneralOfArmy) {
+            militaryManRoomCount++;
+        }
+        return militaryManRoomCount;
+    }
+
+    public double calculateCompensation(MilitaryMan militaryMan) {
+        double pricePerMeter = militaryMan.getWork().getGarrison().getPricePerMeter();
+        if (militaryMan.getRoomCount() == 1) {
+            militaryMan.setExpectedCompensationValue(40 *
+                    pricePerMeter);
+        }
         Quota militaryManQuota = militaryMan.getQuota();
         int dPl = 0;
         if (militaryManQuota.getType().equals(QuotaType.OUTOFQUEUE) && !militaryManQuota.getName().equals("суддя")) {
             dPl = 10;
         }
         double KyivCityCoefficient = 1.75;
-        double b0 = militaryMan.getWork().getGarrison().getPricePerMeter() * KyivCityCoefficient;// static cost of 1 square of flat in hryvna * koef of city
-        militaryMan.setExpectedCompensationValue((13.65 * familyCount + 17 + dPl) * b0);
+        double b0 = pricePerMeter * KyivCityCoefficient;// static cost of 1 square of flat in hryvna * koef of city
+        return (13.65 * familyCount(militaryMan) + 17 + dPl) * b0;
     }
 
+    public long familyCount(MilitaryMan militaryMan){
+        return  militaryMan.getFamilyMembers().size() + 1;
+    }
+
+    public double calculateHousingRentCompensation(MilitaryMan militaryMan) {
+        double rentCompensation = militaryMan.getWork().getGarrison().getHousingRentCompensation();
+        if (militaryMan.getFamilyMembers().size() > 2) {
+            return rentCompensation * 1.5;
+        }
+        return rentCompensation;
+    }
 }

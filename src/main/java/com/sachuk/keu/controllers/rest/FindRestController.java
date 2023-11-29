@@ -2,7 +2,6 @@ package com.sachuk.keu.controllers.rest;
 
 import com.sachuk.keu.database.service.MilitaryManService;
 import com.sachuk.keu.entities.MilitaryMan;
-import com.sachuk.keu.entities.SearchQuery;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,14 +22,14 @@ public class FindRestController {
     @GetMapping("/")
     public Page<MilitaryMan> findMilitaryMan(@RequestParam(defaultValue = "0") int page,
                                              @RequestParam(defaultValue = "50") int size,
-                                             @RequestParam(required = false) SearchQuery searchQuery) {
+                                             @RequestParam(required = false) String searchQuery) {
         Pageable pageable;
         if (size == 0) {
             pageable = Pageable.unpaged();
         } else {
             pageable = PageRequest.of(page, size);
         }
-        return militaryManService.freeFind(searchQuery.getQuery(), pageable);
+        return militaryManService.freeFind(searchQuery, pageable);
     }
 
     @GetMapping("/findToday")
