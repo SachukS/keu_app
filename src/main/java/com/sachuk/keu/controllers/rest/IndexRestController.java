@@ -6,7 +6,7 @@ import com.sachuk.keu.configurations.jwt.JwtUtils;
 import com.sachuk.keu.controllers.rest.dto.dia.DataDTO;
 import com.sachuk.keu.database.service.UserService;
 import com.sachuk.keu.entities.User;
-import com.sachuk.keu.entities.security.JwtResponse;
+import com.sachuk.keu.entities.payload.JwtResponse;
 import com.sachuk.keu.services.security.UserDetailsImpl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
