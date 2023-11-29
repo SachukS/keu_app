@@ -2,19 +2,42 @@ package com.sachuk.keu.controllers.rest;
 
 import com.google.gson.Gson;
 import com.iit.certificateAuthority.endUser.libraries.signJava.*;
+import com.sachuk.keu.configurations.jwt.JwtUtils;
 import com.sachuk.keu.controllers.rest.dto.dia.DataDTO;
+import com.sachuk.keu.database.service.UserService;
+import com.sachuk.keu.entities.User;
+import com.sachuk.keu.entities.security.JwtResponse;
+import com.sachuk.keu.services.security.UserDetailsImpl;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class IndexRestController {
 
+    AuthenticationManager authenticationManager;
+    UserService userService;
+
+    JwtUtils jwtUtils;
+
     EndUser endUser = new EndUser();
+
+    public IndexRestController(UserService userService, JwtUtils jwtUtils, AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+        this.userService = userService;
+        this.jwtUtils = jwtUtils;
+    }
+
     @GetMapping("/")
     public ResponseEntity<?> hello(){
         class Test{
@@ -32,12 +55,40 @@ public class IndexRestController {
         DataDTO data = gson.fromJson(jObject, DataDTO.class);
         System.out.println(data.getRequestId() + " REQ ID");
         System.out.println(data.getSignature() + " SIGN");
-        // Sign decryption will be provided in future on prod.
-
+        // Sign decryption and login will be provided in future on prod.
         class Test{
             public boolean success = true;
         }
         return ResponseEntity.ok(new Test());
+    }
+
+    @PostMapping(value = "/dia/login")
+    public ResponseEntity<?> login(){
+        User user = new User();
+        String IPN = "1234567021";
+        if(userService.findByIpn(IPN).isPresent()){
+            user = userService.findByIpn(IPN).get();
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken("ipn", 0));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtUtils.generateJwtToken(authentication);
+
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            List<String> roles = userDetails.getAuthorities().stream()
+                    .map(item -> item.getAuthority())
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(new JwtResponse(jwt,
+                    userDetails.getId(),
+                    userDetails.getUsername(), // це ipn
+                    user.getName(),
+                    user.getSurname(),
+                    user.getThirdname(),
+                    roles));
+        }
+        else {
+            System.out.println("nobody found");
+            return ResponseEntity.unprocessableEntity().body("Nothing");
+        }
     }
 
     @GetMapping("/diia/documents")
