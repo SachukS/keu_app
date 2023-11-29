@@ -1,6 +1,5 @@
 package com.sachuk.keu.services.dia;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.iit.certificateAuthority.endUser.libraries.signJava.*;
 import com.sachuk.keu.controllers.rest.dto.dia.DiaBranchDTO;
@@ -13,7 +12,6 @@ import okhttp3.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Random;
 
 @Service
 public class DiaAuthService {

@@ -1,11 +1,14 @@
 package com.sachuk.keu.controllers.rest.dia;
 
 import com.sachuk.keu.services.dia.DiaAuthService;
+import com.sachuk.keu.services.dia.DiaQRCodeService;
 import lombok.Data;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Base64;
 
 @Controller
 @RequestMapping("/api/v1/login/dia")
@@ -27,8 +30,11 @@ public class DiaAuthController {
             String branch_id = "4caf73a1a770b0ca18a9d1aa454d627954c6477097ce95aca4893211bf5bbd7c5bb7eac945670aed9af612245cbd39bc82c2ad725433b3f0794a535ccb7b3c65";
             String offer_id = service.postCreateOfferAndGetId(session_token, branch_id, this.returnLink);
             String deepLink = service.postCreateOfferRequestAndGetDeeplink(branch_id, offer_id, this.returnLink, session_token);
-            model.addAttribute("deeplink", deepLink);
-            return "diaTest";
+            byte[] image = new byte[0];
+            image = DiaQRCodeService.getQRCode(deepLink, 250, 250);
+            String qrcode = Base64.getEncoder().encodeToString(image);
+            model.addAttribute("qrcode", qrcode);
+            return "diaTest"; // Your Code page
         } catch (Exception e) {
             e.printStackTrace();
             return "error"; // TODO Redirect where?
