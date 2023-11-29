@@ -141,7 +141,7 @@ public class MilitaryManService {
                 .get(0);
     }
 
-    public void calculateRoomCount(MilitaryMan militaryMan) {
+    public int calculateRoomCount(MilitaryMan militaryMan) {
         int militaryManRoomCount = militaryMan.getRoomCount();
         List<FamilyMember> familyMembers = militaryMan.getFamilyMembers();
         boolean isHaveYoungBoy = familyMembers.stream().anyMatch(x -> x.getSex().equals(SexEnum.MALE) &&
@@ -160,10 +160,10 @@ public class MilitaryManService {
         if (isColonel || isGeneral || isGeneralOfArmy) {
             militaryManRoomCount++;
         }
-        militaryMan.setRoomCount(militaryManRoomCount);
+        return militaryManRoomCount;
     }
 
-    public void calculateCompensation(MilitaryMan militaryMan) {
+    public double calculateCompensation(MilitaryMan militaryMan) {
         double pricePerMeter = militaryMan.getWork().getGarrison().getPricePerMeter();
         if (militaryMan.getRoomCount() == 1) {
             militaryMan.setExpectedCompensationValue(40 *
@@ -176,7 +176,7 @@ public class MilitaryManService {
         }
         double KyivCityCoefficient = 1.75;
         double b0 = pricePerMeter * KyivCityCoefficient;// static cost of 1 square of flat in hryvna * koef of city
-        militaryMan.setExpectedCompensationValue((13.65 * familyCount(militaryMan) + 17 + dPl) * b0);
+        return (13.65 * familyCount(militaryMan) + 17 + dPl) * b0;
     }
 
     public long familyCount(MilitaryMan militaryMan){
