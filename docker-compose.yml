@@ -11,13 +11,13 @@ services:
     ports:
       - "3307:3306"
 
-  adminer-db:
-    image: adminer
-    restart: always
-    networks:
-      - db-network
-    ports:
-      - "8080:8080"
+#  adminer-db:
+#    image: adminer
+#    restart: always
+#    networks:
+#      - db-network
+#    ports:
+#      - "8080:8080"
 
   keu-server:
     container_name: keu-server

@@ -6,9 +6,12 @@ import com.sachuk.keu.entities.MilitaryMan;
 import com.sachuk.keu.entities.Quota;
 import com.sachuk.keu.entities.enums.QuotaType;
 import com.sachuk.keu.entities.enums.SexEnum;
+import com.sachuk.keu.services.security.UserDetailsImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
@@ -67,29 +70,26 @@ public class MilitaryManService {
 
     public MilitaryMan save(MilitaryMan militaryMan) {
         addPreviewId(militaryMan);
-        calculateRoomCount(militaryMan);
-        if (militaryMan.isWantCompensation()) {
-            calculateCompensation(militaryMan);
-        }
+        if (militaryMan.getAccountingDate() == null)
+            militaryMan.setAccountingDate(LocalDateTime.now());
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        militaryMan.setCreatedByIpn(userDetails.getUsername());
+        militaryMan.setCreateDate(LocalDateTime.now());
+
         return militaryManRepository.save(militaryMan);
     }
 
     public MilitaryMan saveAndFlush(MilitaryMan militaryMan) {
         addPreviewId(militaryMan);
-        calculateRoomCount(militaryMan);
-        if (militaryMan.isWantCompensation()) {
-            calculateCompensation(militaryMan);
-        }
         return militaryManRepository.saveAndFlush(militaryMan);
     }
 
     public void saveAll(Iterable<MilitaryMan> militaryMen) {
         for (MilitaryMan militaryMan : militaryMen) {
             addPreviewId(militaryMan);
-            calculateRoomCount(militaryMan);
-            if (militaryMan.isWantCompensation()) {
-                calculateCompensation(militaryMan);
-            }
+
         }
         militaryManRepository.saveAll(militaryMen);
     }
@@ -127,18 +127,21 @@ public class MilitaryManService {
         return militaryManRepository.existsById(id);
     }
 
-    public void addPreviewId(MilitaryMan militaryMan){
-        MilitaryMan militaryManInDB = findByIpn(militaryMan.getIpn());
-        if (militaryManInDB.equals(militaryMan)) {
-            throw new EntityExistsException("Об'єкт вже існує");
+    public void addPreviewId(MilitaryMan militaryMan) {
+        Optional<MilitaryMan> militaryManInDB = findByIpn(militaryMan.getIpn());
+        if (militaryManInDB.isPresent()) {
+            if (militaryManInDB.get().equals(militaryMan)) {
+                throw new EntityExistsException("Об'єкт вже існує");
+            }
+            militaryMan.setPreview_id(militaryManInDB.get().getId());
         }
-        militaryMan.setPreview_id(militaryMan.getId());
     }
-    public MilitaryMan findByIpn(String ipn) {
-        return militaryManRepository.findAllByIpn(ipn).stream()
+
+
+    public Optional<MilitaryMan> findByIpn(String ipn) {
+        return Optional.of(militaryManRepository.findAllByIpn(ipn).stream()
                 .sorted(Comparator.comparing(MilitaryMan::getCreateDate).reversed())
-                .collect(Collectors.toList())
-                .get(0);
+                .collect(Collectors.toList()).get(0));
     }
 
     public int calculateRoomCount(MilitaryMan militaryMan) {
@@ -166,8 +169,7 @@ public class MilitaryManService {
     public double calculateCompensation(MilitaryMan militaryMan) {
         double pricePerMeter = militaryMan.getWork().getGarrison().getPricePerMeter();
         if (militaryMan.getRoomCount() == 1) {
-            militaryMan.setExpectedCompensationValue(40 *
-                    pricePerMeter);
+            return 40 * pricePerMeter;
         }
         Quota militaryManQuota = militaryMan.getQuota();
         int dPl = 0;

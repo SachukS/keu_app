@@ -57,9 +57,9 @@ public class GarrisonService {
     }
 
     public void saveAll(Iterable<Garrison> garrisons) {
-        garrisons.forEach(garrison -> militaryManService.findAll().stream()
-                .filter(militaryMan -> militaryMan.getWork().getGarrison().equals(garrison))
-                .forEach(militaryManService::calculateCompensation));
+//        garrisons.forEach(garrison -> militaryManService.findAll().stream()
+//                .filter(militaryMan -> militaryMan.getWork().getGarrison().equals(garrison))
+//                .forEach(militaryManService::calculateCompensation));
         garrisonRepository.saveAll(garrisons);
     }
 

@@ -9,8 +9,8 @@ import com.sachuk.keu.entities.Role;
 import com.sachuk.keu.entities.User;
 import com.sachuk.keu.entities.enums.RoleEnum;
 import com.sachuk.keu.entities.enums.SexEnum;
-import com.sachuk.keu.entities.security.JwtResponse;
-import com.sachuk.keu.entities.security.LoginRequest;
+import com.sachuk.keu.entities.payload.JwtResponse;
+import com.sachuk.keu.entities.payload.LoginRequest;
 import com.sachuk.keu.services.security.UserDetailsImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,6 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -89,11 +88,11 @@ public class LoginRestController {
 
                     Set<Role> role = new HashSet<>();
                     //check if user in military_man table
-                    MilitaryMan militaryMan = militaryManService.findByIpn(m.group("IPN"));
-                    if (militaryMan != null) {
-                        user.setMilitaryMan(militaryMan);
-                        user.setGarrison(militaryMan.getWork().getGarrison());
-                        user.setAccountingPlace(militaryMan.getWork().getAccountingPlace());
+                    Optional<MilitaryMan> militaryMan = militaryManService.findByIpn(m.group("IPN"));
+                    if (militaryMan.isPresent()) {
+                        user.setMilitaryMan(militaryMan.get());
+                        user.setGarrison(militaryMan.get().getWork().getGarrison());
+                        user.setAccountingPlace(militaryMan.get().getWork().getAccountingPlace());
                         role.add(new Role(RoleEnum.ROLE_USER));
                         user.setRoles(role);
                     } else {

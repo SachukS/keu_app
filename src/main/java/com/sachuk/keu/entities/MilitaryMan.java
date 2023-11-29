@@ -85,9 +85,6 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     @ColumnDefault("false")
     private boolean wantCompensation;
 
-    @Column(name = "expected_compensation_value", nullable = false)
-    private double expectedCompensationValue = 0.0;
-
     @Column(name = "death_date")
     @DateTimeFormat(pattern = "dd-mm-yyyy")
     private LocalDateTime deathDate;
@@ -102,6 +99,9 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     @Column(name = "create_date", nullable = false)
     @UpdateTimestamp
     private LocalDateTime createDate;
+
+    @Column(name = "created_by_ipn", nullable = false)
+    private String createdByIpn;
 
     @Column(name = "room_count", nullable = false)
     @ColumnDefault("1")

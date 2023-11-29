@@ -1,10 +1,10 @@
 package com.sachuk.keu.controllers.rest;
 
-import com.sachuk.keu.database.service.MilitaryManService;
-import com.sachuk.keu.database.service.RankService;
-import com.sachuk.keu.database.service.UserService;
-import com.sachuk.keu.database.service.WorkService;
+import com.sachuk.keu.database.service.*;
 import com.sachuk.keu.entities.MilitaryMan;
+import com.sachuk.keu.entities.Registry;
+import com.sachuk.keu.entities.payload.InputPayload;
+import com.sachuk.keu.services.notification.MessengerNotificationService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +21,8 @@ public class InputRestController {
     public UserService userService;
     public RankService rankService;
     public WorkService workService;
+    public RegistryService registryService;
+    public MessengerNotificationService messengerNotificationService;
 
     @GetMapping("/{id}")
     public MilitaryMan edit(@PathVariable("id") Long id) {
@@ -29,16 +31,16 @@ public class InputRestController {
     }
 
     @PostMapping("/")
-    public MilitaryMan saveMilitaryMan(@RequestBody MilitaryMan militaryMan) {
-        if (!militaryMan.isRegistrated()){
-            // find superbabka and send notification
+    public MilitaryMan saveMilitaryMan(@RequestBody InputPayload inputPayload) {
+        MilitaryMan mm = militaryManService.save(inputPayload.getMilitaryMan());
+        if (inputPayload.getRegistry() != null) {
+            Registry registry = inputPayload.getRegistry();
+            registry.setMilitaryMan(mm);
+            registry.setFlatFileNumber(mm.getApartmentFileNumber());
+            registryService.save(registry);
+            messengerNotificationService.sendNotification("+380932072704", "Вітаємо, раді повідомити вам");
         }
-        return militaryManService.save(militaryMan);
-    }
-
-    @PutMapping("/{id}")
-    public MilitaryMan editMilitaryMan(@RequestBody MilitaryMan militaryMan, @PathVariable("id") Long id) {
-        return militaryManService.save(militaryMan);
+        return mm;
     }
 
 }

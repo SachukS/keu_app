@@ -28,7 +28,7 @@ public class DeletedMilitaryManRestController {
     }
 
     @PostMapping("/")
-    public DeletedMilitaryMan save(@RequestBody DeletedMilitaryMan deletedMilitaryMan) {
+    public DeletedMilitaryMan delete(@RequestBody DeletedMilitaryMan deletedMilitaryMan) {
         return deletedMilitaryManService.save(deletedMilitaryMan);
     }
 
@@ -37,19 +37,4 @@ public class DeletedMilitaryManRestController {
         deletedMilitaryManService.saveAll(deletedMilitaryMen);
     }
 
-    @DeleteMapping("/")
-    public void delete(@RequestBody DeletedMilitaryMan deletedMilitaryMan) {
-        deletedMilitaryManService.delete(deletedMilitaryMan);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
-        deletedMilitaryManService.deleteById(id);
-    }
-
-
-    @DeleteMapping("/all")
-    public void deleteAll() {
-        deletedMilitaryManService.deleteAll();
-    }
 }

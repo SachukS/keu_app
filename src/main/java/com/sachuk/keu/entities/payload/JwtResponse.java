@@ -1,4 +1,4 @@
-package com.sachuk.keu.entities.security;
+package com.sachuk.keu.entities.payload;
 
 import java.util.List;
 

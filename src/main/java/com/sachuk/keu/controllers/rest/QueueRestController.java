@@ -86,9 +86,4 @@ public class QueueRestController {
         militaryManService.saveAll(customersPersho);
     }
 
-    @GetMapping("/{militaryManId}")
-    public double calculateHousingRentCompensation(@PathVariable Long militaryManId){
-        return militaryManService.calculateHousingRentCompensation(
-                militaryManService.findById(militaryManId).orElseThrow(IllegalArgumentException::new));
-    }
 }

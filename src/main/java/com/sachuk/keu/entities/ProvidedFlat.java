@@ -30,14 +30,9 @@ public class ProvidedFlat {
     @ColumnDefault("false")
     private boolean unservicedApartment;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = FinanceSource.class)
-    @JoinColumn(name = "finance_source_id", nullable = false)
-    private FinanceSource financeSource;
-
     public ProvidedFlat(double square, double cost, int roomCount, FinanceSource financeSourceId) {
         this.square = square;
         this.cost = cost;
         this.roomCount = roomCount;
-        this.financeSource = financeSourceId;
     }
 }

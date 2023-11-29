@@ -97,7 +97,6 @@ CREATE TABLE `military_man`
     `apartment_file_date`         datetime                                         DEFAULT NULL,
     `apartment_file_number`       varchar(255) COLLATE utf8mb4_unicode_ci          DEFAULT NULL,
     `death_date`                  datetime                                         DEFAULT NULL,
-    `expected_compensation_value` double                                  NOT NULL,
     `family_war_2022`             bit(1)                                  NOT NULL DEFAULT b'0',
     `general_queue`               int(11)                                 NOT NULL,
     `info`                        longtext COLLATE utf8mb4_unicode_ci,
@@ -115,6 +114,7 @@ CREATE TABLE `military_man`
     `surname`                     varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
     `third_name`                  varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
     `create_date`                 datetime                                NOT NULL,
+    `created_by_ipn`              varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
     `want_compensation`           bit(1)                                  NOT NULL DEFAULT b'0',
     `quota_id`                    bigint(20)                                       DEFAULT NULL,
     `rank_id`                     bigint(20)                              NOT NULL,
@@ -129,34 +129,34 @@ CREATE TABLE `military_man`
   COLLATE = utf8mb4_unicode_ci;
 
 INSERT INTO `military_man` (`id`, `accounting_date`, `address`, `apartment_file_date`, `apartment_file_number`,
-                            `death_date`, `expected_compensation_value`, `family_war_2022`, `general_queue`, `info`,
+                            `death_date`, `family_war_2022`, `general_queue`, `info`,
                             `ipn`, `name`, `phone_number`, `provided`, `quota_date`, `quota_queue`, `registrated`,
                             `room_count`, `rozshirennya`, `service_from`, `service_until`, `surname`, `third_name`,
-                            `create_date`, `want_compensation`, `quota_id`, `rank_id`, `work_id`)
+                            `create_date`, `created_by_ipn`, `want_compensation`, `quota_id`, `rank_id`, `work_id`)
 VALUES (1, '1992-10-01 00:00:00', 'м. Київ, вул. Київська 1, кв. 1 ', '1992-09-01 00:00:00', '11',
-        '2012-10-01 00:00:00', 0, CONV('0', 2, 10) + 0, 0, NULL, '1234567890', 'Борис', '1234567890', 'POST',
+        '2012-10-01 00:00:00', CONV('0', 2, 10) + 0, 0, NULL, '1234567890', 'Борис', '1234567890', 'POST',
         '1992-10-01 00:00:00', 0, CONV('1', 2, 10) + 0, 0, CONV('0', 2, 10) + 0, '1982-10-01 00:00:00',
-        '2023-10-01 00:00:00', 'Назаренко', 'Борисович', '2022-07-21 15:45:16', CONV('0', 2, 10) + 0, 1, 1, 1),
+        '2023-10-01 00:00:00', 'Назаренко', 'Борисович', '2022-07-21 15:45:16', '12323212',CONV('0', 2, 10) + 0, 1, 1, 1),
        (2, '1992-10-01 00:00:00', 'м. Київ, вул. Київська 1, кв. 1 ', '1992-09-01 00:00:00', '12',
-        '2012-10-01 00:00:00', 0, CONV('1', 2, 10) + 0, 0, NULL, '1234567899', 'Артем', '1234567845', 'COMP',
+        '2012-10-01 00:00:00', CONV('1', 2, 10) + 0, 0, NULL, '1234567899', 'Артем', '1234567845', 'COMP',
         '1992-10-01 00:00:00', 0, CONV('1', 2, 10) + 0, 0, CONV('0', 2, 10) + 0, '1982-10-01 00:00:00',
-        '2023-10-01 00:00:00', 'Клопотенко', 'Кирилович', '2022-07-21 15:45:16', CONV('0', 2, 10) + 0, 2, 3, 1),
-       (3, '1992-10-01 00:00:00', 'м. Київ, вул. Київська 1, кв. 1 ', '1992-09-01 00:00:00', '13', NULL, 0,
+        '2023-10-01 00:00:00', 'Клопотенко', 'Кирилович', '2022-07-21 15:45:16', '12323212',CONV('0', 2, 10) + 0, 2, 3, 1),
+       (3, '1992-10-01 00:00:00', 'м. Київ, вул. Київська 1, кв. 1 ', '1992-09-01 00:00:00', '13', NULL,
         CONV('1', 2, 10) + 0, 1, NULL, '1234567899', 'Артур', '1234567845', 'NO', '1992-10-01 00:00:00', 1,
         CONV('1', 2, 10) + 0, 3, CONV('0', 2, 10) + 0, '1982-10-01 00:00:00', '2023-10-01 00:00:00', 'Клопотенко',
-        'Кирилович', '2022-07-21 15:45:16', CONV('0', 2, 10) + 0, 2, 3, 1),
-       (4, '1992-10-01 00:00:00', 'м. Київ, вул. Київська 1, кв. 1 ', '1992-09-01 00:00:00', '14', NULL, 2000000,
+        'Кирилович', '2022-07-21 15:45:16', '12323212',CONV('0', 2, 10) + 0, 2, 3, 1),
+       (4, '1992-10-01 00:00:00', 'м. Київ, вул. Київська 1, кв. 1 ', '1992-09-01 00:00:00', '14', NULL,
         CONV('1', 2, 10) + 0, 2, NULL, '1234567809', 'Петро', '1234567845', 'NO', '1992-10-01 00:00:00', 2,
         CONV('1', 2, 10) + 0, 3, CONV('0', 2, 10) + 0, '1982-10-01 00:00:00', '2023-10-01 00:00:00', 'Петренко',
-        'Артурович ', '2022-07-21 15:45:16', CONV('1', 2, 10) + 0, 7, 3, 1),
-       (5, '1992-10-01 00:00:00', 'м. Київ, вул. Київська 1, кв. 1 ', '1992-09-01 00:00:00', '15', NULL, 2000000,
+        'Артурович ', '2022-07-21 15:45:16', '12323212',CONV('1', 2, 10) + 0, 7, 3, 1),
+       (5, '1992-10-01 00:00:00', 'м. Київ, вул. Київська 1, кв. 1 ', '1992-09-01 00:00:00', '15', NULL,
         CONV('1', 2, 10) + 0, 3, NULL, '1234567831', 'Артем', '1234567845', 'NO', NULL, 0, CONV('1', 2, 10) + 0, 0,
-        CONV('0', 2, 10) + 0, '1982-10-01 00:00:00', NULL, 'Назаренко', 'Кирилович', '2022-07-21 15:45:16',
+        CONV('0', 2, 10) + 0, '1982-10-01 00:00:00', NULL, 'Назаренко', 'Кирилович', '2022-07-21 15:45:16','12323212',
         CONV('1', 2, 10) + 0, NULL, 4, 4),
        (6, '1992-10-01 00:00:00', 'м. Київ, вул. Київська 1, кв. 1 ', '1992-09-01 00:00:00', '16',
-        '2012-10-01 00:00:00', 2000000, CONV('1', 2, 10) + 0, 4, NULL, '1234567831', 'Кирило', '1234567845', 'NO',
+        '2012-10-01 00:00:00', CONV('1', 2, 10) + 0, 4, NULL, '1234567831', 'Кирило', '1234567845', 'NO',
         '1992-10-01 00:00:00', 3, CONV('1', 2, 10) + 0, 0, CONV('0', 2, 10) + 0, '1982-10-01 00:00:00',
-        '2023-10-01 00:00:00', 'Борисенко', 'Кирилович', '2022-07-21 15:45:16', CONV('1', 2, 10) + 0, 1, 4, 4);
+        '2023-10-01 00:00:00', 'Борисенко', 'Кирилович', '2022-07-21 15:45:16', '12323212',CONV('1', 2, 10) + 0, 1, 4, 4);
 
 DROP TABLE IF EXISTS `provided_flats`;
 CREATE TABLE `provided_flats`
@@ -166,15 +166,13 @@ CREATE TABLE `provided_flats`
     `room_count`           int(11)    NOT NULL,
     `square`               double     NOT NULL,
     `unserviced_apartment` bit(1)     NOT NULL DEFAULT b'0',
-    `finance_source_id`    bigint(20) NOT NULL,
-    PRIMARY KEY (`id`),
-    KEY `FK570s3g0lhcd3j59dymfbu312h` (`finance_source_id`)
+    PRIMARY KEY (`id`)
 ) ENGINE = MyISAM
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;
 
-INSERT INTO `provided_flats` (`id`, `cost`, `room_count`, `square`, `unserviced_apartment`, `finance_source_id`)
-VALUES (1, 200000, 2, 54, 0, 1);
+INSERT INTO `provided_flats` (`id`, `cost`, `room_count`, `square`, `unserviced_apartment`)
+VALUES (1, 200000, 2, 54, 0);
 
 DROP TABLE IF EXISTS `quotas`;
 CREATE TABLE `quotas`
@@ -315,16 +313,19 @@ CREATE TABLE `registry`
     `received_money`   double     DEFAULT NULL,
     `military_man_id`  bigint(20) NOT NULL,
     `provided_flat_id` bigint(20) DEFAULT NULL,
+    `flat_file_number` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `finance_source_id`    bigint(20) NOT NULL,
     PRIMARY KEY (`id`),
     KEY `FK1pfqlgpn98m03rx2isx507l0u` (`military_man_id`),
-    KEY `FKpi60g23obcmrfrogmfhb5dvq6` (`provided_flat_id`)
+    KEY `FKpi60g23obcmrfrogmfhb5dvq6` (`provided_flat_id`),
+    KEY `FK570s3g0lhcd3j59dymfbu312h` (`finance_source_id`)
 ) ENGINE = MyISAM
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;
 
-INSERT INTO `registry` (`id`, `receive_date`, `received_money`, `military_man_id`, `provided_flat_id`)
-VALUES (1, '2022-09-20 00:00:00', 0.0, 1, 1),
-       (2, '2021-09-23 00:00:00', 20000, 2, NULL);
+INSERT INTO `registry` (`id`, `receive_date`, `received_money`, `military_man_id`, `provided_flat_id`, `flat_file_number`, `finance_source_id`)
+VALUES (1, '2022-09-20 00:00:00', 0.0, 1, 1, 'd23442', 1),
+       (2, '2021-09-23 00:00:00', 20000, 2, NULL, 'r43452', 1);
 
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE `roles`
@@ -523,20 +524,21 @@ VALUES (1, 'ЖК КСВ', '1', 'КСВ'),
 
 CREATE USER 'keuDbUser'@'%' IDENTIFIED BY 'keuDbUser';
 SET PASSWORD FOR 'keuDbUser'@'%' = PASSWORD('fgjrfksgcbc');
-GRANT SELECT, INSERT ON keu_db.deleted_militery_men TO 'keuDbUser'@'%';
-GRANT SELECT, INSERT ON keu_db.family_members TO 'keuDbUser'@'%';
-GRANT SELECT, INSERT ON keu_db.military_man TO 'keuDbUser'@'%';
-GRANT SELECT, INSERT ON keu_db.provided_flats TO 'keuDbUser'@'%';
-GRANT SELECT, INSERT ON keu_db.registry TO 'keuDbUser'@'%';
+GRANT SELECT, ALTER, INSERT ON keu_db.deleted_militery_men TO 'keuDbUser'@'%';
+GRANT SELECT, ALTER, INSERT ON keu_db.military_man TO 'keuDbUser'@'%';
+GRANT SELECT, ALTER, INSERT ON keu_db.provided_flats TO 'keuDbUser'@'%';
+GRANT SELECT, ALTER, INSERT ON keu_db.registry TO 'keuDbUser'@'%';
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.finance_sources TO 'keuDbUser'@'%';
-GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.garrisons TO 'keuDbUser'@'%';
-GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.works TO 'keuDbUser'@'%';
-GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.quotas TO 'keuDbUser'@'%';
-GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.ranks TO 'keuDbUser'@'%';
-GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.roles TO 'keuDbUser'@'%';
-GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.user_roles TO 'keuDbUser'@'%';
-GRANT SELECT, INSERT, UPDATE, DELETE ON keu_db.users TO 'keuDbUser'@'%';
+GRANT SELECT, ALTER, INSERT, UPDATE, DELETE ON keu_db.finance_sources TO 'keuDbUser'@'%';
+GRANT SELECT, ALTER, INSERT, UPDATE, DELETE ON keu_db.hibernate_sequence TO 'keuDbUser'@'%';
+GRANT SELECT, ALTER, INSERT, UPDATE, DELETE ON keu_db.garrisons TO 'keuDbUser'@'%';
+GRANT SELECT, ALTER, INSERT, UPDATE, DELETE ON keu_db.works TO 'keuDbUser'@'%';
+GRANT SELECT, ALTER, INSERT, UPDATE, DELETE ON keu_db.quotas TO 'keuDbUser'@'%';
+GRANT SELECT, ALTER, INSERT, UPDATE, DELETE ON keu_db.family_members TO 'keuDbUser'@'%';
+GRANT SELECT, ALTER, INSERT, UPDATE, DELETE ON keu_db.ranks TO 'keuDbUser'@'%';
+GRANT SELECT, ALTER, INSERT, UPDATE, DELETE ON keu_db.roles TO 'keuDbUser'@'%';
+GRANT SELECT, ALTER, INSERT, UPDATE, DELETE ON keu_db.user_roles TO 'keuDbUser'@'%';
+GRANT SELECT, ALTER, INSERT, UPDATE, DELETE ON keu_db.users TO 'keuDbUser'@'%';
 
 
 FLUSH PRIVILEGES;
