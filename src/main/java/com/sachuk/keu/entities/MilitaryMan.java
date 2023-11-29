@@ -1,8 +1,5 @@
 package com.sachuk.keu.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.sachuk.keu.entities.enums.Provided;
 import com.sachuk.keu.entities.enums.QuotaType;
 import lombok.Getter;
@@ -107,6 +104,7 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     private LocalDateTime createDate;
 
     @Column(name = "room_count", nullable = false)
+    @ColumnDefault("1")
     private int roomCount;
 
     @Column(name = "family_war_2022", nullable = false)
@@ -130,7 +128,7 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
 
     @OneToMany
     @JoinColumn(name = "military_man_id")
-    private List<FamilyMember> family = new ArrayList<>();
+    private List<FamilyMember> familyMembers = new ArrayList<>();
 
     @Column(name = "preview_id", nullable = false, length = 20)
     @ColumnDefault("-1")

@@ -108,7 +108,7 @@ CREATE TABLE `military_man`
     `quota_date`                  datetime                                         DEFAULT NULL,
     `quota_queue`                 int(11)                                 NOT NULL,
     `registrated`                 bit(1)                                  NOT NULL DEFAULT b'0',
-    `room_count`                  int(11)                                 NOT NULL,
+    `room_count`                  int(11)                                 NOT NULL DEFAULT '1',
     `rozshirennya`                bit(1)                                  NOT NULL DEFAULT b'0',
     `service_from`                datetime                                NOT NULL,
     `service_until`               datetime                                         DEFAULT NULL,
