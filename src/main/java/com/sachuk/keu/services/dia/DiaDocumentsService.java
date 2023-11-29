@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Random;
 
 @Service
-public class DiaDocumentsService {
+public class DiaDocumentsService { // Документи - will be provided in future
     private final String DIA_API_URL = "http://localhost:8081/dia/test-api"; //https://api2s.diia.gov.ua/api
 
     public String getCreateSessionAndGetToken(String acquirer_token) throws IOException {

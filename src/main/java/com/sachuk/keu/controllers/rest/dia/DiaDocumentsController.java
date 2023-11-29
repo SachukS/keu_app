@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/api/v1/auth")
 @Data
-public class DiaDocumentsController {
+public class DiaDocumentsController { // Документи - will be provided in future
     private final DiaDocumentsService service;
     private final String ACQUIRER_TOKEN = "some_really_cool_dia_token"; // TODO
     private final long TIMEOUT_MILLIS = 500;
