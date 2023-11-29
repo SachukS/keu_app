@@ -11,7 +11,7 @@ import java.util.Map;
 @Service
 public class DocumentGeneratorService {
     private final static String SAVED_FILE_DIRECTORY_PATH = "src/main/resources/static/documents/generated_files/";
-    private final static String LOAD_FILE_DIRECTORY_PATH = "src/main/resources/static/documents/documents_templates/Витяг_з_КЕУ.docx";
+    private final static String LOAD_FILE_DIRECTORY_PATH = "src/main/resources/static/documents/documents_templates/Dovidka.docx";
 
     public String generateExhaustFromKEU(String[] val, String fileName){
         Document document = new Document();
@@ -29,7 +29,7 @@ public class DocumentGeneratorService {
             document.replace("{" + entry.getKey() + "}", entry.getValue(), true, true);
         }
 
-        String savePath = SAVED_FILE_DIRECTORY_PATH + "Витяг_з_КЕУ_" + fileName + ".docx";
+        String savePath = SAVED_FILE_DIRECTORY_PATH + "Dovidka.docx";
         document.saveToFile(savePath, FileFormat.Docx_2013);
         return savePath;
     }

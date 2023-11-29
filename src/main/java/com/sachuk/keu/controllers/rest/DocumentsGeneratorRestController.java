@@ -38,7 +38,7 @@ public class DocumentsGeneratorRestController {
             File file = new File(pathToGeneratedFile);
 
             HttpHeaders header = new HttpHeaders();
-            header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getName());
+            header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Dovidka.docx");
 
             Path path = Paths.get(file.getAbsolutePath());
             InputStreamResource resource = null;
