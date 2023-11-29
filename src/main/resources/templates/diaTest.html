@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:if="${qrcode}">
+    <div class="d-flex justify-content-center">
+        <div class="card" th:align="center">
+            <div style="text-align: center;" class="card-header">
+                <h5>Scan the QR Code</h5></div>
+            <div class="card-body">
+                <img th:src="${'data:image/png;base64,' + qrcode}" alt=""
+                     height="200" width="200">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
