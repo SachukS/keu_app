@@ -45,7 +45,7 @@ public class DocumentsGeneratorRestController {
             try {
                 resource = new InputStreamResource(Files.newInputStream(file.toPath()));
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                return ResponseEntity.badRequest().body(null);
             }
 
             return ResponseEntity.ok()
@@ -54,6 +54,6 @@ public class DocumentsGeneratorRestController {
                     .contentType(MediaType.parseMediaType("application/octet-stream"))
                     .body(resource);
         }
-        return null;
+        return ResponseEntity.badRequest().body(null);
     }
 }
