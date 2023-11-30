@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
+
 @AllArgsConstructor
 public class UserService {
 
@@ -62,8 +62,8 @@ public class UserService {
         userRepository.deleteAll();
     }
 
-    public Optional<User> findByIpn(String ipn) {
-        return  userRepository.findByIpn(ipn);
+    public Optional<User> findByUsername(String ipn) {
+        return  userRepository.findByUsername(ipn);
     }
 
 //

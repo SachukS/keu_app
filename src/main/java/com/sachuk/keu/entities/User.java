@@ -49,8 +49,8 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updateDate;
 
-    @Column(name = "ipn", nullable = true, length = 100)
-    private String ipn;
+    @Column(name = "username", nullable = true, length = 100)
+    private String username;
 
     @Column(name = "password", nullable = true, length = 100)
     private String password;
@@ -83,7 +83,7 @@ public class User {
         this.roles = roles;
         this.thirdname = thirdname;
         this.updateDate = updateDate;
-        this.ipn = ipn;
+        this.username = ipn;
         this.password = password;
         this.militaryMan = militaryMan;
         this.birthDate = birth_date;

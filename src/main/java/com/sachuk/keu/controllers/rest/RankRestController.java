@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/ranks")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class RankRestController {
     private final RankService rankService;
 
@@ -29,24 +30,24 @@ public class RankRestController {
         return rankService.save(rank);
     }
 
-    @PostMapping("/all")
-    public void saveAll(Iterable<Rank> ranks) {
-        rankService.saveAll(ranks);
-    }
-
-    @DeleteMapping("/")
-    public void delete(@RequestBody Rank rank) {
-        rankService.delete(rank);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
-        rankService.deleteById(id);
-    }
-
-
-    @DeleteMapping("/all")
-    public void deleteAll() {
-        rankService.deleteAll();
-    }
+//    @PostMapping("/all")
+//    public void saveAll(Iterable<Rank> ranks) {
+//        rankService.saveAll(ranks);
+//    }
+//
+//    @DeleteMapping("/")
+//    public void delete(@RequestBody Rank rank) {
+//        rankService.delete(rank);
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    public void deleteById(@PathVariable Long id) {
+//        rankService.deleteById(id);
+//    }
+//
+//
+//    @DeleteMapping("/all")
+//    public void deleteAll() {
+//        rankService.deleteAll();
+//    }
 }

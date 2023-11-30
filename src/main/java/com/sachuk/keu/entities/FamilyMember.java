@@ -38,4 +38,12 @@ public class FamilyMember {
     @Enumerated(EnumType.STRING)
     @Column(name = "sex", nullable = false)
     private SexEnum sex;
+
+    public FamilyMember(String surname, String name, String thirdName, LocalDateTime birthDate, SexEnum sex) {
+        this.surname = surname;
+        this.name = name;
+        this.thirdName = thirdName;
+        this.birthDate = birthDate;
+        this.sex = sex;
+    }
 }

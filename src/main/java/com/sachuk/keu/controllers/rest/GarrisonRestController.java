@@ -34,25 +34,25 @@ public class GarrisonRestController {
         return garrisonService.save(garrison);
     }
 
-    @PostMapping("/all")
-    public void saveAll(Iterable<Garrison> garrisons) {
-        garrisonService.saveAll(garrisons);
-    }
-
-    @DeleteMapping("/")
-    public void delete(@RequestBody Garrison garrison) {
-        garrisonService.delete(garrison);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
-        garrisonService.deleteById(id);
-    }
-
-
-    @DeleteMapping("/all")
-    public void deleteAll() {
-        garrisonService.deleteAll();
-    }
+//    @PostMapping("/all")
+//    public void saveAll(Iterable<Garrison> garrisons) {
+//        garrisonService.saveAll(garrisons);
+//    }
+//
+//    @DeleteMapping("/")
+//    public void delete(@RequestBody Garrison garrison) {
+//        garrisonService.delete(garrison);
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    public void deleteById(@PathVariable Long id) {
+//        garrisonService.deleteById(id);
+//    }
+//
+//
+//    @DeleteMapping("/all")
+//    public void deleteAll() {
+//        garrisonService.deleteAll();
+//    }
 
 }

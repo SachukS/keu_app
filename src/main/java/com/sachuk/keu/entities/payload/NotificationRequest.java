@@ -10,5 +10,5 @@ import java.util.List;
 @Setter
 public class NotificationRequest {
     private MessageViaMessenger message;
-    private List<String> messengerPriority = Arrays.asList("WHATSAPP", "TELEGRAM");
+    private List<String> messengerPriority = Arrays.asList("TELEGRAM", "WHATSAPP");
 }

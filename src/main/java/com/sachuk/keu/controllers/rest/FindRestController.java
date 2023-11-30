@@ -12,7 +12,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
-@Transactional
 @AllArgsConstructor
 @RequestMapping("/api/v1/find")
 @CrossOrigin(origins = "*", maxAge = 3600)

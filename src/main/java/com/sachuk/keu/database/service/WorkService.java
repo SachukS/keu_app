@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -15,7 +16,7 @@ public class WorkService {
 
 
     public List<Work> findAll() {
-        return workRepository.findAll();
+        return workRepository.findAll().stream().distinct().collect(Collectors.toList());
     }
 
     public Work findById(Long id) {

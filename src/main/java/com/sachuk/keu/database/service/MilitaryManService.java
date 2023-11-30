@@ -15,8 +15,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +27,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class MilitaryManService {
-
+    private EntityManager entityManager;
     private final MilitaryManRepository militaryManRepository;
 
     private FamilyMemberService familyMemberService;
@@ -73,11 +75,10 @@ public class MilitaryManService {
         if (militaryMan.getAccountingDate() == null)
             militaryMan.setAccountingDate(LocalDateTime.now());
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        militaryMan.setCreatedByIpn(userDetails.getUsername());
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        militaryMan.setCreatedByIpn("1234567021");
         militaryMan.setCreateDate(LocalDateTime.now());
-
         return militaryManRepository.save(militaryMan);
     }
 
@@ -88,7 +89,10 @@ public class MilitaryManService {
 
     public void saveAll(Iterable<MilitaryMan> militaryMen) {
         for (MilitaryMan militaryMan : militaryMen) {
+            entityManager.detach(militaryMan);
             addPreviewId(militaryMan);
+            militaryMan.setCreateDate(LocalDateTime.now());
+            militaryMan.setId(null);
 
         }
         militaryManRepository.saveAll(militaryMen);
@@ -129,19 +133,27 @@ public class MilitaryManService {
 
     public void addPreviewId(MilitaryMan militaryMan) {
         Optional<MilitaryMan> militaryManInDB = findByIpn(militaryMan.getIpn());
-        if (militaryManInDB.isPresent()) {
+        if (militaryManInDB.get().getId() != -1) {
             if (militaryManInDB.get().equals(militaryMan)) {
-                throw new EntityExistsException("Об'єкт вже існує");
+                militaryMan.setPreview_id(-1);
             }
             militaryMan.setPreview_id(militaryManInDB.get().getId());
+        } else {
+            militaryMan.setPreview_id(-1);
         }
+
     }
 
 
     public Optional<MilitaryMan> findByIpn(String ipn) {
-        return Optional.of(militaryManRepository.findAllByIpn(ipn).stream()
+        List<MilitaryMan> mm = militaryManRepository.findAllByIpn(ipn).stream()
                 .sorted(Comparator.comparing(MilitaryMan::getCreateDate).reversed())
-                .collect(Collectors.toList()).get(0));
+                .collect(Collectors.toList());
+        if (mm.size()>0)
+            return Optional.of(mm.get(0));
+        MilitaryMan m = new MilitaryMan();
+        m.setId((long) -1);
+        return Optional.of(m);
     }
 
     public int calculateRoomCount(MilitaryMan militaryMan) {
@@ -191,5 +203,17 @@ public class MilitaryManService {
             return rentCompensation * 1.5;
         }
         return rentCompensation;
+    }
+    public String[] getExhaustInfo(MilitaryMan militaryMan) {
+        DateTimeFormatter pattern = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        return new String[]{LocalDate.now().format(pattern), militaryMan.getRank().getName(), militaryMan.getSurname(),
+                militaryMan.getName(), militaryMan.getThirdName(), militaryMan.getWork().getGarrison().getName(),
+                militaryMan.getApartmentFileDate().format(pattern), String.valueOf(familyCount(militaryMan)),
+                militaryMan.getWork().getWorkPlace(),
+                militaryMan.getFamilyMembers().stream().map(f -> f.getSurname() + " " + f.getName() + " " + f.getThirdName() + "\n").collect(Collectors.joining()),
+                militaryMan.getWork().getAccountingPlace(), militaryMan.getQuota().getName(),
+                militaryMan.getQuotaDate().format(pattern), militaryMan.getQuota().getType().getName(),
+                String.valueOf(militaryMan.getGeneralQueue()), String.valueOf(militaryMan.getQuotaQueue()),
+                String.valueOf(militaryMan.getSurname().hashCode())};
     }
 }

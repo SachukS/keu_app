@@ -28,13 +28,13 @@ public class DeletedMilitaryManRestController {
     }
 
     @PostMapping("/")
-    public DeletedMilitaryMan delete(@RequestBody DeletedMilitaryMan deletedMilitaryMan) {
+    public DeletedMilitaryMan add(@RequestBody DeletedMilitaryMan deletedMilitaryMan) {
         return deletedMilitaryManService.save(deletedMilitaryMan);
     }
 
-    @PostMapping("/all")
-    public void saveAll(Iterable<DeletedMilitaryMan> deletedMilitaryMen) {
-        deletedMilitaryManService.saveAll(deletedMilitaryMen);
-    }
+//    @PostMapping("/all")
+//    public void saveAll(Iterable<DeletedMilitaryMan> deletedMilitaryMen) {
+//        deletedMilitaryManService.saveAll(deletedMilitaryMen);
+//    }
 
 }

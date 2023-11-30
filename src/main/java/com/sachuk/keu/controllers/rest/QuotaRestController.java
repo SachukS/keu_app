@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/quotas")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class QuotaRestController {
     private final QuotaService quotaService;
 
@@ -34,19 +35,19 @@ public class QuotaRestController {
         quotaService.saveAll(quotas);
     }
 
-    @DeleteMapping("/")
-    public void delete(@RequestBody Quota quota) {
-        quotaService.delete(quota);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
-        quotaService.deleteById(id);
-    }
-
-
-    @DeleteMapping("/all")
-    public void deleteAll() {
-        quotaService.deleteAll();
-    }
+//    @DeleteMapping("/")
+//    public void delete(@RequestBody Quota quota) {
+//        quotaService.delete(quota);
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    public void deleteById(@PathVariable Long id) {
+//        quotaService.deleteById(id);
+//    }
+//
+//
+//    @DeleteMapping("/all")
+//    public void deleteAll() {
+//        quotaService.deleteAll();
+//    }
 }

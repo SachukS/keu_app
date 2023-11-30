@@ -55,24 +55,24 @@ public class RegistryRestController {
         return registryService.save(registry);
     }
 
-    @PostMapping("/all")
-    public void saveAll(Iterable<Registry> registries) {
-        registryService.saveAll(registries);
-    }
-
-    @DeleteMapping("/")
-    public void delete(@RequestBody Registry registry) {
-        registryService.delete(registry);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
-        registryService.deleteById(id);
-    }
-
-
-    @DeleteMapping("/all")
-    public void deleteAll() {
-        registryService.deleteAll();
-    }
+//    @PostMapping("/all")
+//    public void saveAll(Iterable<Registry> registries) {
+//        registryService.saveAll(registries);
+//    }
+//
+//    @DeleteMapping("/")
+//    public void delete(@RequestBody Registry registry) {
+//        registryService.delete(registry);
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    public void deleteById(@PathVariable Long id) {
+//        registryService.deleteById(id);
+//    }
+//
+//
+//    @DeleteMapping("/all")
+//    public void deleteAll() {
+//        registryService.deleteAll();
+//    }
 }

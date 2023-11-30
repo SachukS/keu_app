@@ -61,6 +61,10 @@ spring:
       on-profile: localhostDB
 server:
   port: 8081
+#logging:
+#  level:
+#    org.hibernate.SQL: DEBUG
+#    org.hibernate.type: TRACE
 keu:
   app:
     jwtExpirationMs: '7200000'

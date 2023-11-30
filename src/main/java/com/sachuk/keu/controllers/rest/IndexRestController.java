@@ -8,8 +8,10 @@ import com.sachuk.keu.database.service.UserService;
 import com.sachuk.keu.entities.User;
 import com.sachuk.keu.entities.payload.JwtResponse;
 import com.sachuk.keu.services.security.UserDetailsImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -62,33 +64,19 @@ public class IndexRestController {
         return ResponseEntity.ok(new Test());
     }
 
-    @PostMapping(value = "/dia/login")
+    @GetMapping(value = "/dia/login")
     public ResponseEntity<?> login(){
-        User user = new User();
-        String IPN = "1234567021";
-        if(userService.findByIpn(IPN).isPresent()){
-            user = userService.findByIpn(IPN).get();
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken("ipn", 0));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            String jwt = jwtUtils.generateJwtToken(authentication);
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken("1234567021", "viti"));
 
-            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-            List<String> roles = userDetails.getAuthorities().stream()
-                    .map(item -> item.getAuthority())
-                    .collect(Collectors.toList());
-            return ResponseEntity.ok(new JwtResponse(jwt,
-                    userDetails.getId(),
-                    userDetails.getUsername(), // це ipn
-                    user.getName(),
-                    user.getSurname(),
-                    user.getThirdname(),
-                    roles));
-        }
-        else {
-            System.out.println("nobody found");
-            return ResponseEntity.unprocessableEntity().body("Nothing");
-        }
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(),roles));
     }
 
     @GetMapping("/diia/documents")

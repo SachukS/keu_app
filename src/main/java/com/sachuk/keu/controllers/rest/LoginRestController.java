@@ -2,8 +2,10 @@ package com.sachuk.keu.controllers.rest;
 
 import com.sachuk.keu.configurations.jwt.JwtUtils;
 import com.sachuk.keu.database.repositories.RoleRepository;
+import com.sachuk.keu.database.service.GarrisonService;
 import com.sachuk.keu.database.service.MilitaryManService;
 import com.sachuk.keu.database.service.UserService;
+import com.sachuk.keu.entities.Garrison;
 import com.sachuk.keu.entities.MilitaryMan;
 import com.sachuk.keu.entities.Role;
 import com.sachuk.keu.entities.User;
@@ -53,6 +55,52 @@ public class LoginRestController {
 
     JwtUtils jwtUtils;
 
+    GarrisonService garrisonService;
+
+//    @PostMapping("/login/test")
+//    public ResponseEntity<?> testAuth() {
+//        Garrison garrison = garrisonService.findById(Long.parseLong("1"));
+//        User user = new User();
+//        user.setSurname("Дія");
+//        user.setName("Надія");
+//        user.setThirdname("Володимирівна");
+//        user.setSex(SexEnum.FEMALE);
+//        user.setBirthDate(LocalDateTime.of(1997, 1, 17, 0,0));
+//        user.setUsername("1234567021");
+//        user.setAccountingPlace("ЖК ВІТІ");
+//        user.setGarrison(garrison);
+//        user.setPassword(encoder.encode("viti"));
+//        Set<Role> ro = new HashSet<>();
+//        Optional<MilitaryMan> militaryMan = militaryManService.findByIpn(use);
+//        if (militaryMan.isPresent()) {
+//            user.setMilitaryMan(militaryMan.get());
+//            user.setGarrison(militaryMan.get().getWork().getGarrison());
+//            user.setAccountingPlace(militaryMan.get().getWork().getAccountingPlace());
+//            role.add(new Role(RoleEnum.ROLE_USER));
+//            user.setRoles(role);
+//        } else {
+//            role.add(new Role(RoleEnum.ROLE_NONE));
+//            user.setRoles(role);
+//        }
+//        ro.add(roleRepository.findByName(RoleEnum.ROLE_USER).get());
+//        user.setRoles(ro);
+//        userService.save(user);
+//
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(user.getUsername(), "viti"));
+//
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        String jwt = jwtUtils.generateJwtToken(authentication);
+//
+//        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+//        List<String> roles = userDetails.getAuthorities().stream()
+//                .map(item -> item.getAuthority())
+//                .collect(Collectors.toList());
+//
+//        return ResponseEntity.ok(new JwtResponse(jwt,
+//                userDetails.getId(),
+//                roles));
+//    }
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         MultipartFile ecp = loginRequest.getEcp();
@@ -76,10 +124,10 @@ public class LoginRestController {
 
             if (m.find()) {
                 //check if user in user table by ipn, if not - parse ecp, create and save user
-                if (!userService.findByIpn(m.group("IPN")).isPresent()) {
+                if (!userService.findByUsername(m.group("IPN")).isPresent()) {
                     String[] splitFullName = m.group("FULLNAME").split(" ");
 
-                    user.setIpn(m.group("IPN"));
+                    user.setUsername(m.group("IPN"));
                     user.setPassword(encoder.encode(password));
                     user.setName(splitFullName[0]);
                     user.setSurname(splitFullName[1]);
@@ -102,7 +150,7 @@ public class LoginRestController {
 
                     userService.save(user);
                 } else {
-                    user = userService.findByIpn(m.group("IPN")).get();
+                    user = userService.findByUsername(m.group("IPN")).get();
                 }
             }
         } catch (IOException e) {
@@ -112,7 +160,7 @@ public class LoginRestController {
         }
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken("ipn", password));
+                new UsernamePasswordAuthenticationToken(user.getUsername(), "viti"));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
@@ -124,10 +172,6 @@ public class LoginRestController {
 
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
-                userDetails.getUsername(),
-                user.getName(),
-                user.getSurname(),
-                user.getThirdname(),
                 roles));
     }
 

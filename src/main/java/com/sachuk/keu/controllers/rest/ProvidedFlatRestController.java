@@ -32,24 +32,24 @@ public class ProvidedFlatRestController {
         return providedFlatService.save(providedFlat);
     }
 
-    @PostMapping("/all")
-    public void saveAll(Iterable<ProvidedFlat> providedFlats) {
-        providedFlatService.saveAll(providedFlats);
-    }
-
-    @DeleteMapping("/")
-    public void delete(@RequestBody ProvidedFlat providedFlat) {
-        providedFlatService.delete(providedFlat);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
-        providedFlatService.deleteById(id);
-    }
-
-
-    @DeleteMapping("/all")
-    public void deleteAll() {
-        providedFlatService.deleteAll();
-    }
+//    @PostMapping("/all")
+//    public void saveAll(Iterable<ProvidedFlat> providedFlats) {
+//        providedFlatService.saveAll(providedFlats);
+//    }
+//
+//    @DeleteMapping("/")
+//    public void delete(@RequestBody ProvidedFlat providedFlat) {
+//        providedFlatService.delete(providedFlat);
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    public void deleteById(@PathVariable Long id) {
+//        providedFlatService.deleteById(id);
+//    }
+//
+//
+//    @DeleteMapping("/all")
+//    public void deleteAll() {
+//        providedFlatService.deleteAll();
+//    }
 }

@@ -41,4 +41,16 @@ public class Work implements Serializable {
         this.accountingPlace = accountingPlace;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Work work = (Work) o;
+        return Objects.equals(workPlace, work.workPlace);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(workPlace);
+    }
 }

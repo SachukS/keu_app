@@ -36,7 +36,7 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     @Column(name = "thirdName", nullable = false, length = 100)
     private String thirdName;
 
-    @Column(name = "address", nullable = false)
+    @Column(name = "address")
     private String address;
 
     @Column(name = "phone_number", nullable = false)
@@ -67,11 +67,13 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     @Type(type = "org.hibernate.type.TextType")
     private String info;
 
-    @Column(name = "general_queue", nullable = false)
-    private int generalQueue = 0;
+    //@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = QueueNumber.class)
+    @Column(name = "general_queue")
+    private int generalQueue;
 
-    @Column(name = "quota_queue", nullable = false)
-    private int quotaQueue = 0;
+    //@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = QueueNumber.class)
+    @Column(name = "quota_queue")
+    private int quotaQueue;
 
     @Column(name = "registrated", nullable = false)
     @ColumnDefault("false")
@@ -133,5 +135,6 @@ public class MilitaryMan implements Serializable { // TODO: 25.11.2023 Refactor 
     @Column(name = "preview_id", nullable = false, length = 20)
     @ColumnDefault("-1")
     private long preview_id;
+
 
 }

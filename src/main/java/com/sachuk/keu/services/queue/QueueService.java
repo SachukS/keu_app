@@ -7,9 +7,7 @@ import com.sachuk.keu.entities.Registry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,15 +35,16 @@ public class QueueService {
         switch (queueType) {
             case "general":
                 queueInGarrison = militaryManService.findByGarrison(garrison)
-                        .stream().sorted(
-                                Comparator.comparing(MilitaryMan::getGeneralQueue))
+                        .stream().filter(m -> m.getPreview_id()==-1).sorted(
+                                Comparator.comparing(m -> m.getAccountingDate()))
                         .collect(Collectors.toList());
+                Collections.reverse(queueInGarrison);
                 break;
             case "firstinpriority":
             case "outofqueue":
                 queueInGarrison = militaryManService.findQueueTypeByGarrison(garrison, queueType.toUpperCase())
                         .stream().sorted(
-                                Comparator.comparing(MilitaryMan::getQuotaQueue))
+                                Comparator.comparing(m -> m.getQuotaQueue()))
                         .collect(Collectors.toList());
                 break;
             case "compensation":

@@ -19,29 +19,29 @@ public class FinanceSourceRestController {
     }
 
 
-    @GetMapping("/")
-    public List<FinanceSourceResponseDTO> getAllFinanceSources(){
-        return financeSourceService.getAllFinanceSources();
-    }
+//    @GetMapping("/")
+//    public List<FinanceSourceResponseDTO> getAllFinanceSources(){
+//        return financeSourceService.getAllFinanceSources();
+//    }
+//
+//    @GetMapping("/{id}")
+//    public FinanceSourceResponseDTO getFinanceSource(@PathVariable Long id) {
+//        return new FinanceSourceResponseDTO(financeSourceService.getFinanceSourceById(id));
+//    }
+//
+//    @PostMapping("/")
+//    public Long createFinanceSource(@RequestBody FinanceSourceRequestDTO financeSourceRequestDTO) {
+//        return financeSourceService.createFinanceSource(financeSourceRequestDTO);
+//    }
+//
+//    @PutMapping("/{id}")
+//    public FinanceSourceResponseDTO updateFinanceSource(@PathVariable Long id,
+//                                                        @RequestBody FinanceSourceRequestDTO financeSourceRequestDTO){
+//        return financeSourceService.updateFinanceSource(id, financeSourceRequestDTO);
+//    }
 
-    @GetMapping("/{id}")
-    public FinanceSourceResponseDTO getFinanceSource(@PathVariable Long id) {
-        return new FinanceSourceResponseDTO(financeSourceService.getFinanceSourceById(id));
-    }
-
-    @PostMapping("/")
-    public Long createFinanceSource(@RequestBody FinanceSourceRequestDTO financeSourceRequestDTO) {
-        return financeSourceService.createFinanceSource(financeSourceRequestDTO);
-    }
-
-    @PutMapping("/{id}")
-    public FinanceSourceResponseDTO updateFinanceSource(@PathVariable Long id,
-                                                        @RequestBody FinanceSourceRequestDTO financeSourceRequestDTO){
-        return financeSourceService.updateFinanceSource(id, financeSourceRequestDTO);
-    }
-
-    @DeleteMapping("/{id}")
-    public FinanceSourceResponseDTO deleteFinanceSource(@PathVariable Long id){
-        return financeSourceService.deleteFinanceSource(id);
-    }
+//    @DeleteMapping("/{id}")
+//    public FinanceSourceResponseDTO deleteFinanceSource(@PathVariable Long id){
+//        return financeSourceService.deleteFinanceSource(id);
+//    }
 }

@@ -70,14 +70,14 @@ CREATE TABLE `garrisons`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;
 
-INSERT INTO `garrisons` (`id`, `name`, `region`, `price_per_meter`)
-VALUES (1, 'Київ', 'Київ', 20870),
-       (2, 'Василькiв', 'Київська обл.', 19570),
-       (3, 'Гостомель', 'Київська обл.', 19750),
-       (4, 'Переяславський', 'Київська обл.', 18450),
-       (5, 'Бровари', 'Київська обл.', 19200),
-       (6, 'Бориспiль', 'Київська обл.', 19655),
-       (7, 'Семиполки', 'Київська обл.', 18437);
+INSERT INTO `garrisons` (`id`, `name`, `region`, `price_per_meter`, `housing_rent_compensation`)
+VALUES (1, 'Київ', 'Київ', 20870, 3800),
+       (2, 'Василькiв', 'Київська обл.', 19570, 1900),
+       (3, 'Гостомель', 'Київська обл.', 19750, 1900),
+       (4, 'Переяславський', 'Київська обл.', 18450, 1900),
+       (5, 'Бровари', 'Київська обл.', 19200, 1900),
+       (6, 'Бориспiль', 'Київська обл.', 19655, 1900),
+       (7, 'Семиполки', 'Київська обл.', 18437, 1900);
 
 
 DROP TABLE IF EXISTS `hibernate_sequence`;
@@ -346,7 +346,7 @@ CREATE TABLE `users`
     `birth_date`       datetime                                NOT NULL,
     `create_date`      datetime                                NOT NULL,
     `garrison_id`      bigint(20)                              NOT NULL,
-    `ipn`              varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `username`         varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
     `name`             varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
     `password`         varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
     `sex`              varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -361,7 +361,7 @@ CREATE TABLE `users`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci;
 
-INSERT INTO `users` (`id`, `accounting_place`, `birth_date`, `create_date`, `garrison_id`, `ipn`, `name`, `password`,
+INSERT INTO `users` (`id`, `accounting_place`, `birth_date`, `create_date`, `garrison_id`, `username`, `name`, `password`,
                      `sex`, `surname`, `thirdname`, `update_date`, `military_man_id`)
 VALUES (1, 'ЖК ВІТІ', '1999-10-01 00:00:00', '2023-10-01 00:00:00', '1', '1234567861', 'Борис', '12345678',
         'MALE', 'Петренко', 'Миколайович', '2022-07-21 15:45:16', NULL),
